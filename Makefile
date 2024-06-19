@@ -26,7 +26,9 @@ HEADERS			= 	$(DIR_HEADERS)cub3d.h \
 
 DIR_SRC	=	src/
 
-MANDATORY		=	$(DIR_SRC)main.c\
+SOURCES		=	$(DIR_SRC)main.c\
+                $(DIR_SRC)raycasting.c\
+                $(DIR_SRC)init.c\
 					
 DIR_OBJS	    =	.objs/
 
@@ -42,7 +44,7 @@ MLX_FLAGS 	+= -lmlx -lX11 -lXext -L$(DIR_MLX)
 
 # ---- Directory  objs ---- #
 
-OBJS		=	$(addprefix $(DIR_OBJS),$(MANDATORY:.c=.o))
+OBJS		=	$(addprefix $(DIR_OBJS),$(SOURCES:.c=.o))
 
 # ====================== RULES ====================== #
 

@@ -62,19 +62,19 @@ int	key_hook(int keysym, t_data *img)
 	return (0);
 }
 
-int	main(int ac, char **av)
-{
-	t_data	img;
-
-	if (ac < 2 || !ends_by_ber(av[1]))
-		input_error();
-	define_map(&img.map, av[1]);
-	if (img.map.status == 0)
-		map_error(img.map.grid, img.map.copy);
-	init_mlx_win(&img);
-	init_screen(&img);
-	mlx_hook(img.win, 2, (1L << 0), &key_hook, &img);
-	mlx_hook(img.win, DestroyNotify, 0, close_window, &img);
-	mlx_loop(img.mlx);
-	return (0);
-}
+//int	main(int ac, char **av)
+//{
+//	t_data	img;
+//
+//	if (ac < 2 || !ends_by_ber(av[1]))
+//		input_error();
+//	define_map(&img.map, av[1]);
+//	if (img.map.status == 0)
+//		map_error(img.map.grid, img.map.copy);
+//	init_mlx_win(&img);
+//	init_screen(&img);
+//	mlx_hook(img.win, 2, (1L << 0), &key_hook, &img);
+//	mlx_hook(img.win, DestroyNotify, 0, close_window, &img);
+//	mlx_loop(img.mlx);
+//	return (0);
+//}

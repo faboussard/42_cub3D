@@ -1,0 +1,10 @@
+.vscode
+.DS*
+objs
+cub3d
+a.out
+*.dSYM
+libft.a
+build
+run_tests
+*.o
