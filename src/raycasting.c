@@ -43,16 +43,35 @@ int worldMap[mapWidth][mapHeight]=
 				{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 		};
+
 void raycasting(t_data *img)
 {
-	double posX = 22, posY = 12;  //x and y start position
-	double dirX = -1, dirY = 0;   //initial direction vector
-	double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
+	double pos_X;
+	double pos_Y;
+	double dir_X;
+	double dir_Y; 
 
-	int w = WIDTH_DISPLAY;
-	int h = HEIGHT_DISPLAY;
+	int w;
+	int h;
+	int x;
 
-	for (int x = 0; x < w; x++)
+	w = WIDTH_DISPLAY;
+	h = HEIGHT_DISPLAY;
+
+//initial position vector
+	pos_X = 22;
+	pos_X = 12;
+
+//initial direction vector
+	dir_X = -1;
+	dir_Y = 0;
+
+ //the 2d raycaster version of camera plane
+	plane_X = 0;
+	plane_Y = 0.66;
+
+	x = 0;
+	while (x < w)
 	{
 		//calculate ray position and direction
 		double cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
@@ -144,6 +163,7 @@ void raycasting(t_data *img)
 		{
 			my_pixel_put(img, x, y, 0x00FF0000); // red color for walls
 		}
+		x++;
 	}
 
 	// put the image to the window
