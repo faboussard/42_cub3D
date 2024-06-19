@@ -31,12 +31,13 @@ SOURCES		=	$(DIR_SRC)main.c\
                 $(DIR_SRC)init.c\
                 $(DIR_SRC)hook.c\
                 $(DIR_SRC)errors.c\
+                $(DIR_SRC)exit.c\
 					
 DIR_OBJS	    =	.objs/
 
 # ---- Flags ---- #
 
-CFLAGS		=	-Wall -Wextra -Werror -O3  -Wno-deprecated-declarations -I $(DIR_LIB) -I $(DIR_MLX) -I $(DIR_HEADERS)
+CFLAGS		=	-Wall -Wextra -Werror -O3 -g  -Wno-deprecated-declarations -I $(DIR_LIB) -I $(DIR_MLX) -I $(DIR_HEADERS)
 
 # ---- MLX ---- #
 
