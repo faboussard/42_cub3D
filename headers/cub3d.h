@@ -12,6 +12,7 @@
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
 # include "../libft/inc/libft.h"
 # include "../mlx/mlx.h"
 # include <X11/X.h>
@@ -124,5 +125,6 @@ void			move_right(t_data *img);
 ////////////////////////////////////////////////////////////////////////
 void raycasting(t_data *img);
 int	key_hook(int keysym, t_data *img);
+void	destroy_images(t_data *img);
 
 #endif
