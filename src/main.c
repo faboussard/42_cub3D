@@ -21,7 +21,7 @@ int	main(int ac, char **av)
 		ft_putendl_fd("Error: Wrong number of arguments", 2);
 	//parsing
 	init_mlx_win(&img);
-//	init_screen(&img);
+	init_screen(&img);
 //	mlx_hook(img.win, 2, (1L << 0), &key_hook, &img);
 	mlx_hook(img.win, DestroyNotify, 0, close_window, &img);
 //	raycasting();
