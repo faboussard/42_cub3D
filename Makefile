@@ -29,6 +29,8 @@ DIR_SRC	=	src/
 SOURCES		=	$(DIR_SRC)main.c\
                 $(DIR_SRC)raycasting.c\
                 $(DIR_SRC)init.c\
+                $(DIR_SRC)hook.c\
+                $(DIR_SRC)errors.c\
 					
 DIR_OBJS	    =	.objs/
 
