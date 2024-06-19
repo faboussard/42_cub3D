@@ -1,79 +1,83 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mbernard <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/02/14 16:22:44 by mbernard          #+#    #+#              #
-#    Updated: 2024/03/04 11:39:16 by mbernard         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
-CC = cc
-NAME = cub3d
-FLAGS = -lX11 -lXext -lz
-CFLAGS = -Wall -Wextra -Werror -MMD -MP -g3
-MKDIR = mkdir -p
-RMDIR = rm -rf
+# ---- Variables ---- #
 
-# ---------------------------------- Sources --------------------------------- #
-vpath %c src
+NAME			=	cub3D
 
-SRCS =	main
+OS				=	$(shell uname)
 
-# ---------------------------------- Repertories ----------------------------- #
-HEADER_DIR = header/
-OBJS_DIR = .objs/
-HEADER = $(addprefix ${HEADER_DIR}, cub3d.h)
-OBJS = $(addprefix ${OBJS_DIR}, $(addsuffix .o, ${SRCS}))
-DEPS = ${OBJS:.o=.d}
+R_BONUS			= 	no
 
-# ---------------------------------- LibX Gestion ----------------------------- #
-LIBX_DIR = minilibx-linux/
-LINK_LIBX = -L ${LIBX_DIR} -lmlx_Linux
-LINK_LIBFT = -L ${LIBFT_DIR} -lft
-LIBFT_DIR = Libft/
-LIBX = $(addprefix ${LIBX_DIR}, libmlx_Linux.a)
-LIBFT = $(addprefix ${LIBFT_DIR}, libft.a)
-INCLUDES = -I ${LIBX_DIR} -I ${HEADER_DIR} -I ${LIBFT_DIR}
-LIBS = ${LINK_LIBX} ${LINK_LIBFT}
+RMF				=	rm -rf
 
-# ---------------------------------- Compilation ----------------------------- #
-all: ${NAME}
+# ---- Libraries ---- #
 
-${NAME}: ${OBJS} ${LIBX} ${LIBFT}
-	${CC} ${CFLAGS} ${OBJS} ${INCLUDES} ${LIBS} ${FLAGS} -o $@
+DIR_LIB			=	libft/
 
-${OBJS_DIR}%.o: %.c ${HEADER} | ${OBJS_DIR}
-	${CC} ${CFLAGS} ${INCLUDES} -O3 -c $< -o $@
+LIB				=	$(DIR_LIB)libft.a
 
-${LIBX}: FORCE
-	make -C ${LIBX_DIR}
+DIR_MLX	=	mlx
 
-${LIBFT}: FORCE
-	$(MAKE) -C ${LIBFT_DIR}
+# ---- Directories  ---- #
 
--include ${DEPS}
-# ---------------------------------- Create Repertory ---------------------- #
-${OBJS_DIR}:
-			${MKDIR} ${OBJS_DIR}
+DIR_HEADERS     =   headers/
 
-## ---------------------------------- Clean ----------------------------------- #
-clean:  ${OBJS_DIR}
-	${RMDIR} ${OBJS_DIR}
-	${MAKE} clean -C $(LIBX_DIR)
-	${MAKE} clean -C $(LIBFT_DIR)
+HEADERS			= 	$(DIR_HEADERS)cub3d.h \
+					$(DIR_LIB)/inc/libft.h
 
-fclean: clean
-	${RM} ${NAME}
-	${RM} ${LIBX}
-	${RM} ${LIBFT}
+DIR_SRC	=	src/
 
-re:    fclean
-	${MAKE} ${NAME}
+MANDATORY		=	$(DIR_SRC)main.c\
+					
+DIR_OBJS	    =	.objs/
 
-FORCE:
+# ---- Flags ---- #
 
-# ---------------------------------- Phony ----------------------------------- #
-.PHONY: all clean fclean re FORCE
+CFLAGS		=	-Wall -Wextra -Werror -O3  -Wno-deprecated-declarations -I $(DIR_LIB) -I $(DIR_MLX) -I $(DIR_HEADERS)
+
+# ---- MLX ---- #
+
+MLX_FLAGS		=	-L$(DIR_MLX) -lm
+
+MLX_FLAGS 	+= -lmlx -lX11 -lXext -L$(DIR_MLX)
+
+# ---- Directory  objs ---- #
+
+OBJS		=	$(addprefix $(DIR_OBJS),$(MANDATORY:.c=.o))
+
+# ====================== RULES ====================== #
+
+# ---- Compilation rules ---- #
+
+all:		
+			${MAKE} lib
+			${MAKE} ${NAME}
+
+${NAME}:	$(LIB) ${OBJS}
+			make -C $(DIR_MLX)
+			$(CC) $(CFLAGS) $(OBJS) $(LIB) $(MLX_FLAGS) -o $(NAME)
+
+$(DIR_OBJS)%.o: %.c	$(HEADERS)
+			@ mkdir -p ${dir $@}
+			$(CC) $(CFLAGS) -c $< -o $@ -I $(DIR_HEADERS)
+
+# ---- Library rule ---- #
+
+$(LIB) :	
+			$(MAKE) -C $(DIR_MLX)
+			$(MAKE) -C $(DIR_LIB)
+
+# ---- Clean rules ---- #
+
+re :		fclean 
+			$(MAKE) all
+clean:
+		$(MAKE) -C $(DIR_LIB) clean
+		$(MAKE) -C $(DIR_MLX) clean
+		$(RMF) $(DIR_OBJS)
+
+fclean:
+		$(MAKE) clean
+		$(MAKE) -C $(DIR_LIB) fclean
+		$(RMF) $(NAME)
+
+.PHONY :	all lib clean fclean  re
