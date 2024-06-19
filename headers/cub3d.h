@@ -26,12 +26,6 @@
 #define WIDTH_DISPLAY 640
 #define HEIGHT_DISPLAY 480
 
-#define RGB_Red     ((ColorRGB) {255, 0, 0})
-#define RGB_Green   ((ColorRGB) {0, 255, 0})
-#define RGB_Blue    ((ColorRGB) {0, 0, 255})
-#define RGB_White   ((ColorRGB) {255, 255, 255})
-#define RGB_Yellow  ((ColorRGB) {255, 255, 0})
-
 typedef struct s_image
 {
 	void			*img;
