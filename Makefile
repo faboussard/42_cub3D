@@ -84,4 +84,7 @@ fclean:
 		$(MAKE) -C $(DIR_LIB) fclean
 		$(RMF) $(NAME)
 
-.PHONY :	all lib clean fclean  re
+debug:	clean
+		$(MAKE) -C $(DIR_MLX) CFLAGS="-g"
+
+.PHONY :	all lib clean fclean  re debug

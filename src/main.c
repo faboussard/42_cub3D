@@ -14,17 +14,17 @@
 
 int	main(int ac, char **av)
 {
-	t_data	img;
+	t_data	cub;
 
 	(void)av;
 	if (ac != 2)
 		ft_putendl_fd("Error: Wrong number of arguments", 2);
 	//parsing
-	init_mlx_win(&img);
-	init_screen(&img);
-//	mlx_hook(img.win, 2, (1L << 0), &key_hook, &img);
-	mlx_hook(img.win, DestroyNotify, 0, close_window, &img);
-//	raycasting();
-	mlx_loop(img.mlx);
+	init_mlx_win(&cub);
+	init_screen(&cub);
+//	mlx_hook(cub.win, 2, (1L << 0), &key_hook, &cub);
+	mlx_hook(cub.win, DestroyNotify, 0, close_window, &cub);
+	raycasting(&cub);
+	mlx_loop(cub.mlx);
 	return (EXIT_SUCCESS);
 }

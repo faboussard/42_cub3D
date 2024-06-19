@@ -13,7 +13,7 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 # include "../libft/inc/libft.h"
-# include "mlx.h"
+# include "../mlx/mlx.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <fcntl.h>
@@ -122,7 +122,7 @@ void			move_right(t_data *img);
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING			////////
 ////////////////////////////////////////////////////////////////////////
-void raycasting();
+void raycasting(t_data *img);
 int	key_hook(int keysym, t_data *img);
 
 #endif
