@@ -23,8 +23,8 @@
 
 #define mapWidth 24
 #define mapHeight 24
-#define WIDTH_DISPLAY 1200
-#define HEIGHT_DISPLAY 800
+#define WIDTH_DISPLAY 640
+#define HEIGHT_DISPLAY 480
 
 #define RGB_Red     ((ColorRGB) {255, 0, 0})
 #define RGB_Green   ((ColorRGB) {0, 255, 0})
@@ -123,8 +123,9 @@ void			move_right(t_data *img);
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING			////////
 ////////////////////////////////////////////////////////////////////////
-void raycasting(t_data *img);
-int	key_hook(int keysym, t_data *img);
-void	destroy_images(t_data *img);
+void raycasting(t_data *cub);
+int	key_hook(int keysym, t_data *cub);
+void	destroy_images(t_data *cub);
+void	render(t_data *cub);
 
 #endif

@@ -1,19 +1,20 @@
 #include "cub3d.h"
 
-void	my_pixel_put(t_data *img, int x, int y)
+void my_pixel_put(t_data *img, int x, int y, int color)
 {
-	char	*dst;
-	int		offset_x;
-	int		offset_y;
+	char    *dst;
+	int     offset_x;
+	int     offset_y;
 
 	offset_x = x * (img->my_image.bits_per_pixel / 8);
 	offset_y = y * img->my_image.line_length;
 	if (x >= 0 && x < WIDTH_DISPLAY && y >= 0 && y < HEIGHT_DISPLAY)
 	{
-		dst = img->my_image.addr + ft_abs(offset_x + offset_y);
-		*(unsigned int *)dst = 0x00FF0000;
+		dst = img->my_image.addr + offset_x + offset_y;
+		*(unsigned int *)dst = color;
 	}
 }
+
 
 int worldMap[mapWidth][mapHeight]=
 		{
@@ -42,58 +43,49 @@ int worldMap[mapWidth][mapHeight]=
 				{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 		};
-
 void raycasting(t_data *img)
 {
 	double posX = 22, posY = 12;  //x and y start position
-	double dirX = -1, dirY = 0; //initial direction vector
+	double dirX = -1, dirY = 0;   //initial direction vector
 	double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
 
-//	double time = 0; //time of current frame
-//	double oldTime = 0; //time of previous frame
+	int w = WIDTH_DISPLAY;
+	int h = HEIGHT_DISPLAY;
 
-	int x;
-	int w;
-	int	h;
-
-	w = mapWidth;
-	h = mapHeight;
-
-	x = 0;
-	while (x < w)
+	for (int x = 0; x < w; x++)
 	{
 		//calculate ray position and direction
-		double cameraX = 2 * x / (double)(w-1); //x-coordinate in camera space
+		double cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
 		double rayDirX = dirX + planeX * cameraX;
 		double rayDirY = dirY + planeY * cameraX;
 
 		//which box of the map we're in
-		int mapX = (int) posX;
-		int mapY = (int) posY;
+		int mapX = (int)posX;
+		int mapY = (int)posY;
 
 		//length of ray from current position to next x or y-side
 		double sideDistX;
 		double sideDistY;
 
-// Longueur du rayon d'un côté X ou Y au prochain côté X ou Y
+		//length of ray from one x or y-side to next x or y-side
 		double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
 		double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
 		double perpWallDist;
 
-// Direction du pas dans la direction X ou Y (soit +1 soit -1)
+		//what direction to step in x or y-direction (either +1 or -1)
 		int stepX;
 		int stepY;
 
-		int hit = 0; // Y a-t-il eu un impact sur un mur ?
-		int side;
-
+		int hit = 0; //was there a wall hit?
+		int side; //was a NS or a EW wall hit?
 
 		//calculate step and initial sideDist
 		if (rayDirX < 0)
 		{
 			stepX = -1;
 			sideDistX = (posX - mapX) * deltaDistX;
-		} else
+		}
+		else
 		{
 			stepX = 1;
 			sideDistX = (mapX + 1.0 - posX) * deltaDistX;
@@ -102,12 +94,12 @@ void raycasting(t_data *img)
 		{
 			stepY = -1;
 			sideDistY = (posY - mapY) * deltaDistY;
-		} else
+		}
+		else
 		{
 			stepY = 1;
 			sideDistY = (mapY + 1.0 - posY) * deltaDistY;
 		}
-
 
 		//perform DDA
 		while (hit == 0)
@@ -118,7 +110,8 @@ void raycasting(t_data *img)
 				sideDistX += deltaDistX;
 				mapX += stepX;
 				side = 0;
-			} else
+			}
+			else
 			{
 				sideDistY += deltaDistY;
 				mapY += stepY;
@@ -129,13 +122,14 @@ void raycasting(t_data *img)
 				hit = 1;
 		}
 
+		//Calculate distance to the point of impact
 		if (side == 0)
-			perpWallDist = (sideDistX - deltaDistX);
+			perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
 		else
-			perpWallDist = (sideDistY - deltaDistY);
+			perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
 
 		//Calculate height of line to draw on screen
-		int lineHeight = (int) (h / perpWallDist);
+		int lineHeight = (int)(h / perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
 		int drawStart = -lineHeight / 2 + h / 2;
@@ -146,7 +140,12 @@ void raycasting(t_data *img)
 			drawEnd = h - 1;
 
 		//draw the pixels of the stripe as a vertical line
-		my_pixel_put(img, drawStart, drawEnd);
-		x++;
+		for (int y = drawStart; y < drawEnd; y++)
+		{
+			my_pixel_put(img, x, y, 0x00FF0000); // red color for walls
+		}
 	}
+
+	// put the image to the window
+	mlx_put_image_to_window(img->mlx, img->win, img->my_image.img, 0, 0);
 }

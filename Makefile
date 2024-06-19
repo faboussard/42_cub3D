@@ -32,6 +32,7 @@ SOURCES		=	$(DIR_SRC)main.c\
                 $(DIR_SRC)hook.c\
                 $(DIR_SRC)errors.c\
                 $(DIR_SRC)exit.c\
+                $(DIR_SRC)render.c\
 					
 DIR_OBJS	    =	.objs/
 
