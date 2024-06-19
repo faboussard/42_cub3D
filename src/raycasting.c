@@ -1,7 +1,18 @@
 //#include "cub3d.h"
 //
+//void	my_pixel_put(t_data *img, int x, int y)
+//{
+//	char	*dst;
+//	int		offset_x;
+//	int		offset_y;
 //
-
+//	if (x >= 0 && x < WIDTH_DISPLAY && y >= 0 && y < HEIGHT_DISPLAY)
+//	{
+//		dst = img->my_image.addr + ft_abs(offset_x + offset_y);
+//		*(unsigned int *)dst = 0x00FF0000;
+//	}
+//}
+//
 //int worldMap[mapWidth][mapHeight]=
 //		{
 //				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -29,7 +40,7 @@
 //				{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 //				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 //		};
-
+//
 //void raycasting()
 //{
 //	double posX = 22, posY = 12;  //x and y start position
@@ -39,13 +50,26 @@
 //	double time = 0; //time of current frame
 //	double oldTime = 0; //time of previous frame
 //
-//	for(int x = 0; x < w; x++)
+//	int x;
+//	int w;
+//	int	h;
+//
+//	w = WIDTH_DISPLAY;
+//	h = HEIGHT_DISPLAY;
+//
+//	x = 0;
+//	while (x < w)
 //	{
 //		//calculate ray position and direction
-//		double cameraX = 2 * x / double(w) - 1; //x-coordinate in camera space
+//		double cameraX = 2 * x / (double)(w-1); //x-coordinate in camera space
 //		double rayDirX = dirX + planeX * cameraX;
 //		double rayDirY = dirY + planeY * cameraX;
 //
+//		//which box of the map we're in
+//		int mapX = (int) posX;
+//		int mapY = (int) posY;
+//
+//		//length of ray from current position to next x or y-side
 //		double sideDistX;
 //		double sideDistY;
 //
@@ -67,8 +91,7 @@
 //		{
 //			stepX = -1;
 //			sideDistX = (posX - mapX) * deltaDistX;
-//		}
-//		else
+//		} else
 //		{
 //			stepX = 1;
 //			sideDistX = (mapX + 1.0 - posX) * deltaDistX;
@@ -77,8 +100,7 @@
 //		{
 //			stepY = -1;
 //			sideDistY = (posY - mapY) * deltaDistY;
-//		}
-//		else
+//		} else
 //		{
 //			stepY = 1;
 //			sideDistY = (mapY + 1.0 - posY) * deltaDistY;
@@ -94,8 +116,7 @@
 //				sideDistX += deltaDistX;
 //				mapX += stepX;
 //				side = 0;
-//			}
-//			else
+//			} else
 //			{
 //				sideDistY += deltaDistY;
 //				mapY += stepY;
@@ -106,25 +127,24 @@
 //				hit = 1;
 //		}
 //
-//		if(side == 0)
+//		if (side == 0)
 //			perpWallDist = (sideDistX - deltaDistX);
 //		else
 //			perpWallDist = (sideDistY - deltaDistY);
 //
 //		//Calculate height of line to draw on screen
-//		int lineHeight = (int)(h / perpWallDist);
+//		int lineHeight = (int) (h / perpWallDist);
 //
 //		//calculate lowest and highest pixel to fill in current stripe
 //		int drawStart = -lineHeight / 2 + h / 2;
-//		if(drawStart < 0)
+//		if (drawStart < 0)
 //			drawStart = 0;
 //		int drawEnd = lineHeight / 2 + h / 2;
-//		if(drawEnd >= h)
+//		if (drawEnd >= h)
 //			drawEnd = h - 1;
-//
-//		//choose wall color
-//		ColorRGB color
 //
 //		//draw the pixels of the stripe as a vertical line
 //		verLine(x, drawStart, drawEnd, color);
+//		x++;
 //	}
+//}

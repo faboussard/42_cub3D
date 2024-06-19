@@ -31,6 +31,15 @@
 #define RGB_White   ((ColorRGB) {255, 255, 255})
 #define RGB_Yellow  ((ColorRGB) {255, 255, 0})
 
+typedef struct s_image
+{
+	void			*img;
+	char			*addr;
+	int				bits_per_pixel;
+	int				line_length;
+	int				endian;
+}					t_image;
+
 typedef struct s_player
 {
 	size_t		x;
@@ -70,6 +79,7 @@ typedef struct s_data
 	char		left_img[25];
 	char		right_img[26];
 	t_map		map;
+	t_image		my_image;
 }				t_data;
 
 ////////////////////////////////////////////////////////////////////////
