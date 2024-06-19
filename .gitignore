@@ -8,3 +8,4 @@ libft.a
 build
 run_tests
 *.o
+.idea/
