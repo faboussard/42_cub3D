@@ -75,6 +75,15 @@ typedef struct s_data
 	char		right_img[26];
 	t_map		map;
 	t_image		my_image;
+	double      pos_X;
+	double      pos_Y;
+	double      dir_X;
+	double      dir_Y;
+	double      plane_X;
+	double      plane_Y;
+	double      ray_Dir_X;
+	double      ray_Dir_Y;
+	int         **worldMap;
 }				t_data;
 
 ////////////////////////////////////////////////////////////////////////
