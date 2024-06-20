@@ -20,7 +20,7 @@
 
 void	malloc_error(void)
 {
-	write(2, "Error\nMallor error\n", 19);
+	(void)!write(2, "Error\nMallor error\n", 19);
 	exit(EXIT_FAILURE);
 }
 
