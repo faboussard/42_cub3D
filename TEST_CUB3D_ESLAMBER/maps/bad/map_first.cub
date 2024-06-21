@@ -1,0 +1,21 @@
+11111
+10001
+10S01
+10001
+10001
+10001
+11001
+10001
+10001
+10001
+10001
+10001
+11111
+
+../tests/cub3D/NO textures/test/north.xpm
+../tests/cub3D/SO textures/test/south.xpm
+../tests/cub3D/WE textures/test/west.xpm
+../tests/cub3D/EA textures/test/east.xpm
+
+F 20,20,20
+C 200,200,200
