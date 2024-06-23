@@ -6,6 +6,7 @@ a.out
 *.dSYM
 libft.a
 libft/libft.a
+libft/.objs
 build
 run_tests
 *.o
@@ -18,7 +19,6 @@ run_tests
 *.gch
 *Tester
 .dep
-.objs
 cmake-build-debug
 CMakeLists.txt
 CMake*
