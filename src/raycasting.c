@@ -70,21 +70,44 @@ void init_vectors(t_data *cub)
 	cub->plane_y = 0.66;
 }
 
+void draw_walls(t_data *cub, int h, int x, double perpWallDist)
+{
+	int line_height;
+	int draw_start;
+	int draw_end;
+	int y;
+
+	line_height = (int)(h / perpWallDist);
+
+	//calculate lowest and highest pixel to fill in current stripe
+	draw_start = -line_height / 2 + h / 2;
+	if (draw_start < 0)
+		draw_start = 0;
+	draw_end = line_height / 2 + h / 2;
+	if (draw_end >= h)
+		draw_end = h - 1;
+	y = draw_start;
+	//draw the pixels of the stripe as a vertical line
+	while (y < draw_end)
+	{
+		my_pixel_put(cub, x, y, 0x00FF0000);
+		y++;// red color for walls
+	}
+}
+
 void raycasting(t_data *cub)
 {
-	double camera_X;
-	int map_X;
-	int map_Y;
-	int side;
-//	double deltaDist_X;
-//	double deltaDist_Y;
-//	double perp_WallDist;
-//	int step_X;
-//	int step_Y;
-	int hit;
+	double camera_x;
+	int map_x;
+	int map_y;
 	int w;
 	int h;
 	int x;
+
+
+	int side;
+	int hit;
+
 
 	w = WIDTH_DISPLAY;
 	h = HEIGHT_DISPLAY;
@@ -95,49 +118,42 @@ void raycasting(t_data *cub)
 	while (x < w)
 	{
 		//calculate ray position and direction
-		camera_X = 2 * x / (double)w - 1; //x-coordinate in camera space
-		cub->ray_dir_x = cub->dir_x  + cub->plane_x * camera_X;
-		cub->ray_dir_y = cub->dir_y + cub->plane_y * camera_X;
-
-		//which box of the map we're in
-		map_X = (int)cub->pos_x;
-		map_Y = (int)cub->pos_y;
-
+		camera_x = 2 * x / (double)w - 1; //x-coordinate in camera space
+		cub->ray_dir_x = cub->dir_x  + cub->plane_x * camera_x;
+		cub->ray_dir_y = cub->dir_y + cub->plane_y * camera_x;
 		//length of ray from current position to next x or y-side
 		double sideDistX;
 		double sideDistY;
-
 		//length of ray from one x or y-side to next x or y-side
 		double deltaDistX = (cub->ray_dir_x == 0) ? 1e30 : fabs(1 / cub->ray_dir_x);
 		double deltaDistY = (cub->ray_dir_y == 0) ? 1e30 : fabs(1 / cub->ray_dir_y);
 		double perpWallDist;
-
 		//what direction to step in x or y-direction (either +1 or -1)
 		int stepX;
 		int stepY;
-
+		map_x = (int)cub->pos_x;
+		map_y = (int)cub->pos_y;
 		hit = 0; //was there a wall hit?
-
 		//calculate step and initial sideDist
 		if (cub->ray_dir_x < 0)
 		{
 			stepX = -1;
-			sideDistX = (cub->pos_x - map_X) * deltaDistX;
+			sideDistX = (cub->pos_x - map_x) * deltaDistX;
 		}
 		else
 		{
 			stepX = 1;
-			sideDistX = (map_X + 1.0 - cub->pos_x) * deltaDistX;
+			sideDistX = (map_x + 1.0 - cub->pos_x) * deltaDistX;
 		}
 		if (cub->ray_dir_y < 0)
 		{
 			stepY = -1;
-			sideDistY = (cub->pos_y - map_Y) * deltaDistY;
+			sideDistY = (cub->pos_y - map_y) * deltaDistY;
 		}
 		else
 		{
 			stepY = 1;
-			sideDistY = (map_Y + 1.0 - cub->pos_y) * deltaDistY;
+			sideDistY = (map_y + 1.0 - cub->pos_y) * deltaDistY;
 		}
 
 		//perform DDA
@@ -147,42 +163,27 @@ void raycasting(t_data *cub)
 			if (sideDistX < sideDistY)
 			{
 				sideDistX += deltaDistX;
-				map_X += stepX;
+				map_x += stepX;
 				side = 0;
 			}
 			else
 			{
 				sideDistY += deltaDistY;
-				map_Y += stepY;
+				map_y += stepY;
 				side = 1;
 			}
 			//Check if ray has hit a wall
-			if (worldMap[map_X][map_Y] > 0)
+			if (worldMap[map_x][map_y] > 0)
 				hit = 1;
 		}
-
 		//Calculate distance to the point of impact
 		if (side == 0)
-			perpWallDist = (map_X - cub->pos_x + (1 - stepX) / 2) / cub->ray_dir_x;
+			perpWallDist = (map_x - cub->pos_x + (1 - stepX) / 2) / cub->ray_dir_x;
 		else
-			perpWallDist = (map_Y - cub->pos_y + (1 - stepY) / 2) / cub->ray_dir_y;
+			perpWallDist = (map_y - cub->pos_y + (1 - stepY) / 2) / cub->ray_dir_y;
 
 		//Calculate height of line to draw on screen
-		int lineHeight = (int)(h / perpWallDist);
-
-		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + h / 2;
-		if (drawStart < 0)
-			drawStart = 0;
-		int drawEnd = lineHeight / 2 + h / 2;
-		if (drawEnd >= h)
-			drawEnd = h - 1;
-
-		//draw the pixels of the stripe as a vertical line
-		for (int y = drawStart; y < drawEnd; y++)
-		{
-			my_pixel_put(cub, x, y, 0x00FF0000); // red color for walls
-		}
+		draw_walls(cub, h, x, perpWallDist);
 		x++;
 	}
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
