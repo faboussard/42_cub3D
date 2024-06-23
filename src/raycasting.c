@@ -119,24 +119,16 @@ static void get_vectors(t_data *cub, double camera_x, int x)
 
 static double get_delta_dist(double ray_dir)
 {
-	double delta_dist;
-
 	if (ray_dir == 0)
-		delta_dist = 1e30;
-	else
-		delta_dist = fabs(1 / ray_dir);
-	return delta_dist;
+		return 1e30;
+	return fabs(1 / ray_dir);
 }
 
 static double get_side_dist(double ray_dir, double map, double delta_dist, double pos)
 {
-	double side_dist;
-
 	if (ray_dir < 0)
-		side_dist = (pos - map) * delta_dist;
-	else
-		side_dist = (map + 1.0 - pos) * delta_dist;
-	return (side_dist);
+		return (pos - map) * delta_dist;
+	return (map + 1.0 - pos) * delta_dist;
 }
 
 static int get_step(double ray_dir)
@@ -177,6 +169,16 @@ int ray_tracer(t_data *cub)
 	return side;
 }
 
+double get_Wall_dist(const t_data *cub, int side)
+{
+	double wall_dist;
+	if (side == 0)
+		wall_dist = (cub->raycast->map_x - cub->pos_x + (1 - cub->raycast->step_x) / 2) / cub->ray_dir_x;
+	else
+		wall_dist = (cub->raycast->map_y - cub->pos_y + (1 - cub->raycast->step_y) / 2) / cub->ray_dir_y;
+	return wall_dist;
+}
+
 void raycasting(t_data *cub)
 {
 	double camera_x;
@@ -192,10 +194,7 @@ void raycasting(t_data *cub)
 		init_raycasting(cub);
 		get_vectors(cub, camera_x, x);
 		side = ray_tracer(cub);
-		if (side == 0)
-			wall_dist = (cub->raycast->map_x - cub->pos_x + (1 - cub->raycast->step_x) / 2) / cub->ray_dir_x;
-		else
-			wall_dist = (cub->raycast->map_y - cub->pos_y + (1 - cub->raycast->step_y) / 2) / cub->ray_dir_y;
+		wall_dist = get_Wall_dist(cub, side);
 		draw_walls(cub, x, wall_dist);
 		x++;
 		free(cub->raycast);
