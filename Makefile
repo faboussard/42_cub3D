@@ -88,6 +88,12 @@ fclean:		clean
 debug:
 		$(RMF) $(DIR_OBJS)
 		$(MAKE) -C $(DIR_MLX)
-		$(MAKE) CFLAGS="-g3 -fsanitize=address"
+		$(MAKE) CFLAGS="-g3"
 
+fsan:
+		$(RMF) $(DIR_OBJS)
+		$(MAKE) -C $(DIR_MLX)
+		$(MAKE) CFLAGS="-fsanitize=address"
+
+# ---- Phony ---- #
 .PHONY :	all lib clean fclean  re debug
