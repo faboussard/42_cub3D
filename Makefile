@@ -96,4 +96,4 @@ fsan:
 		$(MAKE) CFLAGS="-fsanitize=address"
 
 # ---- Phony ---- #
-.PHONY :	all lib clean fclean  re debug
+.PHONY :	all lib clean fclean re debug fsan
