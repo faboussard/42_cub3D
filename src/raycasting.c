@@ -56,16 +56,22 @@ int worldMap[mapWidth][mapHeight]=
 				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 		};
 
-void raycasting(t_data *img)
+void init_vectors(t_data *cub)
 {
-	double pos_X;
-	double pos_Y;
-	double dir_X;
-	double dir_Y;
-	double plane_X;
-	double plane_Y;
-	double ray_Dir_X;
-	double ray_Dir_Y;
+	cub->pos_x = 22;
+	cub->pos_y = 12;
+
+//initial direction vector
+	cub->dir_x = -1;
+	cub->dir_y = 0;
+
+	//the 2d raycaster version of camera plane
+	cub->plane_x = 0;
+	cub->plane_y = 0.66;
+}
+
+void raycasting(t_data *cub)
+{
 	double camera_X;
 	int map_X;
 	int map_Y;
@@ -76,7 +82,6 @@ void raycasting(t_data *img)
 //	int step_X;
 //	int step_Y;
 	int hit;
-
 	int w;
 	int h;
 	int x;
@@ -85,36 +90,26 @@ void raycasting(t_data *img)
 	h = HEIGHT_DISPLAY;
 
 //initial position vector
-	pos_X = 22;
-	pos_Y = 12;
-
-//initial direction vector
-	dir_X = -1;
-	dir_Y = 0;
-
- //the 2d raycaster version of camera plane
-	plane_X = 0;
-	plane_Y = 0.66;
-
+	init_vectors(cub);
 	x = 0;
 	while (x < w)
 	{
 		//calculate ray position and direction
 		camera_X = 2 * x / (double)w - 1; //x-coordinate in camera space
-		ray_Dir_X = dir_X + plane_X * camera_X;
-		ray_Dir_Y = dir_Y + plane_Y * camera_X;
+		cub->ray_dir_x = cub->dir_x  + cub->plane_x * camera_X;
+		cub->ray_dir_y = cub->dir_y + cub->plane_y * camera_X;
 
 		//which box of the map we're in
-		map_X = (int)pos_X;
-		map_Y = (int)pos_Y;
+		map_X = (int)cub->pos_x;
+		map_Y = (int)cub->pos_y;
 
 		//length of ray from current position to next x or y-side
 		double sideDistX;
 		double sideDistY;
 
 		//length of ray from one x or y-side to next x or y-side
-		double deltaDistX = (ray_Dir_X == 0) ? 1e30 : fabs(1 / ray_Dir_X);
-		double deltaDistY = (ray_Dir_Y == 0) ? 1e30 : fabs(1 / ray_Dir_Y);
+		double deltaDistX = (cub->ray_dir_x == 0) ? 1e30 : fabs(1 / cub->ray_dir_x);
+		double deltaDistY = (cub->ray_dir_y == 0) ? 1e30 : fabs(1 / cub->ray_dir_y);
 		double perpWallDist;
 
 		//what direction to step in x or y-direction (either +1 or -1)
@@ -124,25 +119,25 @@ void raycasting(t_data *img)
 		hit = 0; //was there a wall hit?
 
 		//calculate step and initial sideDist
-		if (ray_Dir_X < 0)
+		if (cub->ray_dir_x < 0)
 		{
 			stepX = -1;
-			sideDistX = (pos_X - map_X) * deltaDistX;
+			sideDistX = (cub->pos_x - map_X) * deltaDistX;
 		}
 		else
 		{
 			stepX = 1;
-			sideDistX = (map_X + 1.0 - pos_X) * deltaDistX;
+			sideDistX = (map_X + 1.0 - cub->pos_x) * deltaDistX;
 		}
-		if (ray_Dir_Y < 0)
+		if (cub->ray_dir_y < 0)
 		{
 			stepY = -1;
-			sideDistY = (pos_Y - map_Y) * deltaDistY;
+			sideDistY = (cub->pos_y - map_Y) * deltaDistY;
 		}
 		else
 		{
 			stepY = 1;
-			sideDistY = (map_Y + 1.0 - pos_Y) * deltaDistY;
+			sideDistY = (map_Y + 1.0 - cub->pos_y) * deltaDistY;
 		}
 
 		//perform DDA
@@ -168,9 +163,9 @@ void raycasting(t_data *img)
 
 		//Calculate distance to the point of impact
 		if (side == 0)
-			perpWallDist = (map_X - pos_X + (1 - stepX) / 2) / ray_Dir_X;
+			perpWallDist = (map_X - cub->pos_x + (1 - stepX) / 2) / cub->ray_dir_x;
 		else
-			perpWallDist = (map_Y - pos_Y + (1 - stepY) / 2) / ray_Dir_Y;
+			perpWallDist = (map_Y - cub->pos_y + (1 - stepY) / 2) / cub->ray_dir_y;
 
 		//Calculate height of line to draw on screen
 		int lineHeight = (int)(h / perpWallDist);
@@ -186,171 +181,9 @@ void raycasting(t_data *img)
 		//draw the pixels of the stripe as a vertical line
 		for (int y = drawStart; y < drawEnd; y++)
 		{
-			my_pixel_put(img, x, y, 0x00FF0000); // red color for walls
+			my_pixel_put(cub, x, y, 0x00FF0000); // red color for walls
 		}
 		x++;
 	}
-
-	// put the image to the window
-	mlx_put_image_to_window(img->mlx, img->win, img->my_image.img, 0, 0);
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
 }
-
-
-//
-//
-//void setup_raycasting(t_data *data)
-//{
-//	data->pos_X = 22;
-//	data->pos_Y = 12;
-//	data->dir_X = -1;
-//	data->dir_Y = 0;
-//	data->plane_X = 0;
-//	data->plane_Y = 0.66;
-//
-//	// Allouer de la mémoire pour la carte du monde
-//	data->worldMap = malloc(mapWidth * sizeof(int *));
-//	for (int i = 0; i < mapWidth; i++)
-//		data->worldMap[i] = malloc(mapHeight * sizeof(int));
-//
-//	// Initialiser la carte du monde
-//	int initialMap[mapWidth][mapHeight] = {
-//				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-//				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-//				{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-//				{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-//				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-//	};
-//
-//	// Copiez les données initiales dans la carte du monde
-//	for (int y = 0; y < mapHeight; y++)
-//	{
-//		for (int x = 0; x < mapWidth; x++)
-//		{
-//			data->worldMap[x][y] = initialMap[x][y];
-//		}
-//	}
-//}
-//
-//void draw_walls(t_data *data, double perpWallDist, int x)
-//{
-//	// Calcul de la hauteur de la ligne à dessiner sur l'écran
-//	int lineHeight = (int)(HEIGHT_DISPLAY / perpWallDist);
-//
-//	// Calcul des positions de début et de fin de la ligne
-//	int drawStart = -lineHeight / 2 + HEIGHT_DISPLAY / 2;
-//	if (drawStart < 0)
-//		drawStart = 0;
-//	int drawEnd = lineHeight / 2 + HEIGHT_DISPLAY / 2;
-//	if (drawEnd >= HEIGHT_DISPLAY)
-//		drawEnd = HEIGHT_DISPLAY - 1;
-//
-//	// Couleur du mur en fonction du type dans la carte du monde
-//
-//	// Dessiner la ligne verticale du mur
-//	for (int y = drawStart; y < drawEnd; y++)
-//	{
-//		my_pixel_put(data, x, y, 0x00FF0000);
-//	}
-//}
-//
-//
-//void raycasting(t_data *data)
-//{
-//	setup_raycasting(data);
-//	for (int x = 0; x < WIDTH_DISPLAY; x++)
-//	{
-//		double cameraX = 2 * x / (double)WIDTH_DISPLAY - 1; // Coordonnées x dans l'espace caméra
-//		double rayDirX = data->dir_X + data->plane_X * cameraX;
-//		double rayDirY = data->dir_Y + data->plane_Y * cameraX;
-//
-//		// Position de la grille dans le monde
-//		int map_X = (int)data->pos_X;
-//		int map_Y = (int)data->pos_Y;
-//
-//		// Longueur de la ligne
-//		double sideDistX, sideDistY;
-//
-//		// Longueur du rayon
-//		double deltaDistX = fabs(1 / rayDirX);
-//		double deltaDistY = fabs(1 / rayDirY);
-//		double perpWallDist;
-//
-//		// Direction du rayon et pas de grille
-//		int stepX, stepY;
-//
-//		// Calculer les distances des côtés
-//		if (rayDirX < 0)
-//		{
-//			stepX = -1;
-//			sideDistX = (data->pos_X - map_X) * deltaDistX;
-//		}
-//		else
-//		{
-//			stepX = 1;
-//			sideDistX = (map_X + 1.0 - data->pos_X) * deltaDistX;
-//		}
-//		if (rayDirY < 0)
-//		{
-//			stepY = -1;
-//			sideDistY = (data->pos_Y - map_Y) * deltaDistY;
-//		}
-//		else
-//		{
-//			stepY = 1;
-//			sideDistY = (map_Y + 1.0 - data->pos_Y) * deltaDistY;
-//		}
-//		int hit = 0;
-//		int side;
-//		while (hit == 0)
-//		{
-//			//jump to next map square, either in x-direction, or in y-direction
-//			if (sideDistX < sideDistY)
-//			{
-//				sideDistX += deltaDistX;
-//				map_X += stepX;
-//				side = 0;
-//			}
-//			else
-//			{
-//				sideDistY += deltaDistY;
-//				map_Y += stepY;
-//				side = 1;
-//			}
-//			//Check if ray has hit a wall
-//			if (data->worldMap[map_X][map_Y] > 0)
-//				hit = 1;
-//		}
-//
-//		// Calcul de la distance perpendiculaire au mur
-//// Calcul de la distance perpendiculaire au mur
-//		if (side == 0)
-//			perpWallDist = fabs((map_X - data->pos_X + (1 - stepX) / 2) / rayDirX);
-//		else
-//			perpWallDist = fabs((map_Y - data->pos_Y + (1 - stepY) / 2) / rayDirY);
-//
-//
-//
-//		// Dessiner les murs
-//		draw_walls(data, perpWallDist, x);
-//	}
-//}
-//
