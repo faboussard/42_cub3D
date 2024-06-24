@@ -33,7 +33,8 @@ SOURCES		=	$(DIR_SRC)main.c\
                 $(DIR_SRC)errors.c\
                 $(DIR_SRC)exit.c\
                 $(DIR_SRC)render.c\
-                $(DIR_SRC)parsing.c
+                $(DIR_SRC)parsing.c\
+                $(DIR_SRC)map.c
 
 DIR_OBJS	    =	.objs/
 
