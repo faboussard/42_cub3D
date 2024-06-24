@@ -54,6 +54,18 @@ typedef struct s_map
 	t_player	player;
 }				t_map;
 
+typedef struct s_raycasting
+{
+	int      map_x;
+	int      map_y;
+	double      delta_dist_x;
+	double      delta_dist_y;
+	double      side_dist_x;
+	double      side_dist_y;
+	int      step_x;
+	int      step_y;
+}				t_raycasting;
+
 typedef struct s_data
 {
 	void		*mlx;
@@ -77,16 +89,18 @@ typedef struct s_data
 	char		right_img[26];
 	t_map		map;
 	t_image		my_image;
-	double      pos_X;
-	double      pos_Y;
-	double      dir_X;
-	double      dir_Y;
-	double      plane_X;
-	double      plane_Y;
-	double      ray_Dir_X;
-	double      ray_Dir_Y;
+	double      pos_x;
+	double      pos_y;
+	double      dir_x;
+	double      dir_y;
+	double      plane_x;
+	double      plane_y;
+	double      ray_dir_x;
+	double      ray_dir_y;
 	int         **worldMap;
+	t_raycasting	*raycast;
 }				t_data;
+
 
 ////////////////////////////////////////////////////////////////////////
 ////////     				ERRORS                  ////////
