@@ -48,7 +48,6 @@ typedef struct s_map
 {
 	size_t		rows;
 	size_t		cols;
-	size_t		coins;
 	char		**grid;
 	char		**copy;
 	bool		status;
@@ -60,9 +59,10 @@ typedef struct s_data
 	void		*mlx;
 	void		*win;
 	void		*empty;
-	void		*wall;
-	void		*coll;
-	void		*exit;
+	void		*north_wall;
+	void		*south_wall;
+	void		*east_wall;
+	void		*west_wall;
 	void		*up;
 	void		*down;
 	void		*left;

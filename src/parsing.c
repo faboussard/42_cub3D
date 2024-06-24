@@ -35,7 +35,7 @@ void	parsing(t_data *cub, char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		(void)write(2, "Error: Can't open file\n", 23);
+		(void)write(2, "Error:\n", 7);
 		perror(file);
 		exit(1);
 	}
@@ -50,9 +50,9 @@ void	parsing(t_data *cub, char *file)
 				(void)write(2, "Error: Empty file\n", 18);
 				exit(1);
 			}
-			exit(1);
+			else
+				break ;
 		}
-		printf("%s\n", line);
 		free(line);
 	}
 	close(fd);
