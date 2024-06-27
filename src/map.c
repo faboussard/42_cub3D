@@ -12,11 +12,20 @@
 
 #include "cub3d.h"
 
-static bool	map_contains_01nsew(t_map *map, char *tmp_map)
+bool	ft_is_space(int c)
+{
+	if (c == ' ' || c == '\f' || c == '\n'
+		|| c == '\r' || c == '\t' || c == '\v')
+		return (1);
+	return (0);
+}
+
+static bool	map_contains_01nsew(t_map *map, char tmp_map)
 {
 	static size_t	player;
 	size_t	x;
 
+	(void)map;
 	player = 0;
 	x = 0;
 	if (tmp_map[x] && player < 2)
@@ -24,7 +33,8 @@ static bool	map_contains_01nsew(t_map *map, char *tmp_map)
 		if (tmp_map[x] == 'N' || tmp_map[x] == 'S'
 			|| tmp_map[x] == 'E' || tmp_map[x] == 'W')
 			player++;
-		else if (tmp_map[x] != '0' && tmp_map[x] != '1' && tmp_map[x] != '\n')
+		else if (tmp_map[x] != '0' && tmp_map[x] != '1' && tmp_map[x] != '\n'
+				&& !ft_is_space(tmp_map[x]))
 			return (0);
 		if (tmp_map[x + 1] && tmp_map[x] == '\n' && tmp_map[x + 1] == '\n')
 			return (0);
@@ -33,6 +43,23 @@ static bool	map_contains_01nsew(t_map *map, char *tmp_map)
 	return (player < 2);
 }
 
+/*
+ * Pour configurer CLion pour un projet Makefile, vous pouvez suivre les étapes suivantes :
+
+1. Ouvrez CLion et sélectionnez "File" -> "Open".
+2. Naviguez jusqu'à votre projet et sélectionnez le fichier `Makefile`. Cliquez sur "OK".
+3. CLion vous demandera si vous voulez ouvrir le projet dans la fenêtre actuelle ou dans une nouvelle fenêtre.
+ Choisissez selon vos préférences.
+4. Une fois le projet ouvert, allez dans "File" -> "Settings" -> "Build, Execution, Deployment" -> "Makefile".
+5. Ici, vous pouvez configurer les options de Makefile selon vos besoins. Par exemple, vous pouvez spécifier
+ l'emplacement de l'exécutable `make`, définir les options de la ligne de commande, etc.
+6. Cliquez sur "Apply" puis sur "OK" pour enregistrer vos paramètres.
+
+Notez que CLion utilise le plugin Makefile pour fournir le support de Makefile. Si vous ne voyez pas
+ l'option Makefile dans les paramètres, assurez-vous que le plugin Makefile est installé et activé.
+ Vous pouvez vérifier cela en allant dans "File" -> "Settings" -> "Plugins" et en recherchant "Makefile".
+ * No need to check the lines lengths
+ *
 static bool	check_lines(char **map, size_t x, size_t rows)
 {
 	size_t	y;
@@ -46,6 +73,7 @@ static bool	check_lines(char **map, size_t x, size_t rows)
 	}
 	return (1);
 }
+*/
 
 static bool	check_walls_and_center(char **map, size_t cols, size_t rows)
 {
@@ -62,7 +90,7 @@ static bool	check_walls_and_center(char **map, size_t cols, size_t rows)
 		y = 0;
 		while (map[x][y])
 		{
-			if (!ft_search_char(map[x][y], "01PCE"))
+			if (!map_contains_01nsew(map, map[x][y]))
 				return (0);
 			y++;
 		}
@@ -74,25 +102,24 @@ static bool	check_walls_and_center(char **map, size_t cols, size_t rows)
 
 static bool	check_map(t_map *map, char *tmp_map)
 {
+	size_t	y;
 	size_t	x;
-	size_t	cols;
 
-	x = 0;
+	y = 0;
 	if (!map->grid[3])
 		return (0);
-	cols = ft_strlen(map->grid[0]);
-	while (map->grid[x + 1])
+	while (map->grid[y])
 	{
-		if (ft_strlen(map->grid[x + 1]) != cols)
-			return (0);
-		x++;
+		x = 0;
+		while (map->grid[y][x])
+		{
+			if (!map_contains_01nsew(map, map->grid[y][x]))
+				return (0);
+			x++;
+		}
 	}
-	if (!check_walls_and_center(map->grid, cols, x))
-		return (0);
-	if (!map_contains_01nsew(map, tmp_map))
-		return (0);
-	map->cols = cols;
-	map->rows = x;
+	map->cols = x;
+	map->rows = y;
 	map->status = 1;
 	return (1);
 }
@@ -102,11 +129,6 @@ void	launch_checks(t_map *map, char *tmp_map)
 	(*map).grid = ft_split(tmp_map, '\n');
 	(*map).copy = ft_split(tmp_map, '\n');
 	if (check_map(map, tmp_map) == 0)
-	{
-		free(tmp_map);
-		map_error(map->grid, map->copy);
-	}
-	if (check_path(map) == 0)
 	{
 		free(tmp_map);
 		map_error(map->grid, map->copy);
