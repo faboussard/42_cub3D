@@ -16,12 +16,6 @@ void	destroy_images(t_data *img)
 {
 	if (img->empty)
 		mlx_destroy_image(img->mlx, img->empty);
-	if (img->wall)
-		mlx_destroy_image(img->mlx, img->wall);
-	if (img->coll)
-		mlx_destroy_image(img->mlx, img->coll);
-	if (img->exit)
-		mlx_destroy_image(img->mlx, img->exit);
 	if (img->up)
 		mlx_destroy_image(img->mlx, img->up);
 	if (img->down)
