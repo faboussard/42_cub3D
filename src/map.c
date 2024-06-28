@@ -20,7 +20,7 @@ bool	ft_is_space(int c)
 	return (0);
 }
 
-static bool	map_contains_01nsew(t_map *map, char tmp_map)
+static bool	map_contains_01nsew(t_map *map, char *tmp_map)
 {
 	static size_t	player;
 	size_t	x;
@@ -75,32 +75,32 @@ static bool	check_lines(char **map, size_t x, size_t rows)
 }
 */
 
-static bool	check_walls_and_center(char **map, size_t cols, size_t rows)
-{
-	size_t	x;
-	size_t	y;
+//static bool	check_walls_and_center(char **map, size_t cols, size_t rows)
+//{
+//	size_t	x;
+//	size_t	y;
+//
+//	x = 0;
+//	while (map[x])
+//	{
+////		if (!check_lines(map, x, rows))
+////			return (0);
+//		if (map[x][0] != '1' || map[x][cols - 1] != '1')
+//			return (0);
+//		y = 0;
+//		while (map[x][y])
+//		{
+//			if (!map_contains_01nsew(map, map[x]))
+//				return (0);
+//			y++;
+//		}
+//		x++;
+//	}
+//	x--;
+//	return (1);
+//}
 
-	x = 0;
-	while (map[x])
-	{
-		if (!check_lines(map, x, rows))
-			return (0);
-		if (map[x][0] != '1' || map[x][cols - 1] != '1')
-			return (0);
-		y = 0;
-		while (map[x][y])
-		{
-			if (!map_contains_01nsew(map, map[x][y]))
-				return (0);
-			y++;
-		}
-		x++;
-	}
-	x--;
-	return (1);
-}
-
-static bool	check_map(t_map *map, char *tmp_map)
+static bool	check_map(t_map *map)
 {
 	size_t	y;
 	size_t	x;
@@ -113,7 +113,7 @@ static bool	check_map(t_map *map, char *tmp_map)
 		x = 0;
 		while (map->grid[y][x])
 		{
-			if (!map_contains_01nsew(map, map->grid[y][x]))
+			if (!map_contains_01nsew(map, map->grid[y]))
 				return (0);
 			x++;
 		}
@@ -128,7 +128,7 @@ void	launch_checks(t_map *map, char *tmp_map)
 {
 	(*map).grid = ft_split(tmp_map, '\n');
 	(*map).copy = ft_split(tmp_map, '\n');
-	if (check_map(map, tmp_map) == 0)
+	if (check_map(map) == 0)
 	{
 		free(tmp_map);
 		map_error(map->grid, map->copy);

@@ -25,3 +25,17 @@ void	destroy_images(t_data *img)
 	if (img->right)
 		mlx_destroy_image(img->mlx, img->right);
 }
+
+int	close_window(t_data *img)
+{
+	destroy_images(img);
+	if (img->win)
+		mlx_destroy_window(img->mlx, img->win);
+	if (img->mlx)
+	{
+		mlx_destroy_display(img->mlx);
+		free(img->mlx);
+	}
+	free_tabs(img->map.grid, img->map.copy);
+	exit(1);
+}

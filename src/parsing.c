@@ -26,34 +26,34 @@ void   check_file_name(char *file)
 
 void	parsing(t_data *cub, char *file)
 {
-	int		fd;
-	char	*line;
-	int		ret;
+//	int		fd;
+//	char	*line;
+//	int		ret;
 
-	ret = 0;
-	(void)cub;
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-	{
-		(void)write(2, "Error:\n", 7);
-		perror(file);
-		exit(1);
-	}
-	while (1)
-	{
-		ret++;
-		line = get_next_line(fd);
-		if (line == NULL)
-		{
-			if (ret == 1)
-			{
-				(void)write(2, "Error: Empty file\n", 18);
-				exit(1);
-			}
-			else
-				break ;
-		}
-		free(line);
-	}
-	close(fd);
+//	ret = 0;
+	define_map(&cub->map, file);
+//	fd = open(file, O_RDONLY);
+//	if (fd == -1)
+//	{
+//		(void)write(2, "Error:\n", 7);
+//		perror(file);
+//		exit(1);
+//	}
+//	while (1)
+//	{
+//		ret++;
+//		line = get_next_line(fd);
+//		if (line == NULL)
+//		{
+//			if (ret == 1)
+//			{
+//				(void)write(2, "Error: Empty file\n", 18);
+//				exit(1);
+//			}
+//			else
+//				break ;
+//		}
+//		free(line);
+//	}
+//	close(fd);
 }

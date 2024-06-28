@@ -24,30 +24,7 @@
 //	ft_strlcpy(img->right_img, "./sprites/right_80_80.xpm", 26);
 //}
 //
-//static void	init_images(t_data *img)
-//{
-//	t_data	*mlx;
-//	int		width;
-//	int		height;
 //
-//	mlx = img->mlx;
-//	width = 80;
-//	height = 80;
-//	img->empty = mlx_xpm_file_to_image(mlx, img->emp_img, &width, &height);
-//	img->wall = mlx_xpm_file_to_image(mlx, img->wall_img, &width, &height);
-//	img->coll = mlx_xpm_file_to_image(mlx, img->coll_img, &width, &height);
-//	img->exit = mlx_xpm_file_to_image(mlx, img->exit_img, &width, &height);
-//	img->up = mlx_xpm_file_to_image(mlx, img->up_img, &width, &height);
-//	img->down = mlx_xpm_file_to_image(mlx, img->down_img, &width, &height);
-//	img->left = mlx_xpm_file_to_image(mlx, img->left_img, &width, &height);
-//	img->right = mlx_xpm_file_to_image(mlx, img->right_img, &width, &height);
-//	if (!img->empty || !img->wall || !img->coll || !img->exit || !img->up
-//		|| !img->down || !img->left || !img->right)
-//	{
-//		ft_putstr_fd("Error\nMalloc error\n", 2);
-//		close_window(img);
-//	}
-//}
 
 void	init_image(t_data *img)
 {
