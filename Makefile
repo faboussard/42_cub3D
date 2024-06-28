@@ -12,6 +12,7 @@ RMF				=	rm -rf
 # ---- Libraries ---- #
 
 DIR_LIB			=	libft/
+DIR_LIB_HEADER	=	libft/inc/
 
 LIB				=	$(DIR_LIB)libft.a
 
@@ -29,19 +30,21 @@ DIR_SRC	=	src/
 SOURCES		=	$(DIR_SRC)main.c\
                 $(DIR_SRC)raycasting.c\
                 $(DIR_SRC)init.c\
+                $(DIR_SRC)utils.c\
                 $(DIR_SRC)hook.c\
                 $(DIR_SRC)errors.c\
                 $(DIR_SRC)exit.c\
                 $(DIR_SRC)render.c\
                 $(DIR_SRC)parsing.c\
-                $(DIR_SRC)map.c
+                $(DIR_SRC)map.c\
+                $(DIR_SRC)map_init.c
 
 DIR_OBJS	    =	.objs/
 
 # ---- Flags ---- #
 
 CFLAGS		=	-Wall -Wextra -Werror -Wno-deprecated-declarations
-INCLUDES	=	-I $(DIR_LIB) -I $(DIR_MLX) -I $(DIR_HEADERS)
+INCLUDES	=	-I $(DIR_LIB_HEADER) -I $(DIR_MLX) -I $(DIR_HEADERS)
 
 # ---- MLX ---- #
 
