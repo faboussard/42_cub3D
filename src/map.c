@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3D.h"
 
 //static bool	map_contains_01nsew(t_map *map, char *tmp_map)
 //{
