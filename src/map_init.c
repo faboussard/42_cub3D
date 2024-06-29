@@ -40,6 +40,7 @@ static void	fill_tmp_map(int fd, char **tmp_map)
 	char 	*line;
 
 	line_nb = 1;
+	line = NULL;
 //	line = get_next_line(fd);
 //	if (!line)
 //	{
@@ -48,26 +49,27 @@ static void	fill_tmp_map(int fd, char **tmp_map)
 //	}
 //	*tmp_map = ft_strdup(line);
 //	*tmp_map = ft_calloc(1, 1);
-line = NULL;
 	while (1)
 	{
-		if(line)
-			free(line);
+//		if (line)
+//			free(line);
 		line = get_next_line(fd);
-		//
 		if (!line && line_nb == 1)
 			empty_file_error();
-		//
 		if (!line)
 			break ;
 		if (line_nb == 1)
+		{
 			*tmp_map = ft_strdup(line);
+			free(line);
+		}
 		else
-		*tmp_map = ft_strjoin_free_both(*tmp_map, line);
+			*tmp_map = ft_strjoin_free_both(*tmp_map, line);
 		if (!*tmp_map)
 			malloc_error();
 		line_nb++;
 	}
+	free(line);
 	close(fd);
 	if (line_nb < 9)
 	{
