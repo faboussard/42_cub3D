@@ -21,7 +21,7 @@ DIR_MLX			=	mlx
 
 DIR_HEADERS     =   headers/
 
-HEADERS			= 	$(DIR_HEADERS)cub3d.h \
+HEADERS			= 	$(DIR_HEADERS)cub3D.h \
 					$(DIR_LIB)/inc/libft.h
 
 DIR_SRC	=	src/
