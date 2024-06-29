@@ -36,42 +36,25 @@
 
 static void	fill_tmp_map(int fd, char **tmp_map)
 {
-	size_t	line_nb;
+	int		min_line_nb;
 	char 	*line;
 
-	line_nb = 1;
-	line = NULL;
-//	line = get_next_line(fd);
-//	if (!line)
-//	{
-//		free(*tmp_map);
-//		empty_file_error();
-//	}
-//	*tmp_map = ft_strdup(line);
-//	*tmp_map = ft_calloc(1, 1);
+	min_line_nb = 1;
 	while (1)
 	{
-//		if (line)
-//			free(line);
 		line = get_next_line(fd);
-		if (!line && line_nb == 1)
+		if (!line && min_line_nb == 1)
 			empty_file_error();
 		if (!line)
 			break ;
-		if (line_nb == 1)
-		{
-			*tmp_map = ft_strdup(line);
-			free(line);
-		}
-		else
-			*tmp_map = ft_strjoin_free_both(*tmp_map, line);
+		*tmp_map = ft_strjoin_free_both(*tmp_map, line);
 		if (!*tmp_map)
 			malloc_error();
-		line_nb++;
+		if (min_line_nb <= 9)
+			min_line_nb++;
 	}
-	free(line);
 	close(fd);
-	if (line_nb < 9)
+	if (min_line_nb < 9)
 	{
 		free(*tmp_map);
 		map_error(NULL, NULL);
