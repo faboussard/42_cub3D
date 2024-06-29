@@ -34,32 +34,44 @@
 //	}
 //}
 
-static void fill_tmp_map(int fd, char *tmp_map)
+static void	fill_tmp_map(int fd, char **tmp_map)
 {
 	size_t	line_nb;
 	char 	*line;
 
 	line_nb = 1;
-	line = get_next_line(fd);
-	if (!line)
-	{
-		free(tmp_map);
-		empty_file_error();
-	}
+//	line = get_next_line(fd);
+//	if (!line)
+//	{
+//		free(*tmp_map);
+//		empty_file_error();
+//	}
+//	*tmp_map = ft_strdup(line);
+//	*tmp_map = ft_calloc(1, 1);
+line = NULL;
 	while (1)
 	{
-		tmp_map = ft_strjoin_free_both(tmp_map, line);
-		if(!tmp_map)
-			malloc_error();
+		if(line)
+			free(line);
 		line = get_next_line(fd);
+		//
+		if (!line && line_nb == 1)
+			empty_file_error();
+		//
 		if (!line)
 			break ;
+		if (line_nb == 1)
+			*tmp_map = ft_strdup(line);
+		else
+		*tmp_map = ft_strjoin_free_both(*tmp_map, line);
+		if (!*tmp_map)
+			malloc_error();
 		line_nb++;
 	}
 	close(fd);
 	if (line_nb < 9)
 	{
-		free(tmp_map);
+		free(*tmp_map);
 		map_error(NULL, NULL);
 	}
 }
@@ -72,11 +84,11 @@ static char	*get_map_inline(char *ber)
 	fd = open(ber, O_RDONLY);
 	if (fd < 0)
 		no_such_file_error();
-	tmp_map = ft_calloc(1, 1);
-	if (!tmp_map)
-		malloc_error();
-	fill_tmp_map(fd, tmp_map);
-	dprintf(1, "tmp_map = %s\n", tmp_map);
+//	tmp_map = ft_calloc(1, 1);
+//	if (!tmp_map)
+//		malloc_error();
+	tmp_map = NULL;//ft_strdup("");
+	fill_tmp_map(fd, &tmp_map);
 	return (tmp_map);
 }
 

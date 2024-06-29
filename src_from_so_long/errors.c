@@ -26,7 +26,7 @@ void	malloc_error(void)
 
 void	input_error(void)
 {
-	write(2, "Error\nNo file.ber given\n", 24);
+	write(2, "Error\nNo file.cub given\n", 24);
 	exit(EXIT_FAILURE);
 }
 
