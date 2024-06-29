@@ -61,11 +61,13 @@ char	*ft_strjoin_free_both(char const *s1, char const *s2)
 	int		x;
 	int		y;
 
-	if (!s1 || !s2)
+	if (!s2)
 	{
 		free_both_strjoin_str((char *)s1, (char *)s2);
 		return (NULL);
 	}
+	if (!s1)
+		return (ft_strdup(s2));
 	total_len = ft_strlen(s1) + ft_strlen(s2);
 	dest = (char *)malloc(sizeof(char) * (total_len + 1));
 	if (!dest)
