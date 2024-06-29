@@ -3,71 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: faboussa <faboussa@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mbernard <mbernard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/02 16:02:50 by faboussa          #+#    #+#             */
-/*   Updated: 2024/01/09 21:55:38 by faboussa         ###   ########.fr       */
+/*   Created: 2023/11/21 13:47:13 by mbernard          #+#    #+#             */
+/*   Updated: 2024/06/29 14:27:16 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_substr_gnl(char const *s, size_t total_len, unsigned int start,
-		size_t len)
+char	*ft_strnjoin(char *s1, char *s2, size_t size)
 {
-	char	*substr;
-	size_t	i;
-	char	*res;
+	size_t	total_len;
+	char	*dest;
+	size_t	x;
+	size_t	y;
 
-	i = 0;
-	if (start >= total_len)
-	{
-		res = malloc(1 * sizeof(char));
-		if (res == NULL)
-			return (NULL);
-		return (res);
-	}
-	if (total_len <= start + len)
-		substr = malloc(sizeof(char) * (total_len - start + 1));
-	else
-		substr = malloc(sizeof(char) * (len + 1));
-	if (!substr)
+	if (!s1)
 		return (NULL);
-	while (start < total_len && i < len)
-		substr[i++] = s[start++];
-	substr[i] = '\0';
-	return (substr);
+	if (!s2)
+		return (free(s1), NULL);
+	total_len = ft_strlen(s1) + size;
+	dest = (char *)malloc((total_len + 1) * sizeof(char));
+	if (!dest)
+		return (free(s1), NULL);
+	x = 0;
+	y = 0;
+	while (s1 && s1[x])
+	{
+		dest[x] = (char)s1[x];
+		x++;
+	}
+	while (s2[y] && y < size)
+		dest[x++] = (char)s2[y++];
+	dest[x] = '\0';
+	return (free(s1), dest);
 }
 
-int	ft_strchri(const char *s, size_t len, char c, size_t index)
+size_t	ft_strncpy(char *dest, char *src, size_t size)
 {
-	while (index < len - 1 && *(s + index) != c)
-		index++;
-	if (s[index] == c)
-		return (index);
-	return (-1);
-}
+	size_t	src_size;
 
-char	*ft_concat(char *dst, const char *src, size_t src_len, size_t dstsize)
-{
-	unsigned long	dst_len;
-	unsigned long	i;
-
-	dst_len = ft_strlen(dst);
-	i = 1;
-	while (src_len + dst_len + 1 >= i * dstsize)
-		i++;
-	if (i != 1)
-		dst = (char *)ft_realloc(dst, i * dstsize + 1);
-	if (dst == NULL)
-		return (NULL);
-	i = 0;
-	while (i < src_len)
+	src_size = 0;
+	if (size > 0)
 	{
-		dst[dst_len] = src[i];
-		dst_len++;
-		i++;
+		while (src[src_size] && src_size < size - 1)
+		{
+			dest[src_size] = src[src_size];
+			src_size++;
+		}
+		dest[src_size] = '\0';
 	}
-	dst[dst_len] = '\0';
-	return (dst);
+	return (src_size);
 }
