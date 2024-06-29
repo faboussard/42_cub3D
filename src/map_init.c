@@ -85,7 +85,7 @@ void	define_map(t_map *map, char *file_name)
 
 	map->status = 0;
 	tmp_map = get_map_inline(file_name);
-	dprintf(2, "tmp_map = %s\n", tmp_map);
+	dprintf(2, "%s\n", tmp_map);
 /*	fd = open(file_name, O_RDONLY);
 	if (fd < 0 || read(fd, tmp_map, 0) < 0)
 	{
