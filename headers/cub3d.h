@@ -27,6 +27,8 @@
 #define mapHeight 24
 #define WIDTH_DISPLAY 640
 #define HEIGHT_DISPLAY 480
+#define HORIZONTAL 0
+#define VERTICAL 1
 
 typedef struct s_image
 {
@@ -58,10 +60,10 @@ typedef struct s_raycasting
 {
 	int      map_x;
 	int      map_y;
-	double      delta_dist_x;
-	double      delta_dist_y;
-	double      side_dist_x;
-	double      side_dist_y;
+	double      delta_x;
+	double      delta_y;
+	double      side_x;
+	double      side_y;
 	int      step_x;
 	int      step_y;
 }				t_raycasting;

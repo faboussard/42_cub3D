@@ -12,8 +12,8 @@
 
 #include "cub3d.h"
 
-static double get_delta_dist(double ray_dir);
-static double get_side_dist(double ray_dir, double map, double delta_dist, double pos);
+static double get_delta(double ray_dir);
+static double get_side(double ray_dir, double map, double delta_dist, double pos);
 static int get_step(double ray_dir);
 
 static void my_pixel_put(t_data *cub, int x, int y, int color)
@@ -60,6 +60,12 @@ int worldMap[mapWidth][mapHeight]=
 				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 		};
 
+
+/*
+ * If the direction vector and the camera plane vector have the same length, the FOV will be 90°
+ * here FOV is  2 * atan(0.66/1.0)=66°
+ * */
+
 static void init_vectors(t_data *cub)
 {
 	cub->pos_x = 22;
@@ -98,39 +104,59 @@ static void init_raycasting(t_data *cub)
 	if (!cub->raycast)
 	{
 		perror("Failed to allocate memory for raycasting");
+        //ajouter tous les free
 		exit(EXIT_FAILURE);
 	}
 }
 
-static void get_vectors(t_data *cub, double camera_x, int x)
+static void get_vectors(t_data *cub, int x)
 {
-	camera_x = 2 * x / (double)WIDTH_DISPLAY - 1; //x-coordinate in camera space
+    double camera_x;
+
+	camera_x = 2 * x / (double)WIDTH_DISPLAY - 1; // x / w-1 => normalise la valeur de x pour qu elle soit comprise entre 0 et 1. 2 : etend la plage jusqua 2. -1 : recentre la plage pour aller de -1 a 1.
 	cub->ray_dir_x = cub->dir_x  + cub->plane_x * camera_x;
 	cub->ray_dir_y = cub->dir_y + cub->plane_y * camera_x;
 	cub->raycast->map_x = (int)cub->pos_x;
 	cub->raycast->map_y = (int)cub->pos_y;
-	cub->raycast->delta_dist_x = get_delta_dist(cub->ray_dir_x);
-	cub->raycast->delta_dist_y = get_delta_dist(cub->ray_dir_y);
-	cub->raycast->side_dist_x = get_side_dist(cub->ray_dir_x, cub->raycast->map_x, cub->raycast->delta_dist_x, cub->pos_x);
-	cub->raycast->side_dist_y = get_side_dist(cub->ray_dir_y, cub->raycast->map_y, cub->raycast->delta_dist_y, cub->pos_y);
-	cub->raycast->step_x = get_step(cub->ray_dir_x);
-	cub->raycast->step_y = get_step(cub->ray_dir_y);
+    cub->raycast->step_x = get_step(cub->ray_dir_x);
+    cub->raycast->step_y = get_step(cub->ray_dir_y);
+	cub->raycast->delta_x = get_delta(cub->ray_dir_x);
+	cub->raycast->delta_y = get_delta(cub->ray_dir_y);
+	cub->raycast->side_x = get_side(cub->ray_dir_x, cub->raycast->map_x, cub->raycast->delta_x, cub->pos_x);
+	cub->raycast->side_y = get_side(cub->ray_dir_y, cub->raycast->map_y, cub->raycast->delta_y, cub->pos_y);
 }
 
-static double get_delta_dist(double ray_dir)
+/*Calcule la distance à parcourir pour traverser une unité de la grille dans la direction du rayon.
+ * Si ray_dir est 0, cela signifie que le rayon est parallèle aux axes
+ * et ne traverse jamais une unité de la grille dans cette direction,
+ * donc la fonction retourne une très grande valeur (1e30) pour éviter une division par zéro.*/
+static double get_delta(double ray_dir)
 {
 	if (ray_dir == 0)
 		return 1e30;
 	return fabs(1 / ray_dir);
 }
 
-static double get_side_dist(double ray_dir, double map, double delta_dist, double pos)
+/*Exemple 1 : Rayon se déplaçant vers la gauche (x négatif)
+pos_x = 22.5 : Position x actuelle du joueur.
+map_x = 22 : Coordonnée x sur la grille.
+ray_dir_x = -1.0 : Direction du rayon vers la gauche.
+delta_dist_x = fabs(1 / -1.0) = 1.0 : Distance pour traverser une unité de la grille dans la direction x.
+Calcul :
+
+c
+
+get_side(-1.0, 22, 1.0, 22.5) => (22.5 - 22) * 1.0 => 0.5 * 1.0 => 0.5
+ Donc, la distance initiale à la première intersection verticale est 0.5 unités.
+ */
+static double get_side(double ray_dir, double map, double delta_dist, double pos)
 {
 	if (ray_dir < 0)
 		return (pos - map) * delta_dist;
 	return (map + 1.0 - pos) * delta_dist;
 }
 
+/*Détermine l'étape (sens du mouvement) à suivre pour avancer le long du rayon dans la grille.*/
 static int get_step(double ray_dir)
 {
 	int step;
@@ -141,6 +167,9 @@ static int get_step(double ray_dir)
 		step = 1;
 	return (step);
 }
+
+/*La fonction ray_tracer détermine
+ * le chemin d'un rayon à travers une grille jusqu'à ce qu'il frappe un mur.*/
 int ray_tracer(t_data *cub)
 {
 	int side;
@@ -150,28 +179,31 @@ int ray_tracer(t_data *cub)
 	while (hit == 0)
 	{
 		// jump to next map square, either in x-direction, or in y-direction
-		if (cub->raycast->side_dist_x < cub->raycast->side_dist_y)
+		if (cub->raycast->side_x < cub->raycast->side_y) // la prochaine intersection de grille se produit sur un bord vertical.
 		{
-			cub->raycast->side_dist_x += cub->raycast->delta_dist_x;
+			cub->raycast->side_x += cub->raycast->delta_x;
 			cub->raycast->map_x += cub->raycast->step_x;
-			side = 0;
+			side = HORIZONTAL;
 		}
 		else
 		{
-			cub->raycast->side_dist_y += cub->raycast->delta_dist_y;
+			cub->raycast->side_y += cub->raycast->delta_y;
 			cub->raycast->map_y += cub->raycast->step_y;
-			side = 1;
+			side = VERTICAL;
 		}
 		// Check if ray has hit a wall
 		if (worldMap[cub->raycast->map_x][cub->raycast->map_y] > 0)
 			hit = 1;
 	}
-	return side;
+	return (side);
 }
 
-double get_Wall_dist(const t_data *cub, int side)
+double get_wall_dist(t_data *cub)
 {
 	double wall_dist;
+    int side;
+
+    side = ray_tracer(cub);
 	if (side == 0)
 		wall_dist = (cub->raycast->map_x - cub->pos_x + (1 - cub->raycast->step_x) / 2) / cub->ray_dir_x;
 	else
@@ -179,25 +211,27 @@ double get_Wall_dist(const t_data *cub, int side)
 	return wall_dist;
 }
 
+static void create_walls(t_data *cub, int x)
+{
+    double wall_dist;
+
+    wall_dist = get_wall_dist(cub);
+    draw_walls(cub, x, wall_dist);
+}
+
 void raycasting(t_data *cub)
 {
-	double camera_x;
 	int x;
-	double wall_dist;
-	int side;
 
 	init_vectors(cub);
-	camera_x = 0;
 	x = 0;
 	while (x < WIDTH_DISPLAY)
 	{
 		init_raycasting(cub);
-		get_vectors(cub, camera_x, x);
-		side = ray_tracer(cub);
-		wall_dist = get_Wall_dist(cub, side);
-		draw_walls(cub, x, wall_dist);
+		get_vectors(cub, x);
+        create_walls(cub, x);
+        free(cub->raycast);
 		x++;
-		free(cub->raycast);
 	}
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
 }
