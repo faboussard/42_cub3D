@@ -56,27 +56,17 @@ static void	free_both_strjoin_str(char **s1, char **s2)
 
 char	*ft_strjoin_free_both(char *s1, char *s2)
 {
-	size_t	total_len;
 	char	*dest;
-	int		x;
-	int		y;
 
-	if (!s1 || !s2)
+	if (!s2)
 		return (NULL);
-	total_len = ft_strlen(s1) + ft_strlen(s2);
-	dest = (char *)malloc(sizeof(char) * (total_len + 1));
-	if (!dest)
+	if (!s1)
 	{
-		free_both_strjoin_str(&s1, &s2);
-		return (NULL);
+		dest = ft_strdup(s2);
+		free(s2);
+		return (dest);
 	}
-	x = -1;
-	y = 0;
-	while (s1[++x])
-		dest[x] = s1[x];
-	while (s2[y])
-		dest[x++] = s2[y++];
-	dest[x] = '\0';
+	dest = ft_strjoin(s1, s2);
 	free_both_strjoin_str(&s1, &s2);
 	return (dest);
 }
