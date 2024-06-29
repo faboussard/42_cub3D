@@ -43,15 +43,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 static void	free_both_strjoin_str(char *s1, char *s2)
 {
 	if (*s1)
-	{
 		free(s1);
-		s1 = NULL;
-	}
 	if (*s2)
-	{
 		free(s2);
-		s2 = NULL;
-	}
 }
 
 char	*ft_strjoin_free_both(char const *s1, char const *s2)

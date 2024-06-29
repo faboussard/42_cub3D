@@ -3,103 +3,128 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbernard <mbernard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: faboussa <faboussa@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 13:45:35 by mbernard          #+#    #+#             */
-/*   Updated: 2023/12/25 10:17:32 by mbernard         ###   ########.fr       */
+/*   Created: 2024/01/02 16:47:09 by faboussa          #+#    #+#             */
+/*   Updated: 2024/01/10 10:39:43 by faboussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	ft_contains_end_line(char *str)
+char	*cook_line(char *s)
 {
-	int	x;
+	int		size;
+	char	*s2;
+	int		i;
 
-	x = 0;
-	while (str && str[x])
+	i = 0;
+	size = ft_strlen(s);
+	s2 = malloc(size + 1);
+	if (s2 == NULL)
+		return (free(s), NULL);
+	while (i < size)
 	{
-		if (str[x] == '\n')
-			return (x);
-		x++;
+		s2[i] = s[i];
+		i++;
+	}
+	s2[size] = '\0';
+	free(s);
+	return (s2);
+}
+
+int	ft_stash(const int action, char (*stash)[BUFFER_SIZE], size_t current_index)
+{
+	size_t	i;
+	size_t	is_buffer_size;
+
+	is_buffer_size = BUFFER_SIZE;
+	i = 0;
+	if (action == SET_INDEX)
+	{
+		while (i < current_index)
+			(*stash)[i++] = '\0';
+	}
+	else if (action == FIND_INDEX)
+	{
+		while ((*stash)[i] == '\0')
+			i++;
+		return (i % is_buffer_size);
+	}
+	else if (action == EMPTY)
+	{
+		while (i < is_buffer_size)
+			if ((*stash)[i++] != '\0')
+				return (0);
+		return (1);
 	}
 	return (-1);
 }
 
-static char	*ft_read(int fd, char *stash, char *line)
+char	*fill_line(char *line, char (*stash)[BUFFER_SIZE], int *i, int pos)
 {
-	long int	bytes_read;
+	char	*substring;
 
-	if (stash[0])
-		line = ft_strnjoin(line, stash, BUFFER_SIZE);
-	if (line == NULL)
-		return (NULL);
-	if (stash[0] && ft_contains_end_line(stash) != -1)
-		return (line);
-	bytes_read = read(fd, stash, BUFFER_SIZE);
-	if (bytes_read <= 0 && !line[0])
-		return (free(line), NULL);
-	while (bytes_read > 0)
+	*i = ft_stash(FIND_INDEX, stash, 0);
+	if (pos == -1)
 	{
-		stash[bytes_read] = '\0';
-		if (ft_contains_end_line(stash) != -1)
-			break ;
-		line = ft_strnjoin(line, stash, bytes_read);
-		if (line == NULL)
-			return (NULL);
-		bytes_read = read(fd, stash, BUFFER_SIZE);
-		if (bytes_read < 0)
-			return (free(line), NULL);
+		line = ft_concat(line, *stash + *i, BUFFER_SIZE - *i,
+				LINE_MAX_SIZE);
+		if (!line)
+			return (free(line), ft_stash(SET_INDEX, stash, BUFFER_SIZE), NULL);
+		ft_stash(SET_INDEX, stash, BUFFER_SIZE);
+		*i = 0;
+	}
+	else
+	{
+		substring = ft_substr_gnl(*stash, BUFFER_SIZE, *i, pos - *i + 1);
+		if (!substring)
+			return (free(line), ft_stash(SET_INDEX, stash, BUFFER_SIZE), NULL);
+		line = ft_concat(line, substring, ft_strlen(substring), LINE_MAX_SIZE);
+		if (!line)
+			return (ft_stash(SET_INDEX, stash, BUFFER_SIZE), free(substring),
+				NULL);
+		ft_stash(SET_INDEX, stash, pos + 1);
+		free(substring);
 	}
 	return (line);
 }
 
-static char	*ft_line(char *stash, char *line)
+char	*init_line(int fd, ssize_t *n_read)
 {
-	int		size;
-	int		len;
-	char	*new;
+	char	*line;
 
-	if (!line)
-		return (NULL);
-	len = ft_contains_end_line(line);
-	if (len != -1)
-	{
-		new = ft_calloc(1, 1);
-		new = ft_strnjoin(new, line, len + 1);
-		return (free(line), new);
-	}
-	else if (stash[0])
-	{
-		size = ft_contains_end_line(stash) + 1;
-		line = ft_strnjoin(line, stash, size);
-	}
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		exit(EXIT_FAILURE);
+	*n_read = 1;
+	line = malloc(sizeof(char) * LINE_MAX_SIZE);
+	if (line == NULL)
+		exit(EXIT_FAILURE);
+	line[0] = '\0';
 	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	stash[BUFFER_SIZE + 1];
+	static char	stash[BUFFER_SIZE];
+	int			current_index;
+	int			pos;
 	char		*line;
-	int			rest;
+	ssize_t		n_read;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, stash, 0) < 0)
+	line = init_line(fd, &n_read);
+	while (!ft_stash(EMPTY, &stash, 0) || read(fd, stash, BUFFER_SIZE) > 0)
 	{
-		stash[0] = '\0';
-		return (NULL);
+		current_index = ft_stash(FIND_INDEX, &stash, 0);
+		pos = ft_strchri(stash, BUFFER_SIZE, '\n', current_index);
+		line = fill_line(line, &stash, &current_index, pos);
+		if (line == NULL)
+			return (ft_stash(SET_INDEX, &stash, BUFFER_SIZE), NULL);
+		if (pos != -1)
+			break ;
+		n_read = read(fd, stash, BUFFER_SIZE);
 	}
-	line = ft_calloc(1, 1);
-	line = ft_read(fd, stash, line);
-	line = ft_line(stash, line);
-	if (line == NULL)
-	{
-		stash[0] = '\0';
-		return (NULL);
-	}
-	rest = ft_contains_end_line(stash) + 1;
-	if (rest > 0 && stash[rest - 1])
-		ft_strncpy(stash, stash + rest, BUFFER_SIZE);
-	else
-		stash[0] = '\0';
-	return (line);
+	if (line[0] == '\0' || n_read < 0)
+		return (ft_stash(SET_INDEX, &stash, BUFFER_SIZE), free(line), NULL);
+	return (cook_line(line));
 }
