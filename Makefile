@@ -12,6 +12,7 @@ RMF				=	rm -rf
 # ---- Libraries ---- #
 
 DIR_LIB			=	libft/
+DIR_LIB_HEADER	=	libft/inc/
 
 LIB				=	$(DIR_LIB)libft.a
 
@@ -22,26 +23,28 @@ DIR_MLX			=	mlx
 DIR_HEADERS     =   headers/
 
 HEADERS			= 	$(DIR_HEADERS)cub3D.h \
-					$(DIR_LIB)/inc/libft.h
+					$(DIR_LIB_HEADER)libft.h
 
 DIR_SRC	=	src/
 
 SOURCES		=	$(DIR_SRC)main.c\
                 $(DIR_SRC)raycasting.c\
                 $(DIR_SRC)init.c\
+                $(DIR_SRC)utils.c\
                 $(DIR_SRC)hook.c\
                 $(DIR_SRC)errors.c\
                 $(DIR_SRC)exit.c\
                 $(DIR_SRC)render.c\
                 $(DIR_SRC)parsing.c\
-                $(DIR_SRC)map.c
+                $(DIR_SRC)map.c\
+                $(DIR_SRC)map_init.c
 
 DIR_OBJS	    =	.objs/
 
 # ---- Flags ---- #
 
 CFLAGS		=	-Wall -Wextra -Werror -Wno-deprecated-declarations
-INCLUDES	=	-I $(DIR_LIB) -I $(DIR_MLX) -I $(DIR_HEADERS)
+INCLUDES	=	-I $(DIR_LIB_HEADER) -I $(DIR_MLX) -I $(DIR_HEADERS)
 
 # ---- MLX ---- #
 
@@ -55,9 +58,7 @@ OBJS		=	$(addprefix $(DIR_OBJS),$(SOURCES:.c=.o))
 
 # ---- Compilation rules ---- #
 
-all:		
-			${MAKE} lib
-			${MAKE} ${NAME}
+all:		${NAME}
 
 ${NAME}:	$(LIB) ${OBJS}
 			make -C $(DIR_MLX)
@@ -69,7 +70,7 @@ $(DIR_OBJS)%.o: %.c	$(HEADERS)
 
 # ---- Library rule ---- #
 
-$(LIB) :	
+$(LIB) :	FORCE
 			$(MAKE) -C $(DIR_MLX)
 			$(MAKE) -C $(DIR_LIB)
 
@@ -99,4 +100,4 @@ fsan:
 
 
 # ---- Phony ---- #
-.PHONY :	all lib clean fclean re debug fsan
+.PHONY :	all lib clean fclean re debug fsan FORCE
