@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -22,13 +22,19 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <math.h>
+# include <bits/stdint-uintn.h>
 
-#define mapWidth 24
-#define mapHeight 24
-#define WIDTH_DISPLAY 640
-#define HEIGHT_DISPLAY 480
-#define HORIZONTAL 0
-#define VERTICAL 1
+# define TEX_W 64
+# define TEX_H 64
+# define MAP_WIDTH 24
+# define MAP_HEIGHT 24
+# define WIDTH_DISPLAY 640
+# define HEIGHT_DISPLAY 480
+# define HORIZONTAL 0
+# define VERTICAL 1
+
+typedef struct s_image   t_image;
+typedef struct mlx_texture   texture_t;
 
 typedef struct s_image
 {
@@ -38,6 +44,14 @@ typedef struct s_image
 	int				line_length;
 	int				endian;
 }					t_image;
+
+typedef struct mlx_texture
+{
+    uint32_t	width;
+    uint32_t	height;
+    uint8_t		bytes_per_pixel;
+    uint8_t*	pixels;
+}	texture_t;
 
 typedef struct s_player
 {
@@ -54,6 +68,9 @@ typedef struct s_map
 	char		**copy;
 	bool		status;
 	t_player	player;
+    int				floor_color;
+    int				cealing_color;
+    texture_t		textures;
 }				t_map;
 
 typedef struct s_raycasting
