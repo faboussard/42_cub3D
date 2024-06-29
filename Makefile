@@ -23,7 +23,7 @@ DIR_MLX			=	mlx
 DIR_HEADERS     =   headers/
 
 HEADERS			= 	$(DIR_HEADERS)cub3d.h \
-					$(DIR_LIB)/inc/libft.h
+					$(DIR_LIB_HEADER)libft.h
 
 DIR_SRC	=	src/
 
@@ -58,9 +58,7 @@ OBJS		=	$(addprefix $(DIR_OBJS),$(SOURCES:.c=.o))
 
 # ---- Compilation rules ---- #
 
-all:		
-			${MAKE} lib
-			${MAKE} ${NAME}
+all:		${NAME}
 
 ${NAME}:	$(LIB) ${OBJS}
 			make -C $(DIR_MLX)
@@ -72,7 +70,7 @@ $(DIR_OBJS)%.o: %.c	$(HEADERS)
 
 # ---- Library rule ---- #
 
-$(LIB) :	
+$(LIB) :	FORCE
 			$(MAKE) -C $(DIR_MLX)
 			$(MAKE) -C $(DIR_LIB)
 
@@ -102,4 +100,4 @@ fsan:
 
 
 # ---- Phony ---- #
-.PHONY :	all lib clean fclean re debug fsan
+.PHONY :	all lib clean fclean re debug fsan FORCE
