@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:20:55 by mbernard          #+#    #+#             */
-/*   Updated: 2024/06/24 22:21:06 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/06/29 13:49:25 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,41 @@ static bool	check_lines(char **map, size_t x, size_t rows)
 }
 */
 
+//static bool	map_contains_01nsew(t_map *map, char *tmp_map)
+//{
+//	static size_t	player;
+//	size_t	x;
+//
+//	player = 0;
+//	x = 0;
+//	if (tmp_map[x] && player < 2)
+//	{
+//		if (tmp_map[x] == 'N' || tmp_map[x] == 'S'
+//			|| tmp_map[x] == 'E' || tmp_map[x] == 'W')
+//			player++;
+//		else if (tmp_map[x] != '0' && tmp_map[x] != '1' && tmp_map[x] != '\n')
+//			return (0);
+//		if (tmp_map[x + 1] && tmp_map[x] == '\n' && tmp_map[x + 1] == '\n')
+//			return (0);
+//		x++;
+//	}
+//	return (player < 2);
+//}
+//
+//static bool	check_lines(char **map, size_t x, size_t rows)
+//{
+//	size_t	y;
+//
+//	y = 0;
+//	while (map[x][y])
+//	{
+//		if ((x == 0 || x == rows) && map[x][y] != '1')
+//			return (0);
+//		y++;
+//	}
+//	return (1);
+//}
+//
 //static bool	check_walls_and_center(char **map, size_t cols, size_t rows)
 //{
 //	size_t	x;
@@ -83,14 +118,15 @@ static bool	check_lines(char **map, size_t x, size_t rows)
 //	x = 0;
 //	while (map[x])
 //	{
-////		if (!check_lines(map, x, rows))
-////			return (0);
+//		if (!check_lines(map, x, rows))
+//			return (0);
 //		if (map[x][0] != '1' || map[x][cols - 1] != '1')
 //			return (0);
 //		y = 0;
 //		while (map[x][y])
 //		{
 //			if (!map_contains_01nsew(map, map[x]))
+//			if (!ft_search_char(map[x][y], "01PCE"))
 //				return (0);
 //			y++;
 //		}
@@ -134,3 +170,20 @@ void	launch_checks(t_map *map, char *tmp_map)
 		map_error(map->grid, map->copy);
 	}
 }
+
+//void	launch_checks(t_map *map, char *tmp_map)
+//{
+//	(*map).grid = ft_split(tmp_map, '\n');
+//	(*map).copy = ft_split(tmp_map, '\n');
+//	if (check_map(map, tmp_map) == 0)
+//	{
+//		free(tmp_map);
+//		map_error(map->grid, map->copy);
+//	}
+//	if (check_path(map) == 0)
+//	{
+//		free(tmp_map);
+//		map_error(map->grid, map->copy);
+//	}
+//}
+

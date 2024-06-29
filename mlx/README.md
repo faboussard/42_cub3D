@@ -6,7 +6,7 @@ in C, designed for students, suitable for X-beginners.
 
 Contents
 
- - source code in C to create the mlx library
+ - source code in C to create_walls the mlx library
  - man pages (in man/ directory)
  - a test program (in test/ directory) is built
    with the library
@@ -38,7 +38,7 @@ MlX Color Opacity / Transparency / Alpha (32 bits depth)
 Compile MinilibX
 
  - run ./configure or make
-   both will make a few tests, create Makefile.gen
+   both will make a few tests, create_walls Makefile.gen
    and then automatically run make on this generated Makefile.gen .
    libmlx.a and libmlx_$(HOSTTYPE).a are created.
    test/mlx-test binary is also created.
