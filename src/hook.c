@@ -12,20 +12,6 @@
 
 #include "cub3D.h"
 
-int	close_window(t_data *img)
-{
-//	destroy_images(img);
-	if (img->win)
-		mlx_destroy_window(img->mlx, img->win);
-	if (img->mlx)
-	{
-		mlx_destroy_display(img->mlx);
-		free(img->mlx);
-	}
-//	free_tabs(img->map.grid, img->map.copy);
-	exit(1);
-}
-
 int	key_hook(int keysym, t_data *img)
 {
 	if (keysym == XK_Escape)

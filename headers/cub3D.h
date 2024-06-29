@@ -22,16 +22,16 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <math.h>
-#include <bits/stdint-uintn.h>
+# include <bits/stdint-uintn.h>
 
-#define TEX_W 64
-#define TEX_H 64
-#define MAP_WIDTH 24
-#define MAP_HEIGHT 24
-#define WIDTH_DISPLAY 640
-#define HEIGHT_DISPLAY 480
-#define HORIZONTAL 0
-#define VERTICAL 1
+# define TEX_W 64
+# define TEX_H 64
+# define MAP_WIDTH 24
+# define MAP_HEIGHT 24
+# define WIDTH_DISPLAY 640
+# define HEIGHT_DISPLAY 480
+# define HORIZONTAL 0
+# define VERTICAL 1
 
 typedef struct s_image   t_image;
 typedef struct mlx_texture   texture_t;
@@ -99,13 +99,11 @@ typedef struct s_data
 	void		*left;
 	void		*right;
 	char		emp_img[26];
-	char		wall_img[25];
-	char		coll_img[26];
-	char		exit_img[26];
-	char		up_img[23];
-	char		down_img[25];
-	char		left_img[25];
-	char		right_img[26];
+	char		*north_img;
+	char		*south_img;
+	char		*east_img;
+	char		*west_img;
+//	char		exit_img[26];
 	t_map		map;
 	t_image		my_image;
 	double      pos_x;
@@ -122,7 +120,7 @@ typedef struct s_data
 
 
 ////////////////////////////////////////////////////////////////////////
-////////     				ERRORS                  ////////
+////////     				ERRORS                  			////////
 ////////////////////////////////////////////////////////////////////////
 void			no_such_file_error(void);
 void			malloc_error(void);
@@ -135,27 +133,25 @@ void			empty_file_error(void);
 void			parsing(t_data *cub, char *file);
 void			check_file_name(char *file);
 ////////////////////////////////////////////////////////////////////////
-////////     				UTILS			////////
+////////     				UTILS								////////
 ////////////////////////////////////////////////////////////////////////
-int				close_window(t_data *img);
 void			free_tabs(char **map, char **copy);
-bool			ends_by_ber(char *file);
 bool			ft_search_char(char letter, char *charset);
-void			ft_put_pos_nbr_fd(size_t n, int fd);
+//void			ft_put_pos_nbr_fd(size_t n, int fd);
 ////////////////////////////////////////////////////////////////////////
-////////     				INIT			////////
+////////     				INIT								////////
 ////////////////////////////////////////////////////////////////////////
 void			init_mlx_win(t_data *img);
 void			init_screen(t_data *img);
 ////////////////////////////////////////////////////////////////////////
-////////     				MAP			////////
+////////     				MAP									////////
 ////////////////////////////////////////////////////////////////////////
-void			define_map(t_map *map, char *ber);
+void			define_map(t_map *map, char *file_name);
 void			launch_checks(t_map *map, char *tmp_map);
 void			fill_paths(t_map map, size_t x, size_t y);
 bool			check_path(t_map *map);
 ////////////////////////////////////////////////////////////////////////
-////////     				MOVES			////////
+////////     				MOVES								////////
 ////////////////////////////////////////////////////////////////////////
 void			move_player_img(t_data *img, size_t x, size_t y, int direction);
 void			increment_moves(t_data *img);
@@ -164,11 +160,18 @@ void			move_down(t_data *img);
 void			move_left(t_data *img);
 void			move_right(t_data *img);
 ////////////////////////////////////////////////////////////////////////
-////////     				RAYCASTING			////////
+////////     				RAYCASTING							////////
 ////////////////////////////////////////////////////////////////////////
-void raycasting(t_data *cub);
-int	key_hook(int keysym, t_data *cub);
-void	destroy_images(t_data *cub);
-void	render(t_data *cub);
+void			raycasting(t_data *cub);
+void			render(t_data *cub);
+////////////////////////////////////////////////////////////////////////
+////////     				HOOK								////////
+////////////////////////////////////////////////////////////////////////
+int				key_hook(int keysym, t_data *cub);
+////////////////////////////////////////////////////////////////////////
+////////     				EXIT								////////
+////////////////////////////////////////////////////////////////////////
+void			destroy_images(t_data *cub);
+int				close_window(t_data *img);
 
 #endif
