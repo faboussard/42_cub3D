@@ -198,25 +198,38 @@ int ray_tracer(t_data *cub)
 	return (side);
 }
 
+/*
+ *map : est le point darrivee du rayon quand il a touche le mur
+ * pos : position initiale du joueur
+ * 1 - setp / 2 : un recentrage
+ * ray_di : converti la distance alculee sur la carte 2D en terme de position de grille
+ * en une distance reelle dans lespace 3D de jeu
+ * ex
+ * wall_dist = (3 - 2.5 + (1 - 1) / 2) / (-0.7071);
+ * wall_dist = (0.5 + 0.5 / 2) / (-0.7071);
+ * wall_dist = (0.5 + 0.25) / (-0.7071);
+ * wall_dist = 0.75 / (-0.7071);
+ * wall_dist ≈ -1.0607;
+ */
 double get_wall_dist(t_data *cub)
 {
-	double wall_dist;
+	double wall_player_dist;
     int side;
 
     side = ray_tracer(cub);
-	if (side == 0)
-		wall_dist = (cub->raycast->map_x - cub->pos_x + (1 - cub->raycast->step_x) / 2) / cub->ray_dir_x;
+	if (side == HORIZONTAL)
+        wall_player_dist = (cub->raycast->map_x - cub->pos_x + (1 - cub->raycast->step_x) / 2) / cub->ray_dir_x;
 	else
-		wall_dist = (cub->raycast->map_y - cub->pos_y + (1 - cub->raycast->step_y) / 2) / cub->ray_dir_y;
-	return wall_dist;
+        wall_player_dist = (cub->raycast->map_y - cub->pos_y + (1 - cub->raycast->step_y) / 2) / cub->ray_dir_y;
+	return (wall_player_dist);
 }
 
 static void create_walls(t_data *cub, int x)
 {
-    double wall_dist;
+    double wall_player_dist;
 
-    wall_dist = get_wall_dist(cub);
-    draw_walls(cub, x, wall_dist);
+    wall_player_dist = get_wall_dist(cub);
+    draw_walls(cub, x, wall_player_dist);
 }
 
 void raycasting(t_data *cub)
