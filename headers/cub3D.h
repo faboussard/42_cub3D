@@ -35,6 +35,7 @@
 
 typedef struct s_image   t_image;
 typedef struct mlx_texture   texture_t;
+typedef struct s_data   t_data;
 
 typedef struct s_image
 {
@@ -70,7 +71,6 @@ typedef struct s_map
 	t_player	player;
     int				floor_color;
     int				cealing_color;
-    texture_t		textures;
 }				t_map;
 
 typedef struct s_raycasting
@@ -83,7 +83,22 @@ typedef struct s_raycasting
 	double      side_y;
 	int      step_x;
 	int      step_y;
+	double	impact_point;
+	int	side;
 }				t_raycasting;
+
+typedef struct s_render
+{
+	int      line_height;
+	int      draw_start;
+	double      draw_end;
+	int 	text_x;
+    int 	text_y;
+    double	texture_pos;
+    double	step;
+	t_data	*cub;
+}				t_render;
+
 
 typedef struct s_data
 {
@@ -116,6 +131,8 @@ typedef struct s_data
 	double      ray_dir_y;
 	int         **worldMap;
 	t_raycasting	*raycast;
+	t_render		*render;
+	texture_t		*textures;
 }				t_data;
 
 
