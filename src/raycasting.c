@@ -84,11 +84,8 @@ static void init_vectors(t_data *cub)
     cub->plane_y = 0.66;
 }
 
-static void draw_walls(t_data *cub, int x, double wall_dist)
+static void draw_walls(t_data *cub, int x)
 {
-    int line_height;
-    int draw_start;
-    int draw_end;
     int y;
     int color;
     int text_x;
@@ -104,14 +101,7 @@ static void draw_walls(t_data *cub, int x, double wall_dist)
     int		height = 80;
     void *Wall = mlx_xpm_file_to_image(mlx, abs_path, &width, &height);
 
-    // definir le wall en fonction du n e s o,
-    line_height = (int) (HEIGHT_DISPLAY / wall_dist);
-    draw_start = -line_height / 2 + HEIGHT_DISPLAY / 2;
-    if (draw_start < 0)
-        draw_start = 0;
-    draw_end = line_height / 2 + HEIGHT_DISPLAY / 2;
-    if (draw_end >= HEIGHT_DISPLAY)
-        draw_end = HEIGHT_DISPLAY - 1;
+
 
     y = draw_start;
     step = 1.0 * ((double)TEX_H) / (double)line_height;
@@ -142,8 +132,7 @@ static void get_vectors(t_data *cub, int x)
 {
     double camera_x;
 
-    camera_x = 2 * x / (double) WIDTH_DISPLAY -
-               1; // x / w-1 => normalise la valeur de x pour qu elle soit comprise entre 0 et 1. 2 : etend la plage jusqua 2. -1 : recentre la plage pour aller de -1 a 1.
+    camera_x = 2 * x / (double) WIDTH_DISPLAY - 1; // x / w-1 => normalise la valeur de x pour qu elle soit comprise entre 0 et 1. 2 : etend la plage jusqua 2. -1 : recentre la plage pour aller de -1 a 1.
     cub->ray_dir_x = cub->dir_x + cub->plane_x * camera_x;
     cub->ray_dir_y = cub->dir_y + cub->plane_y * camera_x;
     cub->raycast->map_x = (int) cub->pos_x;
@@ -200,7 +189,7 @@ static int get_step(double ray_dir)
 
 /*La fonction ray_tracer détermine
  * le chemin d'un rayon à travers une grille jusqu'à ce qu'il frappe un mur.*/
-int ray_tracer(t_data *cub)
+int ray_tracer(t_raycasting *tracer)
 {
     int side;
     int hit;
@@ -209,20 +198,20 @@ int ray_tracer(t_data *cub)
     while (hit == 0)
     {
         // jump to next map square, either in x-direction, or in y-direction
-        if (cub->raycast->side_x <
-            cub->raycast->side_y) // la prochaine intersection de grille se produit sur un bord vertical.
+        if (tracer->side_x <
+            tracer->side_y) // la prochaine intersection de grille se produit sur un bord vertical.
         {
-            cub->raycast->side_x += cub->raycast->delta_x;
-            cub->raycast->map_x += cub->raycast->step_x;
+            tracer->side_x += tracer->delta_x;
+            tracer->map_x += tracer->step_x;
             side = HORIZONTAL;
         } else
         {
-            cub->raycast->side_y += cub->raycast->delta_y;
-            cub->raycast->map_y += cub->raycast->step_y;
+            tracer->side_y += tracer->delta_y;
+            tracer->map_y += tracer->step_y;
             side = VERTICAL;
         }
         // Check if ray has hit a wall
-        if (worldMap[cub->raycast->map_x][cub->raycast->map_y] > 0)
+        if (worldMap[tracer->map_x][tracer->map_y] > 0)
             hit = 1;
     }
     return (side);
@@ -241,24 +230,36 @@ int ray_tracer(t_data *cub)
  * wall_dist = 0.75 / (-0.7071);
  * wall_dist ≈ -1.0607;
  */
-double get_wall_dist(t_data *cub)
-{
-    double wall_player_dist;
-    int side;
-
-    side = ray_tracer(cub);
-    if (side == HORIZONTAL)
-        wall_player_dist = (cub->raycast->map_x - cub->pos_x + (1 - cub->raycast->step_x) / 2) / cub->ray_dir_x;
-    else
-        wall_player_dist = (cub->raycast->map_y - cub->pos_y + (1 - cub->raycast->step_y) / 2) / cub->ray_dir_y;
-    return (wall_player_dist);
-}
-
 static void create_walls(t_data *cub, int x)
 {
     double wall_player_dist;
 
-    wall_player_dist = get_wall_dist(cub);
+    //trouver le point dimpact
+    int side;
+
+    side = ray_tracer(cub->raycast);
+    if (side == HORIZONTAL)
+    {
+        wall_player_dist = (cub->raycast->map_x - cub->pos_x
+        + (1 - cub->raycast->step_x) / 2) / cub->ray_dir_x;
+        cub->raycast->impact_point = cub->raycast->pos_y + wall_player_dist * cub->dir_y;
+    }
+    else
+    {
+        wall_player_dist = (cub->raycast->map_y - cub->pos_y 
+        + (1 - cub->raycast->step_y) / 2) / cub->ray_dir_y;
+        cub->raycast->impact_point = cub->raycast->pos_x + wall_player_dist * cub->dir_x;
+    }
+    cub->raycast->impact_point -= floor(  cub->raycast->impact_point);
+   
+   //definir lse donnees de dessin
+    cub->render->line_height = (int) (HEIGHT_DISPLAY / wall_dist);
+    cub->render->draw_start = -   cub->render->line_height / 2 + HEIGHT_DISPLAY / 2;
+    if ( cub->render->draw_start < 0)
+         cub->render->draw_start = 0;
+     cub->render->draw_end =    cub->render->line_height / 2 + HEIGHT_DISPLAY / 2;
+    if (cub->render->draw_end >= HEIGHT_DISPLAY)
+        cub->render->draw_end = HEIGHT_DISPLAY - 1;
     draw_walls(cub, x, wall_player_dist);
 }
 
@@ -277,4 +278,5 @@ void raycasting(t_data *cub)
         x++;
     }
     mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
+    //destroy avant mouvement 
 }

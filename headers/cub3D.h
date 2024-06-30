@@ -83,7 +83,16 @@ typedef struct s_raycasting
 	double      side_y;
 	int      step_x;
 	int      step_y;
+	double	impact_point;
 }				t_raycasting;
+
+typedef struct s_render
+{
+	int      line_height;
+	int      draw_start;
+	double      draw_end;
+}				t_render;
+
 
 typedef struct s_data
 {
@@ -116,6 +125,7 @@ typedef struct s_data
 	double      ray_dir_y;
 	int         **worldMap;
 	t_raycasting	*raycast;
+	t_render		*render;
 }				t_data;
 
 
