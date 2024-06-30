@@ -19,28 +19,6 @@ static double get_side(double ray_dir, double map, double delta_dist, double pos
 
 static int get_step(double ray_dir);
 
-static void my_pixel_put(t_data *cub, int x, int y, int color)
-{
-    char *dst;
-    int offset_x;
-    int offset_y;
-
-    offset_x = x * (cub->my_image.bits_per_pixel / 8);
-    offset_y = y * cub->my_image.line_length;
-    if (x >= 0 && x < WIDTH_DISPLAY && y >= 0 && y < HEIGHT_DISPLAY)
-    {
-        dst = cub->my_image.addr + offset_x + offset_y;
-        *(unsigned int *) dst = color;
-    }
-}
-
-unsigned int	get_texel(t_xpm_img *texture, int x, int y)
-{
-    char	*pxl;
-
-    pxl = texture->addr + (y * texture->line_len + x * (texture->bpp / 8));
-    return (*(unsigned int *)pxl);
-}
 
 int worldMap[MAP_WIDTH][MAP_HEIGHT] = {{4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7},
                                        {4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 7},
@@ -68,6 +46,30 @@ int worldMap[MAP_WIDTH][MAP_HEIGHT] = {{4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4
                                        {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3}};
 
 
+
+static void my_pixel_put(t_data *cub, int x, int y, int color)
+{
+    char *dst;
+    int offset_x;
+    int offset_y;
+
+    offset_x = x * (cub->my_image.bits_per_pixel / 8);
+    offset_y = y * cub->my_image.line_length;
+    if (x >= 0 && x < WIDTH_DISPLAY && y >= 0 && y < HEIGHT_DISPLAY)
+    {
+        dst = cub->my_image.addr + offset_x + offset_y;
+        *(unsigned int *) dst = color;
+    }
+}
+
+unsigned int	get_texel(texture_t *texture, int x, int y)
+{
+    char	*pxl;
+
+    pxl = texture->addr + (y * texture->line_len + x * (texture->bpp / 8));
+    return (*(unsigned int *)pxl);
+}
+
 /*
  * If the direction vector and the camera plane vector have the same length, the FOV will be 90°
  * here FOV is  2 * atan(0.66/1.0)=66°
@@ -81,37 +83,39 @@ static void init_vectors(t_data *cub)
     cub->dir_x = -1;
     cub->dir_y = 0;
     cub->plane_x = 0;
-    cub->plane_y = 0.66;
+    cub->plane_y = 0.66; //simplification et arrondi a partir du FOV du jeu de base qui est 2 * atan(0.66/1.0)=66°
 }
 
-static void draw_walls(t_data *cub, int x)
+int	get_texture_x(t_data *cub)
+{
+	int		text_x;
+
+	text_x = (int)(cub->render->impact_point * (double)TEX_W);
+	if (cub->raycast->side == 0 && cub->ray_dir_x > 0)
+		text_x = TEX_W - text_x - 1;
+	if (cub->raycast->side == 1 && cub->ray_dir_y < 0)
+		text_x = TEX_W - text_x - 1;
+	return (text_x);
+}
+
+static void draw_walls(t_render *render, int x)
 {
     int y;
-    int color;
-    int text_x;
-    int text_y;
-    double	texture_pos;
-    double	step;
+   unsigned int color;
 
-
-    void	*mlx;
-    void	*img;
     char	*abs_path = "/home/faboussa/cub3d/textures/test/EA.png";
-    int		width = 80;
-    int		height = 80;
-    void *Wall = mlx_xpm_file_to_image(mlx, abs_path, &width, &height);
 
-
-
-    y = draw_start;
-    step = 1.0 * ((double)TEX_H) / (double)line_height;
-    texture_pos = ((double)draw_start - ((double)HEIGHT_DISPLAY / 2.0)
-                   + ((double)line_height / 2.0)) * step;
-    while (y < draw_end)
+    render->text_x = get_texture_x(render->cub);
+    y = render->draw_start;
+    step = 1.0 * ((double)TEX_H) / (double) render->line_height;
+    render->texture_pos = ((double) render->draw_start - ((double)HEIGHT_DISPLAY / 2.0)
+                   + ((double)render->line_height / 2.0)) * step;
+    while (y <  render->draw_end)
     {
-        text_y = (int)texture_pos & (TEX_H - 1);
-        texture_pos += step;
-        color = get_texel(&Wall, text_x, text_y);
+        render->text_y = (int)render->texture_pos & (TEX_H - 1);
+        render->texture_pos += render->step;
+        //color = get_texel(Wall, render->text_x, render->text_y);
+        color = 0x00FF0000;
         my_pixel_put(cub, x, y, color);
         y++;
     }
@@ -128,7 +132,7 @@ static void init_raycasting(t_data *cub)
     }
 }
 
-static void get_vectors(t_data *cub, int x)
+static void init_dda(t_data *cub, int x)
 {
     double camera_x;
 
@@ -145,7 +149,9 @@ static void get_vectors(t_data *cub, int x)
     cub->raycast->side_y = get_side(cub->ray_dir_y, cub->raycast->map_y, cub->raycast->delta_y, cub->pos_y);
 }
 
-/*Calcule la distance à parcourir pour traverser une unité de la grille dans la direction du rayon.
+/* or slope or gradient. 
+ * pythagore norme sur 1 car dda fonctionne a partir de ratio. 
+ * Calcule la distance à parcourir pour traverser une unité de la grille dans la direction du rayon.
  * Si ray_dir est 0, cela signifie que le rayon est parallèle aux axes
  * et ne traverse jamais une unité de la grille dans cette direction,
  * donc la fonction retourne une très grande valeur (1e30) pour éviter une division par zéro.*/
@@ -156,15 +162,17 @@ static double get_delta(double ray_dir)
     return fabs(1 / ray_dir);
 }
 
-/*Exemple 1 : Rayon se déplaçant vers la gauche (x négatif)
+/*
+get_side are initially the distance the ray has to travel 
+from its start position to the first x-sideand the first y-side.
+Later in the code they will be incremented while steps are taken.
+
+Exemple 1 : Rayon se déplaçant vers la gauche (x négatif)
 pos_x = 22.5 : Position x actuelle du joueur.
 map_x = 22 : Coordonnée x sur la grille.
 ray_dir_x = -1.0 : Direction du rayon vers la gauche.
 delta_dist_x = fabs(1 / -1.0) = 1.0 : Distance pour traverser une unité de la grille dans la direction x.
 Calcul :
-
-c
-
 get_side(-1.0, 22, 1.0, 22.5) => (22.5 - 22) * 1.0 => 0.5 * 1.0 => 0.5
  Donc, la distance initiale à la première intersection verticale est 0.5 unités.
  */
@@ -188,8 +196,10 @@ static int get_step(double ray_dir)
 }
 
 /*La fonction ray_tracer détermine
- * le chemin d'un rayon à travers une grille jusqu'à ce qu'il frappe un mur.*/
-int ray_tracer(t_raycasting *tracer)
+ * le chemin d'un rayon à travers une grille jusqu'à ce qu'il frappe un mur.
+ * lalgo fait le plus petit pas possible suivant x ou y
+ */
+static void ray_tracer(t_raycasting *tracer)
 {
     int side;
     int hit;
@@ -198,23 +208,22 @@ int ray_tracer(t_raycasting *tracer)
     while (hit == 0)
     {
         // jump to next map square, either in x-direction, or in y-direction
-        if (tracer->side_x <
-            tracer->side_y) // la prochaine intersection de grille se produit sur un bord vertical.
+        if (tracer->side_x < tracer->side_y) // la prochaine intersection de grille se produit sur un bord vertical.
         {
             tracer->side_x += tracer->delta_x;
             tracer->map_x += tracer->step_x;
-            side = HORIZONTAL;
-        } else
+            cub->raycast->side = HORIZONTAL;
+        } 
+        else
         {
             tracer->side_y += tracer->delta_y;
             tracer->map_y += tracer->step_y;
-            side = VERTICAL;
+            cub->raycast->side = VERTICAL;
         }
         // Check if ray has hit a wall
         if (worldMap[tracer->map_x][tracer->map_y] > 0)
             hit = 1;
     }
-    return (side);
 }
 
 /*
@@ -235,32 +244,34 @@ static void create_walls(t_data *cub, int x)
     double wall_player_dist;
 
     //trouver le point dimpact
-    int side;
+    cub->raycast->side;
 
-    side = ray_tracer(cub->raycast);
-    if (side == HORIZONTAL)
+    cub->raycast->side = ray_tracer(cub->raycast);
+    if (  cub->raycast->side == HORIZONTAL)
     {
         wall_player_dist = (cub->raycast->map_x - cub->pos_x
-        + (1 - cub->raycast->step_x) / 2) / cub->ray_dir_x;
-        cub->raycast->impact_point = cub->raycast->pos_y + wall_player_dist * cub->dir_y;
+        + (1 - cub->raycast->step_x) / 2) / cub->ray_dir_x; //  wall_player_dist ligne perpendiculaire a la place camera. same ratio for all walls 
+        // forumule a revoir
+        //perpWallDist = (sideDistX — deltaDistX);
+        cub->raycast->impact_point = cub->pos_y + wall_player_dist * cub->dir_y;
     }
     else
     {
         wall_player_dist = (cub->raycast->map_y - cub->pos_y 
-        + (1 - cub->raycast->step_y) / 2) / cub->ray_dir_y;
-        cub->raycast->impact_point = cub->raycast->pos_x + wall_player_dist * cub->dir_x;
+        + (1 - cub->raycast->step_y) / 2) / cub->ray_dir_y; 
+        cub->raycast->impact_point = cub->pos_x + wall_player_dist * cub->dir_x;
     }
     cub->raycast->impact_point -= floor(  cub->raycast->impact_point);
    
    //definir lse donnees de dessin
-    cub->render->line_height = (int) (HEIGHT_DISPLAY / wall_dist);
-    cub->render->draw_start = -   cub->render->line_height / 2 + HEIGHT_DISPLAY / 2;
+    cub->render->line_height = (int) (HEIGHT_DISPLAY / wall_player_dist);
+    cub->render->draw_start = -cub->render->line_height / 2 + HEIGHT_DISPLAY / 2;
     if ( cub->render->draw_start < 0)
          cub->render->draw_start = 0;
-     cub->render->draw_end =    cub->render->line_height / 2 + HEIGHT_DISPLAY / 2;
+    cub->render->draw_end = cub->render->line_height / 2 + HEIGHT_DISPLAY / 2;
     if (cub->render->draw_end >= HEIGHT_DISPLAY)
         cub->render->draw_end = HEIGHT_DISPLAY - 1;
-    draw_walls(cub, x, wall_player_dist);
+    draw_walls(cub->render, x);
 }
 
 void raycasting(t_data *cub)
@@ -272,7 +283,7 @@ void raycasting(t_data *cub)
     while (x < WIDTH_DISPLAY)
     {
         init_raycasting(cub);
-        get_vectors(cub, x);
+        init_dda(cub, x);
         create_walls(cub, x);
         free(cub->raycast);
         x++;
