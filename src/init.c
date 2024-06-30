@@ -31,7 +31,7 @@ void	init_image(t_data *img)
 	img->my_image.img = mlx_new_image(img->mlx, 1920, 1080);
 	if (img->my_image.img == NULL)
 	{
-//		free_all(fdf);
+//		free_all(cub);
 		exit(EXIT_FAILURE);
 	}
 	img->my_image.addr = mlx_get_data_addr(img->my_image.img,
