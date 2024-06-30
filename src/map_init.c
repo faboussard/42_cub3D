@@ -69,10 +69,7 @@ static char	*get_map_inline(char *ber)
 	fd = open(ber, O_RDONLY);
 	if (fd < 0)
 		no_such_file_error();
-//	tmp_map = ft_calloc(1, 1);
-//	if (!tmp_map)
-//		malloc_error();
-	tmp_map = NULL;//ft_strdup("");
+	tmp_map = NULL;
 	fill_tmp_map(fd, &tmp_map);
 	return (tmp_map);
 }
