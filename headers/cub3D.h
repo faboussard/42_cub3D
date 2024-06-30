@@ -35,7 +35,7 @@
 
 typedef struct s_image   t_image;
 typedef struct mlx_texture   texture_t;
-typedef struct mlx_texture   t_data;
+typedef struct s_data   t_data;
 
 typedef struct s_image
 {
