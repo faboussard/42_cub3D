@@ -62,13 +62,13 @@ static void my_pixel_put(t_data *cub, int x, int y, int color)
     }
 }
 
-unsigned int	get_texel(texture_t *texture, int x, int y)
-{
-    char	*pxl;
-
-    pxl = texture->addr + (y * texture->line_len + x * (texture->bpp / 8));
-    return (*(unsigned int *)pxl);
-}
+//unsigned int	get_texel(texture_t *texture, int x, int y)
+//{
+//    char	*pxl;
+//
+//    pxl = texture->addr + (y * texture->line_len + x * (texture->bpp / 8));
+//    return (*(unsigned int *)pxl);
+//}
 
 /*
  * If the direction vector and the camera plane vector have the same length, the FOV will be 90°
@@ -90,7 +90,7 @@ int	get_texture_x(t_data *cub)
 {
 	int		text_x;
 
-	text_x = (int)(cub->render->impact_point * (double)TEX_W);
+	text_x = (int)(cub->raycast->impact_point * (double)TEX_W);
 	if (cub->raycast->side == 0 && cub->ray_dir_x > 0)
 		text_x = TEX_W - text_x - 1;
 	if (cub->raycast->side == 1 && cub->ray_dir_y < 0)
@@ -101,9 +101,10 @@ int	get_texture_x(t_data *cub)
 static void draw_walls(t_render *render, int x)
 {
     int y;
-   unsigned int color;
+  // unsigned int color;
+   int step; //renommer en plus clair
 
-    char	*abs_path = "/home/faboussa/cub3d/textures/test/EA.png";
+   // char	*abs_path = "/home/faboussa/cub3d/textures/test/EA.png";
 
     render->text_x = get_texture_x(render->cub);
     y = render->draw_start;
@@ -115,8 +116,7 @@ static void draw_walls(t_render *render, int x)
         render->text_y = (int)render->texture_pos & (TEX_H - 1);
         render->texture_pos += render->step;
         //color = get_texel(Wall, render->text_x, render->text_y);
-        color = 0x00FF0000;
-        my_pixel_put(cub, x, y, color);
+        my_pixel_put(render->cub, x, y, 0x00FF0000);
         y++;
     }
 }
@@ -130,6 +130,14 @@ static void init_raycasting(t_data *cub)
         //ajouter tous les free
         exit(EXIT_FAILURE);
     }
+	cub->render = ft_calloc(sizeof(t_render), 1);
+	if (!cub->render)
+	{
+		perror("Failed to allocate memory for raycasting");
+		//ajouter tous les free
+		exit(EXIT_FAILURE);
+	}
+	cub->render->cub = cub;
 }
 
 static void init_dda(t_data *cub, int x)
@@ -201,7 +209,6 @@ static int get_step(double ray_dir)
  */
 static void ray_tracer(t_raycasting *tracer)
 {
-    int side;
     int hit;
 
     hit = 0;
@@ -212,13 +219,13 @@ static void ray_tracer(t_raycasting *tracer)
         {
             tracer->side_x += tracer->delta_x;
             tracer->map_x += tracer->step_x;
-            cub->raycast->side = HORIZONTAL;
+            tracer->side = HORIZONTAL;
         } 
         else
         {
             tracer->side_y += tracer->delta_y;
             tracer->map_y += tracer->step_y;
-            cub->raycast->side = VERTICAL;
+            tracer->side = VERTICAL;
         }
         // Check if ray has hit a wall
         if (worldMap[tracer->map_x][tracer->map_y] > 0)
@@ -244,9 +251,7 @@ static void create_walls(t_data *cub, int x)
     double wall_player_dist;
 
     //trouver le point dimpact
-    cub->raycast->side;
-
-    cub->raycast->side = ray_tracer(cub->raycast);
+    ray_tracer(cub->raycast);
     if (  cub->raycast->side == HORIZONTAL)
     {
         wall_player_dist = (cub->raycast->map_x - cub->pos_x
