@@ -12,40 +12,36 @@
 
 #include "cub3D.h"
 
+int worldMap[MAP_WIDTH][MAP_HEIGHT] = {{4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7},
+									   {4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 7},
+									   {4, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7},
+									   {4, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7},
+									   {4, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 7},
+									   {4, 0, 4, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 0, 7, 7, 7, 7, 7},
+									   {4, 0, 5, 0, 0, 0, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 7, 0, 0, 0, 7, 7, 7, 1},
+									   {4, 0, 6, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 5, 7, 0, 0, 0, 0, 0, 0, 8},
+									   {4, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 1},
+									   {4, 0, 8, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 5, 7, 0, 0, 0, 0, 0, 0, 8},
+									   {4, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 5, 7, 0, 0, 0, 7, 7, 7, 1},
+									   {4, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 7, 7, 7, 7, 7, 7, 7, 1},
+									   {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
+									   {8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
+									   {6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
+									   {4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 6, 0, 6, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3},
+									   {4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2},
+									   {4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2, 0, 0, 5, 0, 0, 2, 0, 0, 0, 2},
+									   {4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2},
+									   {4, 0, 6, 0, 6, 0, 0, 0, 0, 4, 6, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 2},
+									   {4, 0, 0, 5, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2},
+									   {4, 0, 6, 0, 6, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 5, 0, 0, 2, 0, 0, 0, 2},
+									   {4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2},
+									   {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3}};
 
 static double get_delta(double ray_dir);
 
 static double get_side(double ray_dir, double map, double delta_dist, double pos);
 
 static int get_step(double ray_dir);
-
-
-int worldMap[MAP_WIDTH][MAP_HEIGHT] = {{4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7},
-                                       {4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 7},
-                                       {4, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7},
-                                       {4, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7},
-                                       {4, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 7},
-                                       {4, 0, 4, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 0, 7, 7, 7, 7, 7},
-                                       {4, 0, 5, 0, 0, 0, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 7, 0, 0, 0, 7, 7, 7, 1},
-                                       {4, 0, 6, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 5, 7, 0, 0, 0, 0, 0, 0, 8},
-                                       {4, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 1},
-                                       {4, 0, 8, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 5, 7, 0, 0, 0, 0, 0, 0, 8},
-                                       {4, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 5, 7, 0, 0, 0, 7, 7, 7, 1},
-                                       {4, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 7, 7, 7, 7, 7, 7, 7, 1},
-                                       {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
-                                       {8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
-                                       {6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
-                                       {4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 6, 0, 6, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3},
-                                       {4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2},
-                                       {4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2, 0, 0, 5, 0, 0, 2, 0, 0, 0, 2},
-                                       {4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2},
-                                       {4, 0, 6, 0, 6, 0, 0, 0, 0, 4, 6, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 2},
-                                       {4, 0, 0, 5, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2},
-                                       {4, 0, 6, 0, 6, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 5, 0, 0, 2, 0, 0, 0, 2},
-                                       {4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2},
-                                       {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3}};
-
-
 
 static void my_pixel_put(t_image *img, int x, int y, int color)
 {
@@ -62,13 +58,31 @@ static void my_pixel_put(t_image *img, int x, int y, int color)
     }
 }
 
-unsigned int	get_texel(t_image *texture, int x, int y)
-{
-    char	*pxl;
+unsigned int get_texel(t_image *texture, int x, int y) {
+	char *pxl;
+	int offset_x;
+	int offset_y;
 
-    pxl = texture->addr + (y * texture->line_length + x * (texture->bits_per_pixel / 8));
-    return (*(unsigned int *)pxl);
+	// Calcul des offsets
+	offset_x = x * (texture->bits_per_pixel / 8);
+	offset_y = y * texture->line_length;
+
+	// Ajout de messages de débogage pour vérifier les valeurs
+	printf("DEBUG: x = %d, y = %d\n", x, y);
+	printf("DEBUG: offset_x = %d, offset_y = %d\n", offset_x, offset_y);
+	printf("DEBUG: texture width = %d, height = %d\n", TEX_W, TEX_H);
+
+	// Vérification des limites de la texture
+	if (x >= 0 && x < texture->width && y >= 0 && y < texture->height) {
+		pxl = texture->addr + (offset_y + offset_x);
+		printf("DEBUG: pxl = %p\n", pxl); // Affiche l'adresse mémoire du pixel
+		return (*(unsigned int *) pxl);
+	}
+
+	printf("Erreur : coordonnées (x, y) hors limites (%d, %d)\n", x, y);
+	return 0; // Retourne une valeur par défaut ou une couleur d'erreur
 }
+
 
 /*
  * If the direction vector and the camera plane vector have the same length, the FOV will be 90°
@@ -92,20 +106,27 @@ static void		get_texture_x(t_render *render, t_ray *ray)
 	if (ray->side == HORIZONTAL && render->cub->ray_dir_x > 0)
 		render->text_x = TEX_W - render->text_x - 1;
 	if (ray->side == VERTICAL && render->cub->ray_dir_y < 0)
-		render->text_x  = TEX_W - render->text_x  - 1;
+		render->text_y  = TEX_H - render->text_y  - 1;
 }
 
-static void	create_wall_texture_img(t_data *cub, t_image *wall)
-{
-	wall[0].img = mlx_xpm_file_to_image(cub->mlx, wall[0].path,
-									  &wall[0].width, &wall[0].height);
-	if (wall[0].img == NULL)
-		printf("error");
-	wall[0].addr = mlx_get_data_addr(wall[0].img,
-								   &wall[0].bits_per_pixel, &wall[0].line_length, &wall[0].endian);
-	if (wall[0].addr == NULL)
-		printf("error");
+static void create_wall_texture_img(t_data *cub, t_image *wall) {
+	wall[0].img = mlx_xpm_file_to_image(cub->mlx, wall[0].path, &wall[0].width, &wall[0].height);
+	if (wall[0].img == NULL) {
+		printf("Erreur lors du chargement de l'image de la texture\n");
+		exit(EXIT_FAILURE);
+	}
+
+	wall[0].addr = mlx_get_data_addr(wall[0].img, &wall[0].bits_per_pixel, &wall[0].line_length, &wall[0].endian);
+	if (wall[0].addr == NULL) {
+		printf("Erreur lors de l'obtention des données de la texture\n");
+		exit(EXIT_FAILURE);
+	}
+
+	// Ajout de messages de débogage pour vérifier les valeurs
+	printf("DEBUG: texture width = %d, height = %d, bits_per_pixel = %d, line_length = %d\n",
+		   wall[0].width, wall[0].height, wall[0].bits_per_pixel, wall[0].line_length);
 }
+
 
 /*
  * The step variable determines how much you move in the texture space
