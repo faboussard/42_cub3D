@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3D.height                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -34,7 +34,6 @@
 # define VERTICAL 1
 
 typedef struct s_image   t_image;
-typedef struct mlx_texture   texture_t;
 typedef struct s_data   t_data;
 
 typedef struct s_image
@@ -44,15 +43,10 @@ typedef struct s_image
 	int				bits_per_pixel;
 	int				line_length;
 	int				endian;
+	int		width;
+	int		height;
+	char		*path;
 }					t_image;
-
-typedef struct mlx_texture
-{
-    uint32_t	width;
-    uint32_t	height;
-    uint8_t		bytes_per_pixel;
-    uint8_t*	pixels;
-}	texture_t;
 
 typedef struct s_player
 {
@@ -91,11 +85,11 @@ typedef struct s_render
 {
 	int      line_height;
 	int      draw_start;
-	double      draw_end;
+	int      draw_end;
 	int 	text_x;
     int 	text_y;
     double	texture_pos;
-    double	step;
+    double	text_step;
 	t_data	*cub;
 }				t_render;
 
@@ -132,7 +126,7 @@ typedef struct s_data
 	int         **worldMap;
 	t_raycasting	*raycast;
 	t_render		*render;
-	texture_t		*textures;
+	t_image		wall[3];
 }				t_data;
 
 
