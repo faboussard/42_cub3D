@@ -28,8 +28,8 @@
 # define TEX_H 64
 # define MAP_WIDTH 24
 # define MAP_HEIGHT 24
-# define WIDTH_DISPLAY 640
-# define HEIGHT_DISPLAY 480
+# define WIDTH_DISPLAY 960
+# define HEIGHT_DISPLAY 720
 # define HORIZONTAL 0
 # define VERTICAL 1
 
