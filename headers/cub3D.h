@@ -33,6 +33,7 @@
 # define HORIZONTAL 0
 # define VERTICAL 1
 
+
 typedef struct s_image   t_image;
 typedef struct s_data   t_data;
 
