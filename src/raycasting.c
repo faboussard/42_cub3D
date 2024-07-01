@@ -47,17 +47,17 @@ int worldMap[MAP_WIDTH][MAP_HEIGHT] = {{4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4
 
 
 
-static void my_pixel_put(t_data *cub, int x, int y, int color)
+static void my_pixel_put(t_image *img, int x, int y, int color)
 {
     char *dst;
     int offset_x;
     int offset_y;
 
-    offset_x = x * (cub->my_image.bits_per_pixel / 8);
-    offset_y = y * cub->my_image.line_length;
+    offset_x = x * (img->bits_per_pixel / 8);
+    offset_y = y * img->line_length;
     if (x >= 0 && x < WIDTH_DISPLAY && y >= 0 && y < HEIGHT_DISPLAY)
     {
-        dst = cub->my_image.addr + offset_x + offset_y;
+        dst = img->addr + offset_x + offset_y;
         *(unsigned int *) dst = color;
     }
 }
@@ -120,8 +120,7 @@ static void draw_walls(t_render *render, int x)
     int y;
   	unsigned int color;
 
-   // char	*abs_path = "/home/faboussa/cub3d/wall/test/EA.png";
-	render->cub->wall[0].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/exit.xpm";
+	render->cub->wall[0].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/wall.xpm";
 	create_wall_texture_img(render->cub, &render->cub->wall[0]);
     render->text_x = get_texture_x(render->cub);
     y = render->draw_start;
@@ -132,8 +131,8 @@ static void draw_walls(t_render *render, int x)
     {
         render->text_y = (int)render->texture_pos & (TEX_H - 1);
         render->texture_pos += render->text_step;
-        color = get_texel(render->cub->wall, render->text_x, render->text_y);
-        my_pixel_put(render->cub, x, y, color);
+        color = get_texel(&render->cub->wall[0], render->text_x, render->text_y);
+        my_pixel_put(&render->cub->my_image, x, y, color);
         y++;
     }
 }
