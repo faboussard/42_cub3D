@@ -62,13 +62,13 @@ static void my_pixel_put(t_data *cub, int x, int y, int color)
     }
 }
 
-//unsigned int	get_texel(texture_t *texture, int x, int y)
-//{
-//    char	*pxl;
-//
-//    pxl = texture->addr + (y * texture->line_len + x * (texture->bpp / 8));
-//    return (*(unsigned int *)pxl);
-//}
+unsigned int	get_texel(t_image *texture, int x, int y)
+{
+    char	*pxl;
+
+    pxl = texture->addr + (y * texture->line_length + x * (texture->bits_per_pixel / 8));
+    return (*(unsigned int *)pxl);
+}
 
 /*
  * If the direction vector and the camera plane vector have the same length, the FOV will be 90°
@@ -98,25 +98,42 @@ int	get_texture_x(t_data *cub)
 	return (text_x);
 }
 
+static void	create_wall_texture_img(t_data *cub, t_image *wall)
+{
+	wall[0].img = mlx_xpm_file_to_image(cub->mlx, wall[0].path,
+									  &wall[0].width, &wall[0].height);
+	if (wall[0].img == NULL)
+		printf("error");
+	wall[0].addr = mlx_get_data_addr(wall[0].img,
+								   &wall[0].bits_per_pixel, &wall[0].line_length, &wall[0].endian);
+	if (wall[0].addr == NULL)
+		printf("error");
+}
+
+/*
+ * The step variable determines how much you move in the texture space
+ * for each pixel you move down the screen.
+ * Essentially, it helps to map a vertical slice of the wall texture to the screen column being drawn.
+ */
 static void draw_walls(t_render *render, int x)
 {
     int y;
-  // unsigned int color;
-   int step; //renommer en plus clair
+  	unsigned int color;
 
-   // char	*abs_path = "/home/faboussa/cub3d/textures/test/EA.png";
-
+   // char	*abs_path = "/home/faboussa/cub3d/wall/test/EA.png";
+	render->cub->wall[0].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/exit.xpm";
+	create_wall_texture_img(render->cub, &render->cub->wall[0]);
     render->text_x = get_texture_x(render->cub);
     y = render->draw_start;
-    step = 1.0 * ((double)TEX_H) / (double) render->line_height;
+	render->text_step = 1.0 * ((double)TEX_H) / (double) render->line_height; // calculates how much to move in the texture for each pixel on the screen.
     render->texture_pos = ((double) render->draw_start - ((double)HEIGHT_DISPLAY / 2.0)
-                   + ((double)render->line_height / 2.0)) * step;
-    while (y <  render->draw_end)
+                   + ((double)render->line_height / 2.0)) * render->text_step; // sets the initial position in the texture.
+    while (y < render->draw_end)
     {
         render->text_y = (int)render->texture_pos & (TEX_H - 1);
-        render->texture_pos += render->step;
-        //color = get_texel(Wall, render->text_x, render->text_y);
-        my_pixel_put(render->cub, x, y, 0x00FF0000);
+        render->texture_pos += render->text_step;
+        color = get_texel(render->cub->wall, render->text_x, render->text_y);
+        my_pixel_put(render->cub, x, y, color);
         y++;
     }
 }
@@ -144,7 +161,7 @@ static void init_dda(t_data *cub, int x)
 {
     double camera_x;
 
-    camera_x = 2 * x / (double) WIDTH_DISPLAY - 1; // x / w-1 => normalise la valeur de x pour qu elle soit comprise entre 0 et 1. 2 : etend la plage jusqua 2. -1 : recentre la plage pour aller de -1 a 1.
+    camera_x = 2 * x / (double) WIDTH_DISPLAY - 1; // x / width-1 => normalise la valeur de x pour qu elle soit comprise entre 0 et 1. 2 : etend la plage jusqua 2. -1 : recentre la plage pour aller de -1 a 1.
     cub->ray_dir_x = cub->dir_x + cub->plane_x * camera_x;
     cub->ray_dir_y = cub->dir_y + cub->plane_y * camera_x;
     cub->raycast->map_x = (int) cub->pos_x;
@@ -287,12 +304,11 @@ void raycasting(t_data *cub)
     x = 0;
     while (x < WIDTH_DISPLAY)
     {
-        init_raycasting(cub);
+		init_raycasting(cub);
         init_dda(cub, x);
         create_walls(cub, x);
-        free(cub->raycast);
         x++;
     }
     mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
-    //destroy avant mouvement 
+	//destroy avant mouvement
 }

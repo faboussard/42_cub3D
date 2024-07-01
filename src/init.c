@@ -26,17 +26,17 @@
 //
 //
 
-void	init_image(t_data *img)
+void	init_image(t_data *cub)
 {
-	img->my_image.img = mlx_new_image(img->mlx, 1920, 1080);
-	if (img->my_image.img == NULL)
+	cub->my_image.img = mlx_new_image(cub->mlx, 1920, 1080);
+	if (cub->my_image.img == NULL)
 	{
 //		free_all(cub);
 		exit(EXIT_FAILURE);
 	}
-	img->my_image.addr = mlx_get_data_addr(img->my_image.img,
-										   &img->my_image.bits_per_pixel, &img->my_image.line_length,
-										   &img->my_image.endian);
+	cub->my_image.addr = mlx_get_data_addr(cub->my_image.img,
+										   &cub->my_image.bits_per_pixel, &cub->my_image.line_length,
+										   &cub->my_image.endian);
 }
 
 //static void	init_map(t_data *img, size_t x, size_t y)

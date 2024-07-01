@@ -1,13 +1,13 @@
-   WE                            ../tests/cub3D/textures/wolfenstein/eagle.xpm
-NO      ../tests/cub3D/textures/wolfenstein/grey_stone.xpm
+   WE                            ../tests/cub3D/wall/wolfenstein/eagle.xpm
+NO      ../tests/cub3D/wall/wolfenstein/grey_stone.xpm
 
 
 
-SO ../tests/cub3D/textures/wolfenstein/red_brick.xpm
+SO ../tests/cub3D/wall/wolfenstein/red_brick.xpm
 
 F   69, 222, 199
 
-EA ../tests/cub3D/textures/wolfenstein/mossy.xpm 
+EA ../tests/cub3D/wall/wolfenstein/mossy.xpm
 
 
 

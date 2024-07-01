@@ -5,8 +5,6 @@ NAME			=	cub3D
 
 OS				=	$(shell uname)
 
-R_BONUS			= 	no
-
 RMF				=	rm -rf
 
 # ---- Libraries ---- #

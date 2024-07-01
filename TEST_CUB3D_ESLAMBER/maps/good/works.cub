@@ -1,13 +1,13 @@
-   WE                            ../tests/cub3D/textures/wolfenstein/grey_stone.xpm
-NO      ../tests/cub3D/textures/wolfenstein/purple_stone.xpm
+   WE                            ../tests/cub3D/wall/wolfenstein/grey_stone.xpm
+NO      ../tests/cub3D/wall/wolfenstein/purple_stone.xpm
 
 
 
-SO ../tests/cub3D/textures/wolfenstein/red_brick.xpm
+SO ../tests/cub3D/wall/wolfenstein/red_brick.xpm
 
 F      17,    38,     64
 
-EA ../tests/cub3D/textures/wolfenstein/wood.xpm
+EA ../tests/cub3D/wall/wolfenstein/wood.xpm
 
 
 
