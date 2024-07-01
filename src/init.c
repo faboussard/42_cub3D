@@ -28,7 +28,7 @@
 
 void	init_image(t_data *cub)
 {
-	cub->my_image.img = mlx_new_image(cub->mlx, 1920, 1080);
+	cub->my_image.img = mlx_new_image(cub->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY);
 	if (cub->my_image.img == NULL)
 	{
 //		free_all(cub);

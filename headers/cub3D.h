@@ -67,7 +67,7 @@ typedef struct s_map
     int				cealing_color;
 }				t_map;
 
-typedef struct s_raycasting
+typedef struct s_ray
 {
 	int      map_x;
 	int      map_y;
@@ -79,7 +79,7 @@ typedef struct s_raycasting
 	int      step_y;
 	double	impact_point;
 	int	side;
-}				t_raycasting;
+}				t_ray;
 
 typedef struct s_render
 {
@@ -96,6 +96,8 @@ typedef struct s_render
 
 typedef struct s_data
 {
+	int			win_height;
+	int			win_width;
 	void		*mlx;
 	void		*win;
 	void		*empty;
@@ -124,9 +126,9 @@ typedef struct s_data
 	double      ray_dir_x;
 	double      ray_dir_y;
 	int         **worldMap;
-	t_raycasting	*raycast;
-	t_render		*render;
-	t_image		wall[3];
+	t_ray		ray;
+	t_render	render;
+	t_image		wall[0];
 }				t_data;
 
 
@@ -173,7 +175,7 @@ void			move_right(t_data *img);
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING							////////
 ////////////////////////////////////////////////////////////////////////
-void			raycasting(t_data *cub);
+int				game_loop(t_data *cub);
 void			render(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				HOOK								////////

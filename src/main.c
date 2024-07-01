@@ -29,7 +29,7 @@ int	main(int ac, char **av)
 	init_screen(&cub);
 	mlx_hook(cub.win, 2, (1L << 0), &key_hook, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, close_window, &cub);
-	mlx_loop_hook(cub.mlx, (void *)raycasting, &cub);
+	mlx_loop_hook(cub.mlx, game_loop, &cub);
 	mlx_loop(cub.mlx);
 	return (EXIT_SUCCESS);
 }
