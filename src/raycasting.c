@@ -81,8 +81,6 @@ unsigned int get_texel(t_image *texture, int x, int y)
  * If the direction vector and the camera plane vector have the same length, the FOV will be 90°
  * here FOV is  2 * atan(0.66/1.0)=66°
  * */
-
-
 static void init_vectors(t_data *cub)
 {
     cub->pos_x = 22;
