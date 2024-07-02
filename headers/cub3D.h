@@ -138,7 +138,7 @@ typedef struct s_data
 	int         **worldMap;
 	t_ray		ray;
 	t_render	render;
-	t_image		wall[0];
+	t_image		wall[4];
 	enum	e_wallside	wall_side;
 }				t_data;
 
