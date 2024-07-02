@@ -134,6 +134,7 @@ typedef struct s_data
 	double      plane_y;
 	double      ray_dir_x;
 	double      ray_dir_y;
+	double		wall_player_dist;
 	int         **worldMap;
 	t_ray		ray;
 	t_render	render;
