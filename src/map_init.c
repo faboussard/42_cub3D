@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:34:20 by mbernard          #+#    #+#             */
-/*   Updated: 2024/06/28 10:34:32 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/02 20:31:53 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	fill_tmp_map(int fd, char **tmp_map)
 		*tmp_map = ft_strjoin_free_both(*tmp_map, line);
 		if (!*tmp_map)
 			malloc_error();
-		if (min_line_nb <= 9)
+		if (min_line_nb < 9)
 			min_line_nb++;
 	}
 	close(fd);
@@ -74,6 +74,7 @@ static char	*get_map_inline(char *ber)
 	return (tmp_map);
 }
 
+
 void	define_map(t_map *map, char *file_name)
 {
 //	int		fd;
@@ -82,7 +83,10 @@ void	define_map(t_map *map, char *file_name)
 
 	map->status = 0;
 	tmp_map = get_map_inline(file_name);
+	map->copy = ft_split(tmp_map, '\n');
+	map->grid = map->copy + 5;
 	dprintf(2, "%s\n", tmp_map);
+	dprintf(2, "MAP GRID\n%s\n", map->grid[1]);
 /*	fd = open(file_name, O_RDONLY);
 	if (fd < 0 || read(fd, tmp_map, 0) < 0)
 	{
@@ -96,6 +100,5 @@ void	define_map(t_map *map, char *file_name)
 		launch_checks(map, tmp_map);
 	}*/
 	free(tmp_map);
-	exit(1);
 //	close(fd);
 }
