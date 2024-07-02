@@ -161,6 +161,9 @@ static void draw_walls(t_ray *ray, t_render *render, int x)
   	unsigned int color;
 
 	render->cub->wall[0].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm";
+	render->cub->wall[1].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm";
+	render->cub->wall[2].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm";
+	render->cub->wall[3].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm";
 	set_wall_texture(render->cub, render->cub->wall);
     get_texture_x(render, ray);
     y = render->draw_start;
