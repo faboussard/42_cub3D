@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:44:28 by mbernard          #+#    #+#             */
-/*   Updated: 2024/06/21 15:44:31 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/02 07:46:26 by faboussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,22 +100,33 @@ static void		get_texture_x(t_render *render, t_ray *ray)
 		render->text_y  = TEX_H - render->text_y  - 1;
 }
 
-static void create_wall_texture_img(t_data *cub, t_image *wall) {
-	wall[0].img = mlx_xpm_file_to_image(cub->mlx, wall[0].path, &wall[0].width, &wall[0].height);
-	if (wall[0].img == NULL) {
+static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i)
+{
+	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
+	if (wall[i].img == NULL)
+	{
+		while (i-- > 0)
+			mlx_destroy_image(cub->mlx, wall[i].img);
+//		while (++i < n)
+//			free(wall[i].path);
 		printf("Erreur lors du chargement de l'image de la texture\n");
 		exit(EXIT_FAILURE);
 	}
 
-	wall[0].addr = mlx_get_data_addr(wall[0].img, &wall[0].bits_per_pixel, &wall[0].line_length, &wall[0].endian);
-	if (wall[0].addr == NULL) {
+	wall[i].addr = mlx_get_data_addr(wall[i].img, &wall[i].bits_per_pixel, &wall[i].line_length, &wall[i].endian);
+	if (wall[i].addr == NULL)
+	{
+		while (i-- > 0)
+			mlx_destroy_image(cub->mlx, wall[i].img);
+//		while (++i < n)
+//			free(wall[i].path);
 		printf("Erreur lors de l'obtention des données de la texture\n");
 		exit(EXIT_FAILURE);
 	}
 
 	// Ajout de messages de débogage pour vérifier les valeurs
 	printf("DEBUG: texture width = %d, height = %d, bits_per_pixel = %d, line_length = %d\n",
-		   wall[0].width, wall[0].height, wall[0].bits_per_pixel, wall[0].line_length);
+		   wall[i].width, wall[i].height, wall[i].bits_per_pixel, wall[i].line_length);
 }
 
 
