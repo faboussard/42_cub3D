@@ -42,6 +42,7 @@ int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
+
 static double get_delta(double ray_dir);
 
 static double get_side(double ray_dir, double map, double delta_dist, double pos);
@@ -50,17 +51,17 @@ static int get_step(double ray_dir);
 
 static void my_pixel_put(t_image *img, int x, int y, int color)
 {
-    char *dst;
-    int offset_x;
-    int offset_y;
+	char *dst;
+	int offset_x;
+	int offset_y;
 
-    offset_x = x * (img->bits_per_pixel / 8);
-    offset_y = y * img->line_length;
-    if (x >= 0 && x < WIDTH_DISPLAY && y >= 0 && y < HEIGHT_DISPLAY)
-    {
-        dst = img->addr + ft_abs(offset_x + offset_y);
-        *(unsigned int *) dst = color;
-    }
+	offset_x = x * (img->bits_per_pixel / 8);
+	offset_y = y * img->line_length;
+	if (x >= 0 && x < WIDTH_DISPLAY && y >= 0 && y < HEIGHT_DISPLAY)
+	{
+		dst = img->addr + ft_abs(offset_x + offset_y);
+		*(unsigned int *) dst = color;
+	}
 }
 
 unsigned int get_texel(t_image *texture, int x, int y)
@@ -86,12 +87,12 @@ unsigned int get_texel(t_image *texture, int x, int y)
  * */
 static void init_vectors(t_data *cub)
 {
-    cub->pos_x = 22;
-    cub->pos_y = 12;
-    cub->dir_x = -1;
-    cub->dir_y = 0;
-    cub->plane_x = 0;
-    cub->plane_y = 0.66; //simplification et arrondi a partir du FOV du jeu de base qui est 2 * atan(0.66/1.0)=66°
+	cub->pos_x = 22;
+	cub->pos_y = 12;
+	cub->dir_x = -1;
+	cub->dir_y = 0;
+	cub->plane_x = 0;
+	cub->plane_y = 0.66; //simplification et arrondi a partir du FOV du jeu de base qui est 2 * atan(0.66/1.0)=66°
 }
 
 static void		get_texture_x(t_render *render, t_ray *ray)
@@ -104,16 +105,17 @@ static void		get_texture_x(t_render *render, t_ray *ray)
 }
 
 
-static int	set_wall_texture(t_data *data, t_image *wall)
+static int set_wall_texture(t_data *data, t_image *wall)
 {
-	int		i;
-	int		n;
+	int i;
+	int n;
 
 	i = 0;
-	n = 4;
+	n = 4; // Assurez-vous que n est le nombre correct de textures
 	while (i < n)
 	{
 		create_wall_texture_img(data, wall, n, i);
+		printf("DEBUG: Texture %d loaded: %s\n", i, wall[i].path);
 		i++;
 	}
 	return (0);
@@ -124,6 +126,7 @@ static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i)
 	if (n == 32000) // a supprimer une fois que wall[i] sera malloc (parsing). n sert juste a freer les images de textures
 		return ;
 	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
+
 	if (wall[i].img == NULL)
 	{
 		while (i-- > 0)
@@ -150,6 +153,33 @@ static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i)
 		   wall[i].width, wall[i].height, wall[i].bits_per_pixel, wall[i].line_length);
 }
 
+static void projection_mapping(t_render *render, int x)
+{
+	int y;
+	unsigned int color;
+
+	y = render->draw_start;
+	render->text_step = 1.0 * ((double)TEX_H) / (double) render->line_height;
+	render->texture_pos = ((double) render->draw_start - ((double)HEIGHT_DISPLAY / 2.0)
+						   + ((double)render->line_height / 2.0)) * render->text_step;
+
+	while (y < render->draw_end)
+	{
+		render->text_y = (int)render->texture_pos & (TEX_H - 1);
+		render->texture_pos += render->text_step;
+
+		// Obtenir la couleur du texel
+		color = get_texel(&render->cub->wall[render->cub->wall_side], render->text_x, render->text_y);
+
+		// Appliquer l'effet d'ombrage si nécessaire
+		if (render->cub->wall_side == NO || render->cub->wall_side == EA)
+			color = (color >> 1) & 8355711;
+
+		my_pixel_put(&render->cub->my_image, x, y, color);
+		y++;
+	}
+}
+
 
 /*
  * The step variable determines how much you move in the texture space
@@ -158,38 +188,21 @@ static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i)
  */
 static void draw_walls(t_ray *ray, t_render *render, int x)
 {
-    int y;
-  	unsigned int color;
-
-	render->cub->wall[0].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm";
-	render->cub->wall[1].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm";
-	render->cub->wall[2].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm";
-	render->cub->wall[3].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm";
-	printf("DEBUG: Avant set_wall_texture, wall_side = %d\n", render->cub->wall_side);
-
+	// Initialiser les chemins des textures
+	render->cub->wall[WE].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm";
+	render->cub->wall[NO].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm";
+	render->cub->wall[EA].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm";
+	render->cub->wall[SO].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm";
 	set_wall_texture(render->cub, render->cub->wall);
-    get_texture_x(render, ray);
+	get_texture_x(render, ray);
 	get_wall_impact_point(render->cub, ray);
-    y = render->draw_start;
-	render->text_step = 1.0 * ((double)TEX_H) / (double) render->line_height; // calculates how much to move in the texture for each pixel on the screen.
-    render->texture_pos = ((double) render->draw_start - ((double)HEIGHT_DISPLAY / 2.0)
-                   + ((double)render->line_height / 2.0)) * render->text_step; // sets the initial position in the texture.
-    while (y < render->draw_end)
-    {
-        render->text_y = (int)render->texture_pos & (TEX_H - 1);
-        render->texture_pos += render->text_step;
-        color = get_texel(&render->cub->wall[render->cub->wall_side], render->text_x, render->text_y);
-//        my_pixel_put(&render->cub->my_image, x, y, 0x00FF0000);
-		my_pixel_put(&render->cub->my_image, x, y, color);
-        y++;
-    }
+	projection_mapping(render, x);
 }
 
 static void init_ray_info(t_data *cub, t_ray *ray, int x)
 {
     double camera_x;
 
-//	ft_bzero(&ray, sizeof(t_ray));
     camera_x = 2 * x / (double) WIDTH_DISPLAY - 1; // x / width-1 => normalise la valeur de x pour qu elle soit comprise entre 0 et 1. 2 : etend la plage jusqua 2. -1 : recentre la plage pour aller de -1 a 1.
     cub->ray_dir_x = cub->dir_x + cub->plane_x * camera_x;
     cub->ray_dir_y = cub->dir_y + cub->plane_y * camera_x;
@@ -297,26 +310,34 @@ static void get_wall_player_dist(t_data *cub, t_ray *ray)
 //en fonction de la direction du rayon
 static void get_wall_impact_point(t_data *cub, t_ray *ray)
 {
-	if (ray->side == HORIZONTAL && ray->map_y < cub->pos_y)
+	if (ray->side == HORIZONTAL)
 	{
-		ray->impact_point = cub->pos_y + cub->wall_player_dist * cub->dir_y;
-		cub->wall_side = SO;
-	}
-	else if (ray->side == VERTICAL && ray->map_x < cub->pos_x)
-	{
-		ray->impact_point = cub->pos_x + cub->wall_player_dist * cub->dir_x;
-		cub->wall_side = EA;
-	}
-	else if (ray->side == HORIZONTAL && ray->map_y >= cub->pos_y)
-	{
-		ray->impact_point = cub->pos_y - cub->wall_player_dist * cub->dir_y;
-		cub->wall_side = NO;
+		if (cub->dir_y > 0)
+		{
+			ray->impact_point = cub->pos_y + cub->wall_player_dist * cub->dir_y;
+			cub->wall_side = SO; // Sud
+		}
+		else
+		{
+			ray->impact_point = cub->pos_y - cub->wall_player_dist * cub->dir_y;
+			cub->wall_side = NO; // Nord
+		}
 	}
 	else
 	{
-		ray->impact_point = cub->pos_x - cub->wall_player_dist * cub->dir_x;
-		cub->wall_side = WE;
+		if (cub->dir_x < 0)
+		{
+			ray->impact_point = cub->pos_x + cub->wall_player_dist * cub->dir_x;
+			cub->wall_side = EA; // Est
+		}
+		else
+		{
+			ray->impact_point = cub->pos_x - cub->wall_player_dist * cub->dir_x;
+			cub->wall_side = WE; // Ouest
+		}
 	}
+	if (ray->impact_point  < 0.00001)
+		ray->impact_point  = 0.00001;
 	ray->impact_point -= floor(ray->impact_point);
 }
 
