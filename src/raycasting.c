@@ -346,7 +346,6 @@ static void define_draw_points(t_render *render, double wall_player_dist)
  */
 static void create_walls(t_data *cub, t_ray *ray, int x)
 {
-	double wall_player_dist;
 	t_render render;
 
 	render = cub->render;
