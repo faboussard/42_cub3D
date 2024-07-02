@@ -12,6 +12,8 @@
 
 #include "cub3D.h"
 
+static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i);
+
 int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -100,8 +102,26 @@ static void		get_texture_x(t_render *render, t_ray *ray)
 		render->text_y  = TEX_H - render->text_y  - 1;
 }
 
+
+static int	set_wall_texture(t_data *data, t_image *wall)
+{
+	int		i;
+	int		n;
+
+	i = 0;
+	n = 4;
+	while (i < n)
+	{
+		create_wall_texture_img(data, wall, n, i);
+		i++;
+	}
+	return (0);
+}
+
 static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i)
 {
+	if (n == 32000)
+		return ;
 	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
 	if (wall[i].img == NULL)
 	{
@@ -141,7 +161,7 @@ static void draw_walls(t_ray *ray, t_render *render, int x)
   	unsigned int color;
 
 	render->cub->wall[0].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm";
-	create_wall_texture_img(render->cub, &render->cub->wall[0]);
+	set_wall_texture(render->cub, render->cub->wall);
     get_texture_x(render, ray);
     y = render->draw_start;
 	render->text_step = 1.0 * ((double)TEX_H) / (double) render->line_height; // calculates how much to move in the texture for each pixel on the screen.
