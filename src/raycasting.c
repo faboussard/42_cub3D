@@ -189,10 +189,6 @@ static void projection_mapping(t_render *render, int x)
 static void draw_walls(t_ray *ray, t_render *render, int x)
 {
 	// Initialiser les chemins des textures
-	render->cub->wall[WE].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm";
-	render->cub->wall[NO].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm";
-	render->cub->wall[EA].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm";
-	render->cub->wall[SO].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm";
 	set_wall_texture(render->cub, render->cub->wall);
 	get_texture_x(render, ray);
 	get_wall_impact_point(render->cub, ray);
@@ -382,6 +378,7 @@ static int raycasting(t_data *cub)
 
 	ray = cub->ray;
 	init_vectors(cub);
+
 	x = 0;
 	while (x < WIDTH_DISPLAY)
 	{
@@ -395,6 +392,10 @@ static int raycasting(t_data *cub)
 
 int game_loop(t_data *cub)
 {
+	cub->wall[WE].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm";
+	cub->wall[NO].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm";
+	cub->wall[EA].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm";
+	cub->wall[SO].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm";
 	raycasting(cub);
     mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
 	return (0);
