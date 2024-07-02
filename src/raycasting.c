@@ -115,7 +115,6 @@ static int set_wall_texture(t_data *data, t_image *wall)
 	while (i < n)
 	{
 		create_wall_texture_img(data, wall, n, i);
-		printf("DEBUG: Texture %d loaded: %s\n", i, wall[i].path);
 		i++;
 	}
 	return (0);
@@ -147,10 +146,6 @@ static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i)
 		printf("Erreur lors de l'obtention des données de la texture\n");
 		exit(EXIT_FAILURE);
 	}
-
-	// Ajout de messages de débogage pour vérifier les valeurs
-	printf("DEBUG: texture width = %d, height = %d, bits_per_pixel = %d, line_length = %d\n",
-		   wall[i].width, wall[i].height, wall[i].bits_per_pixel, wall[i].line_length);
 }
 
 static void projection_mapping(t_render *render, int x)
@@ -162,19 +157,17 @@ static void projection_mapping(t_render *render, int x)
 	render->text_step = 1.0 * ((double)TEX_H) / (double) render->line_height;
 	render->texture_pos = ((double) render->draw_start - ((double)HEIGHT_DISPLAY / 2.0)
 						   + ((double)render->line_height / 2.0)) * render->text_step;
-
 	while (y < render->draw_end)
 	{
 		render->text_y = (int)render->texture_pos & (TEX_H - 1);
 		render->texture_pos += render->text_step;
-
 		// Obtenir la couleur du texel
 		color = get_texel(&render->cub->wall[render->cub->wall_side], render->text_x, render->text_y);
+		printf("DEBUG: Texture %d loaded:\n", render->cub->wall_side);
 
 		// Appliquer l'effet d'ombrage si nécessaire
 		if (render->cub->wall_side == NO || render->cub->wall_side == EA)
 			color = (color >> 1) & 8355711;
-
 		my_pixel_put(&render->cub->my_image, x, y, color);
 		y++;
 	}
@@ -188,10 +181,9 @@ static void projection_mapping(t_render *render, int x)
  */
 static void draw_walls(t_ray *ray, t_render *render, int x)
 {
-	// Initialiser les chemins des textures
+	get_wall_impact_point(render->cub, ray);
 	set_wall_texture(render->cub, render->cub->wall);
 	get_texture_x(render, ray);
-	get_wall_impact_point(render->cub, ray);
 	projection_mapping(render, x);
 }
 
@@ -394,7 +386,7 @@ int game_loop(t_data *cub)
 {
 	cub->wall[WE].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm";
 	cub->wall[NO].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm";
-	cub->wall[EA].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm";
+	cub->wall[EA].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm";
 	cub->wall[SO].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm";
 	raycasting(cub);
     mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
