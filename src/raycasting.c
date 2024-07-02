@@ -390,5 +390,17 @@ int game_loop(t_data *cub)
 	cub->wall[SO].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm";
 	raycasting(cub);
     mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
+	if (cub->keys.key_pressed_right)
+		rotate_clockwise(data);
+	if (cub->keys.key_pressed_left)
+		rotate_counterclockwise(data);
+	if (cub->keys.key_pressed_w)
+		move_forward(data, &data->player, &data->map);
+	if (cub->keys.key_pressed_a)
+		move_left(data, &data->player, &data->map);
+	if (cub->keys.key_pressed_s)
+		move_backward(data, &data->player, &data->map);
+	if (cub->keys.key_pressed_d)
+		move_right(data, &data->player, &data->map);
 	return (0);
 }

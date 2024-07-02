@@ -38,6 +38,9 @@
 #define EA 2
 #define WE 0
 
+# define MOVE 0.1
+# define ROTATE 0.03
+
 //enum	e_wallside
 //{
 //	NO,
