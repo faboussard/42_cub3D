@@ -275,28 +275,36 @@ static void ray_tracer(t_ray *ray)
     }
 }
 
-static double get_impact_point(t_data *cub, t_ray *ray)
+static double get_wall_player_dist(t_data *cub, t_ray *ray)
 {
 	double wall_player_dist;
 
 //trouver le point dimpact
 	ray_tracer(ray);
 	if (ray->side == HORIZONTAL)
-	{
 		wall_player_dist = (ray->map_x - cub->pos_x
 							+ (1 - ray->step_x) / 2) /
 						   cub->ray_dir_x; //  wall_player_dist ligne perpendiculaire a la place camera. same ratio for all walls
 // forumule a revoir
 //perpWallDist = (sideDistX — deltaDistX);
-		ray->impact_point = cub->pos_y + wall_player_dist * cub->dir_y;
-	} else
-	{
+	else
 		wall_player_dist = (ray->map_y - cub->pos_y
 							+ (1 - ray->step_y) / 2) / cub->ray_dir_y;
+	return (wall_player_dist);
+}
+
+//en fonction de la direction du rayon
+static void get_wall_impact_point(t_data *cub, t_ray *ray, double wall_player_dist)
+{
+	if (ray->side == HORIZONTAL)
+	{
+		ray->impact_point = cub->pos_y + wall_player_dist * cub->dir_y;
+	}
+	else
+	{
 		ray->impact_point = cub->pos_x + wall_player_dist * cub->dir_x;
 	}
 	ray->impact_point -= floor(ray->impact_point);
-	return (wall_player_dist);
 }
 
 static void define_draw_points(t_render *render, double wall_player_dist)
@@ -330,7 +338,8 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 
 	render = cub->render;
 	render.cub = cub;
-	wall_player_dist = get_impact_point(cub, ray);
+	wall_player_dist = get_wall_player_dist(cub, ray);
+	get_wall_impact_point(cub, ray, wall_player_dist);
    	define_draw_points(&render, wall_player_dist);
     draw_walls(ray, &render, x);
 }
