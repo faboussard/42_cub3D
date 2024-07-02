@@ -58,6 +58,7 @@ DIR_OBJS		=	.objs/
 OBJS			=	$(patsubst %.c, $(DIR_OBJS)%.o, $(SRCS))
 DEPS			=	$(patsubst %.c, $(DIR_OBJS)%.d, $(SRCS))
 DEPS_FLAGS		=	-MMD -MP
+CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror
 RM				=	rm -rf
 AR				= 	ar rcs
