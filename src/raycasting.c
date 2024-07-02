@@ -13,6 +13,7 @@
 #include "cub3D.h"
 
 static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i);
+static void get_wall_impact_point(t_data *cub, t_ray *ray);
 
 int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -164,8 +165,11 @@ static void draw_walls(t_ray *ray, t_render *render, int x)
 	render->cub->wall[1].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm";
 	render->cub->wall[2].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm";
 	render->cub->wall[3].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm";
+	printf("DEBUG: Avant set_wall_texture, wall_side = %d\n", render->cub->wall_side);
+
 	set_wall_texture(render->cub, render->cub->wall);
     get_texture_x(render, ray);
+	get_wall_impact_point(render->cub, ray);
     y = render->draw_start;
 	render->text_step = 1.0 * ((double)TEX_H) / (double) render->line_height; // calculates how much to move in the texture for each pixel on the screen.
     render->texture_pos = ((double) render->draw_start - ((double)HEIGHT_DISPLAY / 2.0)
@@ -275,46 +279,43 @@ static void ray_tracer(t_ray *ray)
     }
 }
 
-static double get_wall_player_dist(t_data *cub, t_ray *ray)
+static void get_wall_player_dist(t_data *cub, t_ray *ray)
 {
-	double wall_player_dist;
-
 //trouver le point dimpact
 	ray_tracer(ray);
 	if (ray->side == HORIZONTAL)
-		wall_player_dist = (ray->map_x - cub->pos_x
+		cub->wall_player_dist = (ray->map_x - cub->pos_x
 							+ (1 - ray->step_x) / 2) /
 						   cub->ray_dir_x; //  wall_player_dist ligne perpendiculaire a la place camera. same ratio for all walls
 // forumule a revoir
 //perpWallDist = (sideDistX — deltaDistX);
 	else
-		wall_player_dist = (ray->map_y - cub->pos_y
+		cub->wall_player_dist = (ray->map_y - cub->pos_y
 							+ (1 - ray->step_y) / 2) / cub->ray_dir_y;
-	return (wall_player_dist);
 }
 
 //en fonction de la direction du rayon
-static void get_wall_impact_point(t_data *cub, t_ray *ray, double wall_player_dist)
+static void get_wall_impact_point(t_data *cub, t_ray *ray)
 {
 	if (ray->side == HORIZONTAL && ray->map_y < cub->pos_y)
 	{
-		ray->impact_point = cub->pos_y + wall_player_dist * cub->dir_y;
+		ray->impact_point = cub->pos_y + cub->wall_player_dist * cub->dir_y;
 		cub->wall_side = SO;
 	}
 	else if (ray->side == VERTICAL && ray->map_x < cub->pos_x)
 	{
-		ray->impact_point = cub->pos_x + wall_player_dist * cub->dir_x;
+		ray->impact_point = cub->pos_x + cub->wall_player_dist * cub->dir_x;
 		cub->wall_side = EA;
 	}
 	else if (ray->side == HORIZONTAL && ray->map_y >= cub->pos_y)
 	{
-		ray->impact_point = cub->pos_y - wall_player_dist * cub->dir_y;
+		ray->impact_point = cub->pos_y - cub->wall_player_dist * cub->dir_y;
 		cub->wall_side = NO;
 	}
 	else
 	{
-		ray->impact_point = cub->pos_x - wall_player_dist * cub->dir_x;
-		cub->wall_side = SO;
+		ray->impact_point = cub->pos_x - cub->wall_player_dist * cub->dir_x;
+		cub->wall_side = WE;
 	}
 	ray->impact_point -= floor(ray->impact_point);
 }
@@ -350,9 +351,8 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 
 	render = cub->render;
 	render.cub = cub;
-	wall_player_dist = get_wall_player_dist(cub, ray);
-	get_wall_impact_point(cub, ray, wall_player_dist);
-   	define_draw_points(&render, wall_player_dist);
+	get_wall_player_dist(cub, ray);
+   	define_draw_points(&render, cub->wall_player_dist);
     draw_walls(ray, &render, x);
 }
 static int raycasting(t_data *cub)
