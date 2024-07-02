@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:44:28 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/02 07:46:26 by faboussa         ###   ########.fr       */
+/*   Updated: 2024/07/02 08:52:20 by faboussa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static int	set_wall_texture(t_data *data, t_image *wall)
 
 static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i)
 {
-	if (n == 32000)
+	if (n == 32000) // a supprimer une fois que wall[i] sera malloc (parsing). n sert juste a freer les images de textures
 		return ;
 	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
 	if (wall[i].img == NULL)
@@ -174,7 +174,7 @@ static void draw_walls(t_ray *ray, t_render *render, int x)
     {
         render->text_y = (int)render->texture_pos & (TEX_H - 1);
         render->texture_pos += render->text_step;
-        color = get_texel(&render->cub->wall[0], render->text_x, render->text_y);
+        color = get_texel(&render->cub->wall[render->cub->wall_side], render->text_x, render->text_y);
 //        my_pixel_put(&render->cub->my_image, x, y, 0x00FF0000);
 		my_pixel_put(&render->cub->my_image, x, y, color);
         y++;
@@ -296,13 +296,25 @@ static double get_wall_player_dist(t_data *cub, t_ray *ray)
 //en fonction de la direction du rayon
 static void get_wall_impact_point(t_data *cub, t_ray *ray, double wall_player_dist)
 {
-	if (ray->side == HORIZONTAL)
+	if (ray->side == HORIZONTAL && ray->map_y < cub->pos_y)
 	{
 		ray->impact_point = cub->pos_y + wall_player_dist * cub->dir_y;
+		cub->wall_side = SO;
+	}
+	else if (ray->side == VERTICAL && ray->map_x < cub->pos_x)
+	{
+		ray->impact_point = cub->pos_x + wall_player_dist * cub->dir_x;
+		cub->wall_side = EA;
+	}
+	else if (ray->side == HORIZONTAL && ray->map_y >= cub->pos_y)
+	{
+		ray->impact_point = cub->pos_y - wall_player_dist * cub->dir_y;
+		cub->wall_side = NO;
 	}
 	else
 	{
-		ray->impact_point = cub->pos_x + wall_player_dist * cub->dir_x;
+		ray->impact_point = cub->pos_x - wall_player_dist * cub->dir_x;
+		cub->wall_side = SO;
 	}
 	ray->impact_point -= floor(ray->impact_point);
 }

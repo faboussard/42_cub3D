@@ -138,6 +138,7 @@ typedef struct s_data
 	t_ray		ray;
 	t_render	render;
 	t_image		wall[0];
+	enum	e_wallside	wall_side;
 }				t_data;
 
 
