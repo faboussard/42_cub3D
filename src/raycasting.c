@@ -87,8 +87,8 @@ unsigned int get_texel(t_image *texture, int x, int y)
  * */
 static void init_vectors(t_data *cub)
 {
-	cub->pos_x = 22;
-	cub->pos_y = 12;
+	cub->player->pos_x = 22;
+	cub->player->pos_y = 12;
 	cub->dir_x = -1;
 	cub->dir_y = 0;
 	cub->plane_x = 0;
@@ -105,13 +105,13 @@ static void		get_texture_x(t_render *render, t_ray *ray)
 }
 
 
-static int set_wall_texture(t_data *data, t_image *wall)
+int set_wall_texture(t_data *data, t_image *wall)
 {
 	int i;
 	int n;
 
 	i = 0;
-	n = 4; // Assurez-vous que n est le nombre correct de textures
+	n = 4;
 	while (i < n)
 	{
 		create_wall_texture_img(data, wall, n, i);
@@ -125,7 +125,6 @@ static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i)
 	if (n == 32000) // a supprimer une fois que wall[i] sera malloc (parsing). n sert juste a freer les images de textures
 		return ;
 	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
-
 	if (wall[i].img == NULL)
 	{
 		while (i-- > 0)
@@ -163,7 +162,6 @@ static void projection_mapping(t_render *render, int x)
 		render->texture_pos += render->text_step;
 		// Obtenir la couleur du texel
 		color = get_texel(&render->cub->wall[render->cub->wall_side], render->text_x, render->text_y);
-		printf("DEBUG: Texture %d loaded:\n", render->cub->wall_side);
 
 		// Appliquer l'effet d'ombrage si nécessaire
 		if (render->cub->wall_side == NO || render->cub->wall_side == EA)
@@ -182,7 +180,6 @@ static void projection_mapping(t_render *render, int x)
 static void draw_walls(t_ray *ray, t_render *render, int x)
 {
 	get_wall_impact_point(render->cub, ray);
-	set_wall_texture(render->cub, render->cub->wall);
 	get_texture_x(render, ray);
 	projection_mapping(render, x);
 }
@@ -194,14 +191,14 @@ static void init_ray_info(t_data *cub, t_ray *ray, int x)
     camera_x = 2 * x / (double) WIDTH_DISPLAY - 1; // x / width-1 => normalise la valeur de x pour qu elle soit comprise entre 0 et 1. 2 : etend la plage jusqua 2. -1 : recentre la plage pour aller de -1 a 1.
     cub->ray_dir_x = cub->dir_x + cub->plane_x * camera_x;
     cub->ray_dir_y = cub->dir_y + cub->plane_y * camera_x;
-    ray->map_x = (int) cub->pos_x;
-    ray->map_y = (int) cub->pos_y;
+    ray->map_x = (int) cub->player->pos_x;
+    ray->map_y = (int) cub->player->pos_y;
     ray->step_x = get_step(cub->ray_dir_x);
 	ray->step_y = get_step(cub->ray_dir_y);
 	ray->delta_x = get_delta(cub->ray_dir_x);
 	ray->delta_y = get_delta(cub->ray_dir_y);
-	ray->side_x = get_side(cub->ray_dir_x, ray->map_x, ray->delta_x, cub->pos_x);
-	ray->side_y = get_side(cub->ray_dir_y, ray->map_y, ray->delta_y, cub->pos_y);
+	ray->side_x = get_side(cub->ray_dir_x, ray->map_x, ray->delta_x, cub->player->pos_x);
+	ray->side_y = get_side(cub->ray_dir_y, ray->map_y, ray->delta_y, cub->player->pos_y);
 }
 
 /* or slope or gradient.
@@ -280,19 +277,21 @@ static void ray_tracer(t_ray *ray)
     }
 }
 
+//wall_player_dist ligne perpendiculaire a la place camera. same ratio for all walls
 static void get_wall_player_dist(t_data *cub, t_ray *ray)
 {
 //trouver le point dimpact
 	ray_tracer(ray);
 	if (ray->side == HORIZONTAL)
-		cub->wall_player_dist = (ray->map_x - cub->pos_x
-							+ (1 - ray->step_x) / 2) /
-						   cub->ray_dir_x; //  wall_player_dist ligne perpendiculaire a la place camera. same ratio for all walls
-// forumule a revoir
+//		cub->wall_player_dist = (ray->map_x - cub->player->pos_x
+//							+ (1 - ray->step_x) / 2) /
+//						   cub->ray_dir_x; //
+	cub->wall_player_dist = (ray->side_x - ray->delta_x);
 //perpWallDist = (sideDistX — deltaDistX);
 	else
-		cub->wall_player_dist = (ray->map_y - cub->pos_y
-							+ (1 - ray->step_y) / 2) / cub->ray_dir_y;
+//		cub->wall_player_dist = (ray->map_y - cub->player->pos_y
+//							+ (1 - ray->step_y) / 2) / cub->ray_dir_y;
+		cub->wall_player_dist = (ray->side_y - ray->delta_y);
 }
 
 //en fonction de la direction du rayon
@@ -302,25 +301,25 @@ static void get_wall_impact_point(t_data *cub, t_ray *ray)
 	{
 		if (cub->dir_y > 0)
 		{
-			ray->impact_point = cub->pos_y + cub->wall_player_dist * cub->dir_y;
+			ray->impact_point = cub->player->pos_y + cub->wall_player_dist * cub->dir_y;
 			cub->wall_side = SO; // Sud
 		}
 		else
 		{
-			ray->impact_point = cub->pos_y - cub->wall_player_dist * cub->dir_y;
+			ray->impact_point = cub->player->pos_y - cub->wall_player_dist * cub->dir_y;
 			cub->wall_side = NO; // Nord
 		}
 	}
 	else
 	{
-		if (cub->dir_x < 0)
+		if (cub->dir_x <= 0)
 		{
-			ray->impact_point = cub->pos_x + cub->wall_player_dist * cub->dir_x;
+			ray->impact_point = cub->player->pos_x + cub->wall_player_dist * cub->dir_x;
 			cub->wall_side = EA; // Est
 		}
 		else
 		{
-			ray->impact_point = cub->pos_x - cub->wall_player_dist * cub->dir_x;
+			ray->impact_point = cub->player->pos_x - cub->wall_player_dist * cub->dir_x;
 			cub->wall_side = WE; // Ouest
 		}
 	}
@@ -367,10 +366,13 @@ static int raycasting(t_data *cub)
 {
 	int x;
 	t_ray	ray;
+//	t_player player;
 
+	cub->player = ft_calloc(sizeof (t_player), 1);
+	if (cub->player == NULL)
+		exit(EXIT_FAILURE);
 	ray = cub->ray;
 	init_vectors(cub);
-
 	x = 0;
 	while (x < WIDTH_DISPLAY)
 	{
@@ -384,23 +386,19 @@ static int raycasting(t_data *cub)
 
 int game_loop(t_data *cub)
 {
-	cub->wall[WE].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm";
-	cub->wall[NO].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm";
-	cub->wall[EA].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm";
-	cub->wall[SO].path = "/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm";
 	raycasting(cub);
     mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
-	if (cub->keys.key_pressed_right)
-		rotate_clockwise(data);
-	if (cub->keys.key_pressed_left)
-		rotate_counterclockwise(data);
+//	if (cub->keys.key_pressed_right)
+//		rotate_clockwise(data);
+//	if (cub->keys.key_pressed_left)
+//		rotate_counterclockwise(data);
 	if (cub->keys.key_pressed_w)
-		move_forward(data, &data->player, &data->map);
-	if (cub->keys.key_pressed_a)
-		move_left(data, &data->player, &data->map);
-	if (cub->keys.key_pressed_s)
-		move_backward(data, &data->player, &data->map);
-	if (cub->keys.key_pressed_d)
-		move_right(data, &data->player, &data->map);
+		move_forward(cub);
+//	if (cub->keys.key_pressed_s)
+//		move_backward(data, &data->player, &data->map);
+//	if (cub->keys.key_pressed_a)
+//		move_left(data, &data->player, &data->map);
+//	if (cub->keys.key_pressed_d)
+//		move_right(data, &data->player, &data->map);
 	return (0);
 }

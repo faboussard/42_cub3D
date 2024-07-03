@@ -18,6 +18,7 @@ int	main(int ac, char **av)
 	if (av[0] == NULL)
 		return (0);
 
+	ft_bzero(&cub, 1);
 	if (ac != 2)
 	{
 		ft_putendl_fd("Error: Wrong number of arguments", 2);
@@ -26,6 +27,11 @@ int	main(int ac, char **av)
 //	check_file_name(av[1]);
 //	parsing(&cub, av[1]);
 
+	cub.wall[WE].path = "/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm";
+	cub.wall[NO].path = "/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm";
+	cub.wall[EA].path = "/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm";
+	cub.wall[SO].path = "/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm";
+	set_wall_texture(&cub, cub.wall);
 	init_mlx_win(&cub);
 	init_screen(&cub);
 	mlx_hook(cub.win, 2, (1L << 0), &key_hook, &cub);
