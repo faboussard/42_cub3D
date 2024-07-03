@@ -42,7 +42,7 @@ DIR_OBJS	    =	.objs/
 
 # ---- Flags ---- #
 
-CFLAGS		=	-Wall -Wextra -Werror -Wno-deprecated-declarations
+CFLAGS		=	-Wall -Wextra -Werror -Wno-deprecated-declarations -Ofast -march=native -flto -fno-signed-zeros -funroll-loops
 INCLUDES	=	-I $(DIR_LIB_HEADER) -I $(DIR_MLX) -I $(DIR_HEADERS)
 
 # ---- MLX ---- #

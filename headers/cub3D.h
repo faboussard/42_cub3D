@@ -49,6 +49,17 @@
 //	EA,
 //};
 
+typedef struct s_keys
+{
+	int			key_pressed_left;
+	int			key_pressed_right;
+	int			key_pressed_w;
+	int			key_pressed_s;
+	int			key_pressed_a;
+	int			key_pressed_d;
+	int			key_pressed_m;
+}	t_keys;
+
 typedef struct s_image   t_image;
 typedef struct s_data   t_data;
 
@@ -70,6 +81,8 @@ typedef struct s_player
 	size_t		x;
 	size_t		y;
 	size_t		moves;
+	double      pos_x;
+	double      pos_y;
 }				t_player;
 
 typedef struct s_map
@@ -134,8 +147,6 @@ typedef struct s_data
 //	char		exit_img[26];
 	t_map		map;
 	t_image		my_image;
-	double      pos_x;
-	double      pos_y;
 	double      dir_x;
 	double      dir_y;
 	double      plane_x;
@@ -144,10 +155,12 @@ typedef struct s_data
 	double      ray_dir_y;
 	double		wall_player_dist;
 	int         **worldMap;
+	t_player    *player;
 	t_ray		ray;
 	t_render	render;
 	t_image		wall[4];
 	int		wall_side;
+	t_keys		keys;
 }				t_data;
 
 
@@ -196,6 +209,14 @@ void			move_right(t_data *img);
 ////////////////////////////////////////////////////////////////////////
 int				game_loop(t_data *cub);
 void			render(t_data *cub);
+int set_wall_texture(t_data *data, t_image *wall);
+////////////////////////////////////////////////////////////////////////
+////////     				MOVE								////////
+////////////////////////////////////////////////////////////////////////
+
+void	move_forward(t_data *cub);
+void	move_backward(t_data *cub, t_player *player);
+
 ////////////////////////////////////////////////////////////////////////
 ////////     				HOOK								////////
 ////////////////////////////////////////////////////////////////////////
