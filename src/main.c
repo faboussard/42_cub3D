@@ -12,6 +12,15 @@
 
 #include "cub3D.h"
 
+void init_game_loop(t_data *cub)
+{
+	set_wall_texture(cub, (*cub).wall);
+	(*cub).player = ft_calloc(sizeof (t_player), 1);
+	if ((*cub).player == NULL)
+		exit(EXIT_FAILURE);
+	init_vectors(cub);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	cub;
@@ -32,7 +41,7 @@ int	main(int ac, char **av)
 	init_screen(&cub);
 	mlx_hook(cub.win, 2, (1L << 0), &key_hook, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, close_window, &cub);
-	set_wall_texture(&cub, cub.wall);
+	init_game_loop(&cub);
 	mlx_loop_hook(cub.mlx, game_loop, &cub);
 	mlx_loop(cub.mlx);
 	return (EXIT_SUCCESS);

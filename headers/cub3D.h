@@ -40,7 +40,7 @@
 
 #define TEXTURE_NUM 4
 
-# define MOVE 0.1
+# define MOVE 0.5
 # define ROTATE 0.03
 
 //enum	e_wallside
@@ -197,27 +197,22 @@ void			define_map(t_map *map, char *file_name);
 void			launch_checks(t_map *map, char *tmp_map);
 void			fill_paths(t_map map, size_t x, size_t y);
 bool			check_path(t_map *map);
-////////////////////////////////////////////////////////////////////////
-////////     				MOVES								////////
-////////////////////////////////////////////////////////////////////////
-void			move_player_img(t_data *img, size_t x, size_t y, int direction);
-void			increment_moves(t_data *img);
-void			move_up(t_data *img);
-void			move_down(t_data *img);
-void			move_left(t_data *img);
-void			move_right(t_data *img);
+
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING							////////
 ////////////////////////////////////////////////////////////////////////
 int				game_loop(t_data *cub);
 void			render(t_data *cub);
 int set_wall_texture(t_data *data, t_image *wall);
+void init_vectors(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				MOVE								////////
 ////////////////////////////////////////////////////////////////////////
 
 void	move_forward(t_data *cub);
-void	move_backward(t_data *cub, t_player *player);
+void	move_backward(t_data *cub);
+void	move_left(t_data *cub);
+void	move_right(t_data *cub);
 
 ////////////////////////////////////////////////////////////////////////
 ////////     				HOOK								////////
