@@ -294,9 +294,9 @@ static void get_wall_player_dist(t_data *cub, t_ray *ray)
 }
 
 // calcule la position en x sur la texture (text_x) où le rayon frappe.
-//ray->impact_point est la position du point d'impact du rayon (entre 0 et 1).
+//ray->wall_x est la position du point d'impact du rayon (entre 0 et 1).
 //TEX_W est la largeur de la texture.
-//En multipliant ray->impact_point par TEX_W, on obtient la position sur la texture.
+//En multipliant ray->wall_x par TEX_W, on obtient la position sur la texture.
 //La conversion en entier (int) est effectuée pour obtenir une coordonnée entière.
 // inversion si frappe eat ou sud
 
@@ -306,7 +306,7 @@ static void get_wall_player_dist(t_data *cub, t_ray *ray)
 //-------------
 //S
 static void get_texture_x(t_render *render, t_ray *ray) {
-	render->text_x = (int)(ray->impact_point * (double)TEX_W);
+	render->text_x = (int)(ray->wall_x * (double)TEX_W);
 	printf("Initial text_x = %d\n", render->text_x);
 	if (ray->side == HORIZONTAL && render->cub->ray_dir_x > 0) {
 		render->text_x = TEX_W - render->text_x - 1;
@@ -327,12 +327,12 @@ static void get_wall_impact_point(t_data *cub, t_ray *ray)
 	{
 		if (cub->dir_y > 0)
 		{
-			ray->impact_point = cub->player->pos_y + cub->wall_player_dist * cub->dir_y;
+			ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->dir_y;
 			cub->wall_side = SO; // Sud
 		}
 		else
 		{
-			ray->impact_point = cub->player->pos_y - cub->wall_player_dist * cub->dir_y; // pb ici ? pk text_x = 0 ?
+			ray->wall_x = cub->player->pos_y - cub->wall_player_dist * cub->dir_y; // pb ici ? pk text_x = 0 ?
 			cub->wall_side = NO; // Nord
 		}
 	}
@@ -340,18 +340,18 @@ static void get_wall_impact_point(t_data *cub, t_ray *ray)
 	{
 		if (cub->dir_x < 0)
 		{
-			ray->impact_point = cub->player->pos_x + cub->wall_player_dist * cub->dir_x;
+			ray->wall_x = cub->player->pos_x + cub->wall_player_dist * cub->dir_x;
 			cub->wall_side = EA; // Est
 		}
 		else
 		{
-			ray->impact_point = cub->player->pos_x - cub->wall_player_dist * cub->dir_x;
+			ray->wall_x = cub->player->pos_x - cub->wall_player_dist * cub->dir_x;
 			cub->wall_side = WE; // Ouest
 		}
 	}
-	if (ray->impact_point  < 0.00001)
-		ray->impact_point  = 0.00001;
-	ray->impact_point -= floor(ray->impact_point);
+	if (ray->wall_x < 0.00001)
+		ray->wall_x  = 0.00001;
+	ray->wall_x -= floor(ray->wall_x);
 }
 
 static void define_draw_points(t_render *render, double wall_player_dist)
