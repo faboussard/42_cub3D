@@ -110,7 +110,7 @@ typedef struct s_ray
 	double      side_y;
 	int      step_x;
 	int      step_y;
-	double	impact_point;
+	double	wall_x;
 	int	side;
 }				t_ray;
 
