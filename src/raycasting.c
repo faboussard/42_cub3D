@@ -144,6 +144,34 @@ static void projection_mapping(t_render *render, int x)
 		my_pixel_put(&render->cub->my_image, x, y, color);
 		y++;
 	}
+	if (render->cub->wall_side == WE)
+	{
+		printf(" --------------------- WE ---------------------\n");
+		printf("render->cub->wall_side = %d\n", render->cub->wall_side);
+		printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
+		printf("color = %d\n", color);
+	}
+	if (render->cub->wall_side == NO)
+	{
+		printf(" --------------------- NO ---------------------\n");
+		printf("render->cub->wall_side = %d\n", render->cub->wall_side);
+		printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
+		printf("color = %d\n", color);
+	}
+	if (render->cub->wall_side == SO)
+	{
+		printf(" --------------------- SO ---------------------\n");
+		printf("render->cub->wall_side = %d\n", render->cub->wall_side);
+		printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
+		printf("color = %d\n", color);
+	}
+	if (render->cub->wall_side == EA)
+	{
+		printf(" --------------------- EA ---------------------\n");
+		printf("render->cub->wall_side = %d\n", render->cub->wall_side);
+		printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
+		printf("color = %d\n", color);
+	}
 
 
 }
@@ -154,12 +182,6 @@ static void projection_mapping(t_render *render, int x)
  * for each pixel you move down the screen.
  * helps to map a vertical slice of the wall texture to the screen column being drawn.
  */
-static void draw_walls(t_ray *ray, t_render *render, int x)
-{
-	get_wall_impact_point(render->cub, ray);
-	get_texture_x(render, ray);
-	projection_mapping(render, x);
-}
 
 static void init_ray_info(t_data *cub, t_ray *ray, int x)
 {
@@ -276,11 +298,17 @@ static void get_wall_player_dist(t_data *cub, t_ray *ray)
 //TEX_W est la largeur de la texture.
 //En multipliant ray->impact_point par TEX_W, on obtient la position sur la texture.
 //La conversion en entier (int) est effectuée pour obtenir une coordonnée entière.
-// inversion
+// inversion si frappe eat ou sud
+
+//N
+//-------------
+//W |     P     | E
+//-------------
+//S
 static void		get_texture_x(t_render *render, t_ray *ray)
 {
 	render->text_x = (int)(ray->impact_point * (double)TEX_W);
-	if (ray->side == HORIZONTAL && render->cub->ray_dir_x < 0)
+	if (ray->side == HORIZONTAL && render->cub->ray_dir_x > 0)
 		render->text_x = TEX_W - render->text_x - 1;
 	if (ray->side == VERTICAL && render->cub->ray_dir_y < 0)
 		render->text_x  = TEX_H - render->text_x  - 1;
@@ -352,7 +380,9 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 	render.cub = cub;
 	get_wall_player_dist(cub, ray);
    	define_draw_points(&render, cub->wall_player_dist);
-    draw_walls(ray, &render, x);
+	get_wall_impact_point(cub, ray);
+	get_texture_x(&render, ray);
+	projection_mapping(&render, x);
 }
 static int raycasting(t_data *cub)
 {
