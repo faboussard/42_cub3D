@@ -12,7 +12,6 @@
 
 #include "cub3D.h"
 
-static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i);
 static void get_wall_impact_point(t_data *cub, t_ray *ray);
 
 int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
@@ -59,7 +58,7 @@ static void my_pixel_put(t_image *img, int x, int y, int color)
 	offset_y = y * img->line_length;
 	if (x >= 0 && x < WIDTH_DISPLAY && y >= 0 && y < HEIGHT_DISPLAY)
 	{
-		dst = img->addr + ft_abs(offset_x + offset_y);
+		dst = img->addr + offset_x + offset_y;
 		*(unsigned int *) dst = color;
 	}
 }
@@ -101,63 +100,9 @@ static void		get_texture_x(t_render *render, t_ray *ray)
 	if (ray->side == HORIZONTAL && render->cub->ray_dir_x > 0)
 		render->text_x = TEX_W - render->text_x - 1;
 	if (ray->side == VERTICAL && render->cub->ray_dir_y < 0)
-		render->text_y  = TEX_H - render->text_y  - 1;
+		render->text_x  = TEX_H - render->text_x  - 1;
 }
 
-
-int set_wall_texture(t_data *cub, t_image *wall)
-{
-	int i;
-	int n;
-
-	cub->wall[0].path = ft_strdup("/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm");
-	if (cub->wall[0].path == NULL)
-		exit(EXIT_FAILURE);
-	cub->wall[1].path = ft_strdup("/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm");
-	if (cub->wall[1].path == NULL)
-		exit(EXIT_FAILURE);
-	cub->wall[2].path = ft_strdup("/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm");
-	if (cub->wall[2].path == NULL)
-		exit(EXIT_FAILURE);
-	cub->wall[3].path = ft_strdup("/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm");
-	if (cub->wall[3].path == NULL)
-		exit(EXIT_FAILURE);
-	i = 0;
-	n = TEXTURE_NUM;
-	while (i < n)
-	{
-		create_wall_texture_img(cub, wall, n, i);
-		i++;
-	}
-	return (0);
-}
-
-static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i)
-{
-	if (n == 32000) // a supprimer une fois que wall[i] sera malloc (parsing). n sert juste a freer les images de textures
-		return ;
-	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
-	if (wall[i].img == NULL)
-	{
-		while (i-- > 0)
-			mlx_destroy_image(cub->mlx, wall[i].img);
-		while (++i < TEXTURE_NUM)
-			free(wall[i].path);
-		printf("Erreur lors du chargement de l'image de la texture\n");
-		exit(EXIT_FAILURE);
-	}
-
-	wall[i].addr = mlx_get_data_addr(wall[i].img, &wall[i].bits_per_pixel, &wall[i].line_length, &wall[i].endian);
-	if (wall[i].addr == NULL)
-	{
-		while (i-- > 0)
-			mlx_destroy_image(cub->mlx, wall[i].img);
-		while (++i < TEXTURE_NUM)
-			free(wall[i].path);
-		printf("Erreur lors de l'obtention des données de la texture\n");
-		exit(EXIT_FAILURE);
-	}
-}
 
 static void projection_mapping(t_render *render, int x)
 {
@@ -324,7 +269,7 @@ static void get_wall_impact_point(t_data *cub, t_ray *ray)
 	}
 	else
 	{
-		if (cub->dir_x <= 0)
+		if (cub->dir_x < 0)
 		{
 			ray->impact_point = cub->player->pos_x + cub->wall_player_dist * cub->dir_x;
 			cub->wall_side = EA; // Est
