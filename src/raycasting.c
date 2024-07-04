@@ -84,7 +84,7 @@ unsigned int get_texel(t_image *texture, int x, int y)
  * If the direction vector and the camera plane vector have the same length, the FOV will be 90°
  * here FOV is  2 * atan(0.66/1.0)=66°
  * */
-static void init_vectors(t_data *cub)
+void init_vectors(t_data *cub)
 {
 	cub->player->pos_x = 22;
 	cub->player->pos_y = 12;
@@ -325,11 +325,7 @@ static int raycasting(t_data *cub)
 	t_ray	ray;
 //	t_player player;
 
-	cub->player = ft_calloc(sizeof (t_player), 1);
-	if (cub->player == NULL)
-		exit(EXIT_FAILURE);
 	ray = cub->ray;
-	init_vectors(cub);
 	x = 0;
 	while (x < WIDTH_DISPLAY)
 	{
@@ -349,8 +345,12 @@ int game_loop(t_data *cub)
 //		rotate_clockwise(data);
 //	if (cub->keys.key_pressed_left)
 //		rotate_counterclockwise(data);
-	if (cub->keys.key_pressed_w)
-		move_forward(cub);
+//	if (cub->keys.key_pressed_w == 1)
+//	{
+//		printf("yes");
+//		move_forward(cub);
+//		cub->keys.key_pressed_w = 0;
+//	}
 //	if (cub->keys.key_pressed_s)
 //		move_backward(data, &data->player, &data->map);
 //	if (cub->keys.key_pressed_a)
