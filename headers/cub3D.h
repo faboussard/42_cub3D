@@ -85,6 +85,7 @@ typedef struct s_player
 	size_t		moves;
 	double      pos_x;
 	double      pos_y;
+	t_data		*cub;
 }				t_player;
 
 typedef struct s_map
@@ -213,6 +214,8 @@ void	move_forward(t_data *cub);
 void	move_backward(t_data *cub);
 void	move_left(t_data *cub);
 void	move_right(t_data *cub);
+void	update_player_position(t_player *player, \
+double dest_x, double dest_y);
 
 ////////////////////////////////////////////////////////////////////////
 ////////     				HOOK								////////

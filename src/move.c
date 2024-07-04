@@ -12,9 +12,6 @@
 
 #include "../headers/cub3D.h"
 
-static void	update_player_position(t_player *player, \
-double dest_x, double dest_y);
-
 void	move_forward(t_data *cub)
 {
 	double	dest_x;
@@ -69,15 +66,3 @@ void	move_right(t_data *cub)
 
 //static void	update_player_position(t_data *cub, t_player *player, \
 //double dest_x, double dest_y)
-static void	update_player_position(t_player *player, \
-double dest_x, double dest_y)
-{
-//	if (data->map.map[(int)player->pos.y][(int)dest_x] != '1'
-//	    && data->map.map[(int)player->pos.y][(int)dest_x] != 'D'
-//	    && data->map.map[(int)player->pos.y][(int)dest_x] != 'T')
-		player->pos_x = dest_x;
-//	if (data->map.map[(int)dest_y][(int)player->pos.x] != '1'
-//	    && data->map.map[(int)dest_y][(int)player->pos.x] != 'D'
-//	    && data->map.map[(int)dest_y][(int)player->pos.x] != 'T')
-		player->pos_y = dest_y;
-}
