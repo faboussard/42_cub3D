@@ -345,14 +345,13 @@ int game_loop(t_data *cub)
 //		rotate_clockwise(data);
 //	if (cub->keys.key_pressed_left)
 //		rotate_counterclockwise(data);
-//	if (cub->keys.key_pressed_w == 1)
-//	{
-//		printf("yes");
-//		move_forward(cub);
-//		cub->keys.key_pressed_w = 0;
-//	}
-//	if (cub->keys.key_pressed_s)
-//		move_backward(data, &data->player, &data->map);
+	if (cub->keys.key_pressed_w == 1)
+	{
+		printf("yes");
+		move_forward(cub);
+	}
+	if (cub->keys.key_pressed_s == 1)
+		move_backward(cub);
 //	if (cub->keys.key_pressed_a)
 //		move_left(data, &data->player, &data->map);
 //	if (cub->keys.key_pressed_d)
