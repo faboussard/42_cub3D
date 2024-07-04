@@ -105,16 +105,28 @@ static void		get_texture_x(t_render *render, t_ray *ray)
 }
 
 
-int set_wall_texture(t_data *data, t_image *wall)
+int set_wall_texture(t_data *cub, t_image *wall)
 {
 	int i;
 	int n;
 
+	cub->wall[0].path = ft_strdup("/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm");
+	if (cub->wall[0].path == NULL)
+		exit(EXIT_FAILURE);
+	cub->wall[1].path = ft_strdup("/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm");
+	if (cub->wall[1].path == NULL)
+		exit(EXIT_FAILURE);
+	cub->wall[2].path = ft_strdup("/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm");
+	if (cub->wall[2].path == NULL)
+		exit(EXIT_FAILURE);
+	cub->wall[3].path = ft_strdup("/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm");
+	if (cub->wall[3].path == NULL)
+		exit(EXIT_FAILURE);
 	i = 0;
-	n = 4;
+	n = TEXTURE_NUM;
 	while (i < n)
 	{
-		create_wall_texture_img(data, wall, n, i);
+		create_wall_texture_img(cub, wall, n, i);
 		i++;
 	}
 	return (0);
@@ -129,8 +141,8 @@ static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i)
 	{
 		while (i-- > 0)
 			mlx_destroy_image(cub->mlx, wall[i].img);
-//		while (++i < n)
-//			free(wall[i].path);
+		while (++i < TEXTURE_NUM)
+			free(wall[i].path);
 		printf("Erreur lors du chargement de l'image de la texture\n");
 		exit(EXIT_FAILURE);
 	}
@@ -140,8 +152,8 @@ static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i)
 	{
 		while (i-- > 0)
 			mlx_destroy_image(cub->mlx, wall[i].img);
-//		while (++i < n)
-//			free(wall[i].path);
+		while (++i < TEXTURE_NUM)
+			free(wall[i].path);
 		printf("Erreur lors de l'obtention des données de la texture\n");
 		exit(EXIT_FAILURE);
 	}
