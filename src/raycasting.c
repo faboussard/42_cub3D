@@ -69,10 +69,9 @@ double dest_x, double dest_y)
 		player->pos_y = dest_y;
 }
 static double get_delta(double ray_dir);
-
 static double get_side(double ray_dir, double map, double delta_dist, double pos);
-
 static int get_step(double ray_dir);
+static void		get_texture_x(t_render *render, t_ray *ray);
 
 static void my_pixel_put(t_image *img, int x, int y, int color)
 {
@@ -99,7 +98,7 @@ unsigned int get_texel(t_image *texture, int x, int y)
 	offset_y = y * texture->line_length;
 //	if (x >= 0 && x < 60 && y >= 0 && y < 60) // limiter la map au parsing sinon ca ne fonctionne pas ex / /home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/wall.xpm
 	{
-		pxl = texture->addr + (offset_y + offset_x);
+		pxl = texture->addr + offset_y + offset_x;
 		return (*(unsigned int *) pxl);
 	}
 	return 0;
@@ -120,14 +119,7 @@ void init_vectors(t_data *cub)
 	cub->plane_y = 0.66; //simplification et arrondi a partir du FOV du jeu de base qui est 2 * atan(0.66/1.0)=66°
 }
 
-static void		get_texture_x(t_render *render, t_ray *ray)
-{
-	render->text_x = (int)(ray->impact_point * (double)TEX_W);
-	if (ray->side == HORIZONTAL && render->cub->ray_dir_x > 0)
-		render->text_x = TEX_W - render->text_x - 1;
-	if (ray->side == VERTICAL && render->cub->ray_dir_y < 0)
-		render->text_x  = TEX_H - render->text_x  - 1;
-}
+
 
 
 static void projection_mapping(t_render *render, int x)
@@ -141,17 +133,19 @@ static void projection_mapping(t_render *render, int x)
 						   + ((double)render->line_height / 2.0)) * render->text_step;
 	while (y < render->draw_end)
 	{
-		render->text_y = (int)render->texture_pos & (TEX_H - 1);
+		render->text_y = (int)render->texture_pos & (TEX_H - 1); //sert à calculer l'index vertical (text_y) dans la texture en s'assurant qu'il reste dans les limites de la texture (de 0 à 63)
 		render->texture_pos += render->text_step;
 		// Obtenir la couleur du texel
 		color = get_texel(&render->cub->wall[render->cub->wall_side], render->text_x, render->text_y);
 
 		// Appliquer l'effet d'ombrage si nécessaire
-		if (render->cub->wall_side == NO || render->cub->wall_side == EA)
-			color = (color >> 1) & 8355711;
+//		if (render->cub->wall_side == NO)
+//			color = (color >> 1) & 8355711;
 		my_pixel_put(&render->cub->my_image, x, y, color);
 		y++;
 	}
+
+
 }
 
 
@@ -275,6 +269,21 @@ static void get_wall_player_dist(t_data *cub, t_ray *ray)
 //		cub->wall_player_dist = (ray->map_y - cub->player->pos_y
 //							+ (1 - ray->step_y) / 2) / cub->ray_dir_y;
 		cub->wall_player_dist = (ray->side_y - ray->delta_y);
+}
+
+// calcule la position en x sur la texture (text_x) où le rayon frappe.
+//ray->impact_point est la position du point d'impact du rayon (entre 0 et 1).
+//TEX_W est la largeur de la texture.
+//En multipliant ray->impact_point par TEX_W, on obtient la position sur la texture.
+//La conversion en entier (int) est effectuée pour obtenir une coordonnée entière.
+// inversion
+static void		get_texture_x(t_render *render, t_ray *ray)
+{
+	render->text_x = (int)(ray->impact_point * (double)TEX_W);
+	if (ray->side == HORIZONTAL && render->cub->ray_dir_x < 0)
+		render->text_x = TEX_W - render->text_x - 1;
+	if (ray->side == VERTICAL && render->cub->ray_dir_y < 0)
+		render->text_x  = TEX_H - render->text_x  - 1;
 }
 
 //en fonction de la direction du rayon
