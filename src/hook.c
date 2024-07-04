@@ -12,63 +12,29 @@
 
 #include "cub3D.h"
 
-int	key_hook(int keysym, t_data *cub)
+int	key_press_hook(int keysym, t_data *cub)
 {
 	if (keysym == XK_Escape)
 		close_window(cub);
 	else if (keysym == XK_W || keysym == XK_w)
-		move_forward(cub);
+		cub->keys.key_pressed_w = 1;
 	else if (keysym == XK_S || keysym == XK_s)
-		move_backward(cub);
-	else if (keysym == XK_A || keysym == XK_a)
-		move_left(cub);
-	else if (keysym == XK_D || keysym == XK_d)
-		move_right(cub);
+		cub->keys.key_pressed_s = 1;
+//	else if (keysym == XK_A || keysym == XK_a)
+//		move_left(cub);
+//	else if (keysym == XK_D || keysym == XK_d)
+//		move_right(cub);
 	return (0);
 }
 
-//
-//int	keypress(int keysym, t_cub3d *data)
-//{
-//	if (keysym == XK_Escape)
-//		close_window(data);
-//	if (keysym == XK_Right)
-//		data->keys.key_pressed_right = 1;
-//	if (keysym == XK_Left)
-//		data->keys.key_pressed_left = 1;
-//	if (keysym == XK_w)
-//		data->keys.key_pressed_w = 1;
-//	if (keysym == XK_a)
-//		data->keys.key_pressed_a = 1;
-//	if (keysym == XK_s)
-//		data->keys.key_pressed_s = 1;
-//	if (keysym == XK_d)
-//		data->keys.key_pressed_d = 1;
-//	if (BONUS)
-//	{
-//		if (keysym == XK_e)
-//			action_event(data);
-//		if (keysym == XK_x && data->keys.key_pressed_x == 0)
-//			data->keys.key_pressed_x = 1;
-//		else if (keysym == XK_x && data->keys.key_pressed_x == 1)
-//			data->keys.key_pressed_x = 0;
-//	}
-//	return (0);
-//}
-//
-//int	keyrelease(int keysym, t_cub3d *data)
-//{
-//	if (keysym == XK_Right)
-//		data->keys.key_pressed_right = 0;
-//	if (keysym == XK_Left)
-//		data->keys.key_pressed_left = 0;
-//	if (keysym == XK_w)
-//		data->keys.key_pressed_w = 0;
-//	if (keysym == XK_a)
-//		data->keys.key_pressed_a = 0;
-//	if (keysym == XK_s)
-//		data->keys.key_pressed_s = 0;
-//	if (keysym == XK_d)
-//		data->keys.key_pressed_d = 0;
-//	return (0);
-//}
+
+int	key_release_hook(int keysym, t_data *cub)
+{
+	if (keysym == XK_Escape)
+		close_window(cub); //enlever ?
+	else if (cub->keys.key_pressed_w && (keysym == XK_W || keysym == XK_w))
+		cub->keys.key_pressed_w = 0;
+	else if (cub->keys.key_pressed_s && (keysym == XK_S || keysym == XK_s))
+		cub->keys.key_pressed_s = 0;
+	return (0);
+}
