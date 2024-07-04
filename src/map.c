@@ -12,14 +12,6 @@
 
 #include "cub3D.h"
 
-bool	ft_is_space(const int c)
-{
-	if (c == ' ' || c == '\f' || c == '\n'
-		|| c == '\r' || c == '\t' || c == '\v')
-		return (1);
-	return (0);
-}
-
 static bool	map_contains_01nsew(t_map *map, char *tmp_map)
 {
 	static size_t	player;
