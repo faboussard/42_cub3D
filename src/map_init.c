@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-//static void	init_map(t_data *cub, char *line)
+// static void	init_map(t_data *cub, char *line)
 //{
 //	size_t	i;
 //	size_t	j;
@@ -37,7 +37,7 @@
 static void	fill_tmp_map(int fd, char **tmp_map)
 {
 	int		min_line_nb;
-	char 	*line;
+	char	*line;
 
 	min_line_nb = 1;
 	while (1)
@@ -64,7 +64,7 @@ static void	fill_tmp_map(int fd, char **tmp_map)
 static char	*get_map_inline(char *ber)
 {
 	int		fd;
-	char 	*tmp_map;
+	char	*tmp_map;
 
 	fd = open(ber, O_RDONLY);
 	if (fd < 0)
@@ -74,31 +74,30 @@ static char	*get_map_inline(char *ber)
 	return (tmp_map);
 }
 
-
 void	define_map(t_map *map, char *file_name)
 {
-//	int		fd;
-//	size_t	size;
 	char	*tmp_map;
 
+	//	int		fd;
+	//	size_t	size;
 	map->status = 0;
 	tmp_map = get_map_inline(file_name);
 	map->copy = ft_split(tmp_map, '\n');
 	map->grid = map->copy + 5;
 	dprintf(2, "%s\n", tmp_map);
 	dprintf(2, "MAP GRID\n%s\n", map->grid[1]);
-/*	fd = open(file_name, O_RDONLY);
-	if (fd < 0 || read(fd, tmp_map, 0) < 0)
-	{
-		free(tmp_map);
-		no_such_file_error();
-	}
-	size = read(fd, tmp_map, size);
-	if (size > 0)
-	{
-		tmp_map[size] = '\0';
-		launch_checks(map, tmp_map);
-	}*/
+	/*	fd = open(file_name, O_RDONLY);
+		if (fd < 0 || read(fd, tmp_map, 0) < 0)
+		{
+			free(tmp_map);
+			no_such_file_error();
+		}
+		size = read(fd, tmp_map, size);
+		if (size > 0)
+		{
+			tmp_map[size] = '\0';
+			launch_checks(map, tmp_map);
+		}*/
 	free(tmp_map);
-//	close(fd);
+	//	close(fd);
 }

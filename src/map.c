@@ -15,7 +15,7 @@
 static bool	map_contains_01nsew(t_map *map, char *tmp_map)
 {
 	static size_t	player;
-	size_t	x;
+	size_t			x;
 
 	(void)map;
 	player = 0;
@@ -26,7 +26,7 @@ static bool	map_contains_01nsew(t_map *map, char *tmp_map)
 			|| tmp_map[x] == 'E' || tmp_map[x] == 'W')
 			player++;
 		else if (tmp_map[x] != '0' && tmp_map[x] != '1' && tmp_map[x] != '\n'
-				&& !ft_is_space(tmp_map[x]))
+			&& !ft_is_space(tmp_map[x]))
 			return (0);
 		if (tmp_map[x + 1] && tmp_map[x] == '\n' && tmp_map[x + 1] == '\n')
 			return (0);
@@ -178,4 +178,3 @@ void	launch_checks(t_map *map, char *tmp_map)
 //		map_error(map->grid, map->copy);
 //	}
 //}
-
