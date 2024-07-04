@@ -41,19 +41,104 @@ static void	ft_free_tab(char **tab)
 	tab = NULL;
 }
 
-static void	define_colors(t_data *cub)
+static bool	check_char_color(char c, int *commas, int *num_nums, bool *num_place)
+{
+	if (c == ',' && *num_place == false)
+	{
+		++(*commas);
+		*num_place = true;
+	}
+	else if (ft_isdigit(c) && *num_place == true)
+	{
+		*num_place = false;
+		++(*num_nums);
+	}
+	else if ((c == ',' && *num_place == true)
+		|| (!ft_isdigit(c) && !ft_is_space(c) && c != ','))
+		return (0);
+	return (1);
+}
+
+bool	check_color(char *color)
 {
 	int		i;
+	int		commas;
+	bool	num_place;
+	int		num_nums;
 
 	i = 0;
-	while (i < 6)
+	commas = 0;
+	num_place = true;
+	num_nums = 0;
+	color += 1;
+	while (color[i])
 	{
-		if (ft_strncmp(cub->map.copy[i], "F ", 2) == 0)
-			cub->floor_color = cub->map.copy[i];
-		else if (ft_strncmp(cub->map.copy[i], "C ", 2) == 0)
-			cub->ceiling_color = cub->map.copy[i];
+		if (check_char_color(color[i], &commas, &num_nums, &num_place) == false)
+			return (0);
+		if (commas > 2 || num_nums > 3)
+			return (0);
 		i++;
 	}
+	if (commas != 2 || num_nums != 3 || num_place == true)
+		return (0);
+	return (1);
+}
+
+int	create_trgb(char *color)
+{
+	int		r;
+	int		g;
+	int		b;
+
+	color += 2;
+	r = ft_atoi(color);
+	if (r < 0 || r > 255)
+		return (-1);
+	while (*color && ft_isdigit(*color))
+		color++;
+	while (*color && (*color == ',' || ft_is_space(*color)))
+		color++;
+	g = ft_atoi(color);
+	if (g < 0 || g > 255)
+		return (-1);
+	while (*color && ft_isdigit(*color))
+		color++;
+	while (*color && (*color == ',' || ft_is_space(*color)))
+		color++;
+	b = ft_atoi(color);
+	if (b < 0 || b > 255)
+		return (-1);
+	return (0 << 24 | r << 16 | g << 8 | b);
+}
+
+static bool	define_colors(t_data *cub)
+{
+	int		i;
+	bool	floor_defined;
+	bool	ceiling_defined;
+
+	i = 0;
+	floor_defined = false;
+	ceiling_defined = false;
+	while (i < 6)
+	{
+		if (floor_defined == false && ft_strncmp(cub->map.copy[i], "F ", 2) == 0)
+		{
+			cub->map.floor_color = create_trgb(cub->map.copy[i]);
+			floor_defined = true;
+		}
+		else if (floor_defined == true && ft_strncmp(cub->map.copy[i], "F ", 2) == 0)
+			return (false);
+		else if (ft_strncmp(cub->map.copy[i], "C ", 2) == 0)
+		{
+			cub->map.ceiling_color = create_trgb(cub->map.copy[i]);
+			ceiling_defined = true;
+		}
+		else if (ceiling_defined == true && ft_strncmp(cub->map.copy[i], "C ", 2) == 0)
+			return (false);
+		i++;
+	}
+	return (floor_defined && ceiling_defined);
 }
 
 static void	define_textures_path(t_data *cub)
@@ -84,11 +169,12 @@ void	parsing(t_data *cub, char *file)
 //	ret = 0;
 	define_map(&cub->map, file);
 	define_textures_path(cub);
-	define_colors(cub);
-	dprintf(2, "NORTH: %s\n", cub->map.copy[0]);
-	dprintf(2, "SOUTH: %s\n", cub->map.copy[1]);
-	dprintf(2, "WEST: %s\n", cub->map.copy[2]);
-	dprintf(2, "EAST: %s\n", cub->map.copy[3]);
+	if(define_colors(cub) == false)
+	{
+		(void)write(2, "Error: Wrong colors\n", 21);
+		ft_free_tab(cub->map.copy);
+		exit(1);
+	}
 	cub->north_img = cub->map.copy[0];
 	cub->south_img = cub->map.copy[1];
 	cub->west_img = cub->map.copy[2];

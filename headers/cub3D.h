@@ -70,7 +70,7 @@ typedef struct s_map
 	bool		status;
 	t_player	player;
     int				floor_color;
-    int				cealing_color;
+    int				ceiling_color;
 }				t_map;
 
 typedef struct s_raycasting
@@ -154,6 +154,7 @@ void			check_file_name(char *file);
 ////////////////////////////////////////////////////////////////////////
 void			free_tabs(char **map, char **copy);
 bool			ft_search_char(char letter, char *charset);
+bool			ft_is_space(const int c);
 //void			ft_put_pos_nbr_fd(size_t n, int fd);
 ////////////////////////////////////////////////////////////////////////
 ////////     				INIT								////////
