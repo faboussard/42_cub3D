@@ -332,7 +332,7 @@ static void get_wall_impact_point(t_data *cub, t_ray *ray)
 		}
 		else
 		{
-			ray->impact_point = cub->player->pos_y - cub->wall_player_dist * cub->dir_y;
+			ray->impact_point = cub->player->pos_y - cub->wall_player_dist * cub->dir_y; // pb ici ? pk text_x = 0 ?
 			cub->wall_side = NO; // Nord
 		}
 	}
