@@ -14,6 +14,8 @@
 
 static void get_wall_impact_point(t_data *cub, t_ray *ray);
 
+
+
 int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -41,7 +43,31 @@ int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
+static int is_valid_position(t_player *player)
+{
+	int map_x = (int) player->pos_x;
+	int map_y = (int) player->pos_y;
 
+	//map reste toujours a 12. pk
+	printf("map_x = %d, map_y = %d\n", map_x, map_y);
+	if (map_x < 0 || map_x >= MAP_WIDTH || map_y < 0 || map_y >= MAP_HEIGHT)
+		return 0;  // Out of bounds
+
+
+	return 1;  // Valid position
+}
+
+void	update_player_position(t_player *player, \
+double dest_x, double dest_y)
+{
+	t_data	*cub;
+
+	cub = player->cub;
+	if (is_valid_position(player))
+		player->pos_x = dest_x;
+	if (is_valid_position(player))
+		player->pos_y = dest_y;
+}
 static double get_delta(double ray_dir);
 
 static double get_side(double ray_dir, double map, double delta_dist, double pos);
@@ -107,7 +133,7 @@ static void		get_texture_x(t_render *render, t_ray *ray)
 static void projection_mapping(t_render *render, int x)
 {
 	int y;
-	unsigned int color;
+	int color;
 
 	y = render->draw_start;
 	render->text_step = 1.0 * ((double)TEX_H) / (double) render->line_height;
@@ -346,10 +372,7 @@ int game_loop(t_data *cub)
 //	if (cub->keys.key_pressed_left)
 //		rotate_counterclockwise(data);
 	if (cub->keys.key_pressed_w == 1)
-	{
-		printf("yes");
 		move_forward(cub);
-	}
 	if (cub->keys.key_pressed_s == 1)
 		move_backward(cub);
 //	if (cub->keys.key_pressed_a)
