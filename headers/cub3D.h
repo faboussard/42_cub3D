@@ -33,10 +33,12 @@
 # define HORIZONTAL 0
 # define VERTICAL 1
 
-#define SO 3
+#define SO 0
 #define NO 1
 #define EA 2
-#define WE 0
+#define WE 3
+
+#define TEXTURE_NUM 4
 
 # define MOVE 0.1
 # define ROTATE 0.03
@@ -158,7 +160,7 @@ typedef struct s_data
 	t_player    *player;
 	t_ray		ray;
 	t_render	render;
-	t_image		wall[4];
+	t_image		wall[TEXTURE_NUM];
 	int		wall_side;
 	t_keys		keys;
 }				t_data;
