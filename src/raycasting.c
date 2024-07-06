@@ -419,9 +419,9 @@ int game_loop(t_data *cub)
 		move_forward(cub);
 	if (cub->keys.key_pressed_s == 1)
 		move_backward(cub);
-//	if (cub->keys.key_pressed_a)
-//		move_left(data, &data->player, &data->map);
-//	if (cub->keys.key_pressed_d)
-//		move_right(data, &data->player, &data->map);
+	if (cub->keys.key_pressed_a == 1)
+		move_left(cub);
+	if (cub->keys.key_pressed_d == 1)
+		move_right(cub);
 	return (0);
 }
