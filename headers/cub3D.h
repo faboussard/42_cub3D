@@ -113,6 +113,7 @@ typedef struct s_ray
 	int      step_y;
 	double	wall_x;
 	int	side;
+	t_data 	*cub;
 }				t_ray;
 
 typedef struct s_render
@@ -135,10 +136,6 @@ typedef struct s_data
 	void		*mlx;
 	void		*win;
 	void		*empty;
-	void		*north_wall;
-	void		*south_wall;
-	void		*east_wall;
-	void		*west_wall;
 	void		*up;
 	void		*down;
 	void		*left;
@@ -163,7 +160,7 @@ typedef struct s_data
 	t_ray		ray;
 	t_render	render;
 	t_image		wall[TEXTURE_NUM];
-	int		wall_side;
+	int			wall_side;
 	t_keys		keys;
 }				t_data;
 
