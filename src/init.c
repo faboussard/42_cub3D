@@ -14,21 +14,6 @@
 
 static void create_wall_texture_img(t_data *cub, t_image *wall, int i);
 
-//static void	init_pictures(t_data *img)
-//{
-//	ft_strlcpy(img->emp_img, "./sprites/empty_80_80.xpm", 26);
-//	ft_strlcpy(img->wall_img, "./sprites/wall_80_80.xpm", 25);
-//	ft_strlcpy(img->coll_img, "./sprites/coins_80_80.xpm", 26);
-//	ft_strlcpy(img->exit_img, "./sprites/chest_80_80.xpm", 26);
-//	ft_strlcpy(img->up_img, "./sprites/up_80_80.xpm", 23);
-//	ft_strlcpy(img->down_img, "./sprites/down_80_80.xpm", 25);
-//	ft_strlcpy(img->left_img, "./sprites/left_80_80.xpm", 25);
-//	ft_strlcpy(img->right_img, "./sprites/right_80_80.xpm", 26);
-//}
-//
-//
-
-
 int set_wall_texture(t_data *cub, t_image *wall)
 {
 	int i;
@@ -94,7 +79,9 @@ static void create_wall_texture_img(t_data *cub, t_image *wall, int i)
 
 void init_image(t_data *cub)
 {
-	cub->my_image.img = mlx_new_image(cub->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY);
+	cub->my_image.width = WIDTH_DISPLAY;
+	cub->my_image.height = HEIGHT_DISPLAY;
+	cub->my_image.img = mlx_new_image(cub->mlx, cub->my_image.width, cub->my_image.height );
 	if (cub->my_image.img == NULL)
 	{
 //		free_all(cub);
@@ -135,28 +122,17 @@ void init_image(t_data *cub)
 
 void init_screen(t_data *img)
 {
-//	init_pictures(img);
+	init_mlx_win(img);
+
 	init_image(img);
-//	init_map(img, 0, 0);
-//	img->map.player.moves = 0;
 }
 
 void init_mlx_win(t_data *img)
 {
-//	size_t	cols;
-//	size_t	rows;
-//
-////	cols = img->map.cols;
-////	rows = img->map.rows + 1;
-//	if (rows > INT_MAX || rows < 3 || cols > 26843545)
-//		map_error(img->map.grid, img->map.copy);
 	img->mlx = mlx_init();
 	if (img->mlx == NULL)
-	{
-//		free_tabs(img->map.grid, img->map.copy);
 		malloc_error();
-	}
-//	img->win = mlx_new_window(img->mlx, cols * 80, rows * 80, "cub3d");
+
 	img->win = mlx_new_window(img->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY, "cub3d");
 	if (img->win == NULL)
 	{

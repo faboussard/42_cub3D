@@ -33,7 +33,6 @@ int	main(int ac, char **av)
 	}
 	check_file_name(av[1]);
 	parsing(&cub, av[1]);
-	init_mlx_win(&cub);
 	init_screen(&cub);
 	mlx_hook(cub.win, KeyPress, KeyPressMask, key_press_hook, &cub);
 	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, key_release_hook, &cub);
