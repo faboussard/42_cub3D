@@ -54,13 +54,13 @@
 
 typedef struct s_keys
 {
-	int			key_pressed_left;
-	int			key_pressed_right;
-	int			key_pressed_w;
-	int			key_pressed_s;
-	int			key_pressed_a;
-	int			key_pressed_d;
-	int			key_pressed_m;
+	bool			key_pressed_left;
+	bool			key_pressed_right;
+	bool			key_pressed_w;
+	bool			key_pressed_s;
+	bool			key_pressed_a;
+	bool			key_pressed_d;
+	bool			key_pressed_m;
 }	t_keys;
 
 typedef struct s_image   t_image;
