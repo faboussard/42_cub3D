@@ -159,7 +159,7 @@ void	launch_checks(t_map *map, char *tmp_map)
 	if (check_map(map) == 0)
 	{
 		free(tmp_map);
-		map_error(map->grid, map->copy);
+		map_error(map->grid);
 	}
 }
 

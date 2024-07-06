@@ -12,10 +12,18 @@
 
 #include "cub3D.h"
 
-void	destroy_images(t_data *img)
+void	destroy_images(t_data *cub)
 {
-	if (img->empty)
-		mlx_destroy_image(img->mlx, img->empty);
+	if (cub->east_img)
+		mlx_destroy_image(cub->mlx, cub->east_img);
+	if (cub->west_img)
+		mlx_destroy_image(cub->mlx, cub->west_img);
+	if (cub->north_img)
+		mlx_destroy_image(cub->mlx, cub->north_img);
+	if (cub->south_img)
+		mlx_destroy_image(cub->mlx, cub->south_img);
+	// if (img->empty)
+	// 	mlx_destroy_image(img->mlx, img->empty);
 //	if (img->north_wall)
 //		mlx_destroy_image(img->mlx, img->north_wall);
 //	if (img->south_wall)
@@ -26,16 +34,18 @@ void	destroy_images(t_data *img)
 //		mlx_destroy_image(img->mlx, img->west_wall);
 }
 
-int	close_window(t_data *img)
+int	close_window(t_data *cub)
 {
-	destroy_images(img);
-	if (img->win)
-		mlx_destroy_window(img->mlx, img->win);
-	if (img->mlx)
+	destroy_images(cub);
+	if (cub->win)
+		mlx_destroy_window(cub->mlx, cub->win);
+	if (cub->mlx)
 	{
-		mlx_destroy_display(img->mlx);
-		free(img->mlx);
+		mlx_destroy_display(cub->mlx);
+		free(cub->mlx);
 	}
-	free_tabs(img->map.grid, img->map.copy);
+	ft_free_tab(&cub->map.copy);
+	// ft_free_tab(&cub->map.copy);
+	// free_tabs(img->map.grid, img->map.copy);
 	exit(1);
 }

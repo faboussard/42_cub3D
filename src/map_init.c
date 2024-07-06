@@ -57,7 +57,7 @@ static void	fill_tmp_map(int fd, char **tmp_map)
 	if (min_line_nb < 9)
 	{
 		free(*tmp_map);
-		map_error(NULL, NULL);
+		map_error(NULL);
 	}
 }
 
@@ -83,9 +83,9 @@ void	define_map(t_map *map, char *file_name)
 	map->status = 0;
 	tmp_map = get_map_inline(file_name);
 	map->copy = ft_split(tmp_map, '\n');
-	map->grid = map->copy + 5;
+	map->grid = map->copy + 6;
 	dprintf(2, "%s\n", tmp_map);
-	dprintf(2, "MAP GRID\n%s\n", map->grid[1]);
+	dprintf(2, "MAP GRID\n%s\n", map->grid[0]);
 	/*	fd = open(file_name, O_RDONLY);
 		if (fd < 0 || read(fd, tmp_map, 0) < 0)
 		{

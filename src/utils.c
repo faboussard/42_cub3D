@@ -37,28 +37,45 @@ bool	ft_search_char(char letter, char *charset)
 	return (0);
 }
 
-static void	ft_free_tab(char **tab)
+void	ft_free_tab(char ***tab)
 {
 	size_t	i;
 
 	i = 0;
 	if (!tab || !*tab)
 		return ;
-	while (tab[i])
+	while ((*tab)[i])
 	{
-		if (tab[i])
-			free(tab[i]);
+		free((*tab)[i]);
+		(*tab)[i] = NULL;
+		// free_safely_str(&((*tab)[i]));
 		i++;
 	}
-	free(tab);
-	tab = NULL;
+	free(*tab);
+	*tab = NULL;
 }
+// void	ft_free_tab(char ***tab)
+// {
+// 	size_t	i;
+//
+// 	i = 0;
+// 	if (!tab || !*tab ||)
+// 		return ;
+// 	while (tab[i])
+// 	{
+// 		if (tab[i])
+// 			free(tab[i]);
+// 		i++;
+// 	}
+// 	free(tab);
+// 	tab = NULL;
+// }
 
-void	free_tabs(char **map, char **copy)
+/*void	free_tabs(char **map, char **copy)
 {
 	ft_free_tab(map);
 	ft_free_tab(copy);
-}
+}*/
 
 /*
 void	ft_put_pos_nbr_fd(size_t n, int fd)

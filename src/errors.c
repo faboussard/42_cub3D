@@ -30,10 +30,12 @@ void	malloc_error(void)
 //	exit(EXIT_FAILURE);
 //}
 //
-void	map_error(char **map, char **copy)
+void	map_error(char **map)
 {
-	if (map && copy)
-		free_tabs(map, copy);
+	if (map)
+		ft_free_tab(&map);
+	// if (map && copy)
+	// 	free_tabs(map, copy);
 	write(2, "Error\nInvalid map\n", 18);
 	exit(EXIT_FAILURE);
 }
