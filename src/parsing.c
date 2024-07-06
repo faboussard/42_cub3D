@@ -71,7 +71,7 @@ void	parsing(t_data *cub, char *file)
 		ft_free_tab(cub->map.copy);
 		exit(1);
 	}
-
+	dprintf(2, "MAPPPPPPPPPPPPPPPPPPPPP \n%s\n", cub->map.grid[0]);
 	// cub->north_img = cub->map.copy[0] + 2;
 	// cub->south_img = cub->map.copy[1] + 2;
 	// cub->west_img = cub->map.copy[2] + 2;
