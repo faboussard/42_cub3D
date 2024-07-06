@@ -49,13 +49,13 @@ static void	define_textures_path(t_data *cub)
 	while (i < 6)
 	{
 		if (ft_strncmp(cub->map.copy[i], "NO ", 3) == 0)
-			cub->north_img = cub->map.copy[i];
+			cub->north_img = cub->map.copy[i] + 3;
 		else if (ft_strncmp(cub->map.copy[i], "SO ", 3) == 0)
-			cub->south_img = cub->map.copy[i];
+			cub->south_img = cub->map.copy[i] + 3;
 		else if (ft_strncmp(cub->map.copy[i], "WE ", 3) == 0)
-			cub->west_img = cub->map.copy[i];
+			cub->west_img = cub->map.copy[i] + 3;
 		else if (ft_strncmp(cub->map.copy[i], "EA ", 3) == 0)
-			cub->east_img = cub->map.copy[i];
+			cub->east_img = cub->map.copy[i] + 3;
 		i++;
 	}
 }
@@ -72,10 +72,10 @@ void	parsing(t_data *cub, char *file)
 		exit(1);
 	}
 
-//	cub->north_img = cub->map.copy[0];
-//	cub->south_img = cub->map.copy[1];
-//	cub->west_img = cub->map.copy[2];
-//	cub->east_img = cub->map.copy[3];
+	// cub->north_img = cub->map.copy[0] + 2;
+	// cub->south_img = cub->map.copy[1] + 2;
+	// cub->west_img = cub->map.copy[2] + 2;
+	// cub->east_img = cub->map.copy[3] + 2;
 	//ici on met directement les images dans wall[i]. il faut parser le chemin sans NO / SO / WE / EA
 	if (set_wall_texture(cub) == 1)
 	{
@@ -87,4 +87,5 @@ void	parsing(t_data *cub, char *file)
 	dprintf(2, "west: %s\n", cub->west_img);
 	dprintf(2, "east: %s\n", cub->east_img);
 	ft_free_tab(cub->map.copy);
+	// exit(1);
 }
