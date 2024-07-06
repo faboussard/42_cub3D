@@ -95,9 +95,6 @@ void init_vectors(t_data *cub)
 	cub->plane_y = 0.66; //simplification et arrondi a partir du FOV du jeu de base qui est 2 * atan(0.66/1.0)=66°
 }
 
-
-
-
 static void projection_mapping(t_render *render, int x)
 {
 	int y;
@@ -229,6 +226,7 @@ static int get_step(double ray_dir)
 static void ray_tracer(t_ray *ray)
 {
     int hit;
+//	char	**map_memory;
 
     hit = 0;
     while (hit == 0)
@@ -246,8 +244,8 @@ static void ray_tracer(t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->side = VERTICAL;
         }
-        // Check if ray has hit a wall
-        if (worldMap[ray->map_x][ray->map_y] > 0)
+//        if (ray->cub->map.grid[ray->map_x][ray->map_y] == '1')
+		if (worldMap[ray->map_x][ray->map_y] > 0)
             hit = 1;
     }
 }
@@ -373,6 +371,7 @@ static int draw_walls(t_data *cub)
 //	t_player player;
 
 	ray = cub->ray;
+	ray.cub = cub;
 	x = 0;
 	while (x < WIDTH_DISPLAY)
 	{

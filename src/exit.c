@@ -16,14 +16,14 @@ void	destroy_images(t_data *img)
 {
 	if (img->empty)
 		mlx_destroy_image(img->mlx, img->empty);
-	if (img->north_wall)
-		mlx_destroy_image(img->mlx, img->north_wall);
-	if (img->south_wall)
-		mlx_destroy_image(img->mlx, img->south_wall);
-	if (img->east_wall)
-		mlx_destroy_image(img->mlx, img->east_wall);
-	if (img->west_wall)
-		mlx_destroy_image(img->mlx, img->west_wall);
+//	if (img->north_wall)
+//		mlx_destroy_image(img->mlx, img->north_wall);
+//	if (img->south_wall)
+//		mlx_destroy_image(img->mlx, img->south_wall);
+//	if (img->east_wall)
+//		mlx_destroy_image(img->mlx, img->east_wall);
+//	if (img->west_wall)
+//		mlx_destroy_image(img->mlx, img->west_wall);
 }
 
 int	close_window(t_data *img)
