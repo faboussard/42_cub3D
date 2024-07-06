@@ -68,13 +68,13 @@ typedef struct s_data   t_data;
 
 typedef struct s_image
 {
-	void			*img;
-	char			*addr;
-	int				bits_per_pixel;
-	int				line_length;
-	int				endian;
-	int		width;
-	int		height;
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	int			width;
+	int			height;
 	char		*path;
 }					t_image;
 
