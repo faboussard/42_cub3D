@@ -42,17 +42,34 @@ void	ft_free_tab(char ***tab)
 	size_t	i;
 
 	i = 0;
-	if (!*tab || !**tab)
+	if (!tab || !*tab)
 		return ;
-	while (*tab[i])
+	while ((*tab)[i])
 	{
-		if (*tab[i])
-			free(*tab[i]);
+		free((*tab)[i]);
+		(*tab)[i] = NULL;
+		// free_safely_str(&((*tab)[i]));
 		i++;
 	}
 	free(*tab);
 	*tab = NULL;
 }
+// void	ft_free_tab(char ***tab)
+// {
+// 	size_t	i;
+//
+// 	i = 0;
+// 	if (!tab || !*tab ||)
+// 		return ;
+// 	while (tab[i])
+// 	{
+// 		if (tab[i])
+// 			free(tab[i]);
+// 		i++;
+// 	}
+// 	free(tab);
+// 	tab = NULL;
+// }
 
 /*void	free_tabs(char **map, char **copy)
 {
