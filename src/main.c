@@ -12,12 +12,22 @@
 
 #include "cub3D.h"
 
+void init_game_loop(t_data *cub)
+{
+	set_wall_texture(cub, (*cub).wall);
+	(*cub).player = ft_calloc(sizeof (t_player), 1);
+	if ((*cub).player == NULL)
+		exit(EXIT_FAILURE);
+	init_vectors(cub);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	cub;
 //	if (av[0] == NULL)
 //		return (0);
 
+	ft_bzero(&cub, 1);
 	if (ac != 2)
 	{
 		ft_putendl_fd("Error: Wrong number of arguments", 2);
@@ -27,9 +37,11 @@ int	main(int ac, char **av)
 	parsing(&cub, av[1]);
 	init_mlx_win(&cub);
 	init_screen(&cub);
-	mlx_hook(cub.win, 2, (1L << 0), &key_hook, &cub);
+	mlx_hook(cub.win, KeyPress, KeyPressMask, key_press_hook, &cub);
+	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, key_release_hook, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, close_window, &cub);
-	mlx_loop_hook(cub.mlx, (void *)raycasting, &cub);
+	init_game_loop(&cub);
+	mlx_loop_hook(cub.mlx, game_loop, &cub);
 	mlx_loop(cub.mlx);
 	return (EXIT_SUCCESS);
 }
