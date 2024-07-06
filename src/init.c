@@ -146,11 +146,11 @@ void init_image(t_data *cub)
 //	}
 //}
 
-void init_screen(t_data *img)
+void init_screen(t_data *cub)
 {
-	init_mlx_win(img);
+	init_mlx_win(cub);
 
-	init_image(img);
+	init_image(cub);
 }
 
 void init_mlx_win(t_data *img)

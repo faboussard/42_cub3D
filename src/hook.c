@@ -31,7 +31,8 @@ int	key_press_hook(int keysym, t_data *cub)
 int	key_release_hook(int keysym, t_data *cub)
 {
 	if (keysym == XK_Escape)
-		close_window(cub); //enlever ?
+		return (0);
+		// close_window(cub); //enlever ?
 	else if (cub->keys.key_pressed_w && (keysym == XK_W || keysym == XK_w))
 		cub->keys.key_pressed_w = 0;
 	else if (cub->keys.key_pressed_s && (keysym == XK_S || keysym == XK_s))
