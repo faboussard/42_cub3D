@@ -47,22 +47,23 @@ void	parsing(t_data *cub, char *file)
 {
 	define_map(&cub->map, file);
 	define_textures_path(cub);
-	ft_free_tab(&cub->map.copy);
 	if (define_colors(cub) == false || cub->map.ceiling_color == -1
 		|| cub->map.floor_color == -1)
 	{
+		ft_free_tab(&cub->map.copy);
 		(void)write(2, "Error: Wrong colors\n", 20);
 		exit(1);
 	}
 	dprintf(2, "MAPPPPPPPPPPPPPPPPPPPPP \n%s\n", cub->map.grid[0]);
 	if (set_wall_texture(cub) == 1)
 	{
+		ft_free_tab(&cub->map.copy);
 		exit(1);
 	}
 	dprintf(2, "north: %s\n", cub->north_img);
 	dprintf(2, "south: %s\n", cub->south_img);
 	dprintf(2, "west: %s\n", cub->west_img);
 	dprintf(2, "east: %s\n", cub->east_img);
-	// ft_free_tab(cub->map.copy);
+	ft_free_tab(&cub->map.copy);
 	// exit(1);
 }
