@@ -215,7 +215,8 @@ void	move_left(t_data *cub);
 void	move_right(t_data *cub);
 void	update_player_position(t_player *player, \
 double dest_x, double dest_y);
-
+void	rotate_right(t_data *cub);
+void	rotate_left(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				HOOK								////////
 ////////////////////////////////////////////////////////////////////////
