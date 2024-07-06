@@ -20,6 +20,24 @@ void init_game_loop(t_data *cub)
 	init_vectors(cub);
 }
 
+static void	init_cub_values(t_data *cub)
+{
+	cub->keys.key_pressed_a = 0;
+	cub->keys.key_pressed_d = 0;
+	cub->keys.key_pressed_s = 0;
+	cub->keys.key_pressed_w = 0;
+	cub->keys.key_pressed_m = 0;
+	cub->keys.key_pressed_left = 0;
+	cub->keys.key_pressed_right = 0;
+	// IMPORTANT POUR LE DESTROY IMAGE DANS EXIT : DESTROY IMAGE
+	// NE SEMBLE PAS FONCTIONNER (FAIT DES ERREURS SI ON N A PAS INITIALISE
+	// LES IMAGES A NULL, FAIT DES LEAKS SI ON LES INITIALISE A NULL)
+	cub->east_img = NULL;
+	cub->west_img = NULL;
+	cub->north_img = NULL;
+	cub->south_img = NULL;
+}
+
 int	main(int ac, char **av)
 {
 	t_data	cub;
@@ -33,6 +51,7 @@ int	main(int ac, char **av)
 	check_file_name(av[1]);
 	init_screen(&cub);
 	parsing(&cub, av[1]);
+	init_cub_values(&cub);
 	mlx_hook(cub.win, KeyPress, KeyPressMask, key_press_hook, &cub);
 	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, key_release_hook, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, close_window, &cub);

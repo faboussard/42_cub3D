@@ -54,13 +54,13 @@
 
 typedef struct s_keys
 {
-	int			key_pressed_left;
-	int			key_pressed_right;
-	int			key_pressed_w;
-	int			key_pressed_s;
-	int			key_pressed_a;
-	int			key_pressed_d;
-	int			key_pressed_m;
+	bool			key_pressed_left;
+	bool			key_pressed_right;
+	bool			key_pressed_w;
+	bool			key_pressed_s;
+	bool			key_pressed_a;
+	bool			key_pressed_d;
+	bool			key_pressed_m;
 }	t_keys;
 
 typedef struct s_image   t_image;
@@ -135,12 +135,12 @@ typedef struct s_data
 	int			win_width;
 	void		*mlx;
 	void		*win;
-	void		*empty;
+	// void		*empty;
 	void		*up;
 	void		*down;
 	void		*left;
 	void		*right;
-	char		emp_img[26];
+	// char		emp_img[26];
 	char		*north_img;
 	char		*south_img;
 	char		*east_img;
@@ -171,17 +171,19 @@ typedef struct s_data
 void						no_such_file_error(void);
 void						malloc_error(void);
 void						input_error(void);
-void						map_error(char **map, char **copy);
+// void						map_error(char **map, char **copy);
+void	map_error(char **map);//, char **copy)
 void						empty_file_error(void);
 ////////////////////////////////////////////////////////////////////////
 ////////     				PARSING								////////
 ////////////////////////////////////////////////////////////////////////
 void						parsing(t_data *cub, char *file);
 void						check_file_name(char *file);
-////////////////////////////////////////////////////////////////////////
-////////     				UTILS								////////
-////////////////////////////////////////////////////////////////////////
-void						free_tabs(char **map, char **copy);
+//////////////////////////////////////////////////////////////////////
+/////     				UTILS								////////
+/////////////////////////////////////////////////////////////////////
+void	ft_free_tab(char ***tab);
+// void						free_tabs(char **map, char **copy);
 bool						ft_search_char(char letter, char *charset);
 bool						ft_is_space(const int c);
 // void			ft_put_pos_nbr_fd(size_t n, int fd);
@@ -189,7 +191,7 @@ bool						ft_is_space(const int c);
 ////////     				INIT								////////
 ////////////////////////////////////////////////////////////////////////
 void						init_mlx_win(t_data *img);
-void						init_screen(t_data *img);
+void						init_screen(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				MAP									////////
 ////////////////////////////////////////////////////////////////////////
@@ -230,6 +232,6 @@ bool						define_colors(t_data *cub);
 ////////     				EXIT								////////
 ////////////////////////////////////////////////////////////////////////
 void						destroy_images(t_data *cub);
-int							close_window(t_data *img);
+int							close_window(t_data *cub);
 
 #endif
