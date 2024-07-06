@@ -206,7 +206,7 @@ bool			check_path(t_map *map);
 ////////////////////////////////////////////////////////////////////////
 int				game_loop(t_data *cub);
 void			render(t_data *cub);
-int set_wall_texture(t_data *data, t_image *wall);
+int set_wall_texture(t_data *cub);
 void init_vectors(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				MOVE								////////
