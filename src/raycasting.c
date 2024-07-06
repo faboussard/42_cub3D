@@ -408,6 +408,8 @@ void	draw_background(t_data *cub)
 
 int game_loop(t_data *cub)
 {
+//	ft_memset(cub->my_image.img, 0, (cub->my_image.width * cub->my_image.height)
+//									 * sizeof(int32_t));
 	draw_background(cub);
 	draw_walls(cub);
     mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
