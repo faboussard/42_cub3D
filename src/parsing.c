@@ -47,17 +47,16 @@ void	parsing(t_data *cub, char *file)
 {
 	define_map(&cub->map, file);
 	define_textures_path(cub);
+	ft_free_tab(&cub->map.copy);
 	if (define_colors(cub) == false || cub->map.ceiling_color == -1
 		|| cub->map.floor_color == -1)
 	{
 		(void)write(2, "Error: Wrong colors\n", 20);
-		ft_free_tab(&cub->map.copy);
 		exit(1);
 	}
 	dprintf(2, "MAPPPPPPPPPPPPPPPPPPPPP \n%s\n", cub->map.grid[0]);
 	if (set_wall_texture(cub) == 1)
 	{
-		//free
 		exit(1);
 	}
 	dprintf(2, "north: %s\n", cub->north_img);
