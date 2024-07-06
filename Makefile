@@ -36,7 +36,8 @@ SOURCES		=	$(DIR_SRC)main.c\
                 $(DIR_SRC)parsing.c\
                 $(DIR_SRC)map.c\
                 $(DIR_SRC)map_init.c\
-                $(DIR_SRC)move.c
+                $(DIR_SRC)move.c\
+                $(DIR_SRC)colors.c
 
 DIR_OBJS	    =	.objs/
 
