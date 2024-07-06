@@ -34,9 +34,7 @@ int	key_press_hook(int keysym, t_data *cub)
 
 int	key_release_hook(int keysym, t_data *cub)
 {
-	if (keysym == XK_Escape)
-		close_window(cub); //enlever ?
-	else if (cub->keys.key_pressed_right && keysym == XK_Right)
+	 if (cub->keys.key_pressed_right && keysym == XK_Right)
 		cub->keys.key_pressed_right = 0;
 	else if (cub->keys.key_pressed_left && keysym == XK_Left)
 		cub->keys.key_pressed_left = 0;
