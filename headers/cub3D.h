@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:46:46 by mbernard          #+#    #+#             */
-/*   Updated: 2024/06/21 15:46:50 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/04 10:47:02 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 # include "../mlx/mlx.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
-# include <fcntl.h>
-# include <stdbool.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <math.h>
 # include <bits/stdint-uintn.h>
+# include <fcntl.h>
+# include <math.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <unistd.h>
 
 # define TEX_W 64
 # define TEX_H 64
@@ -32,6 +32,7 @@
 # define HEIGHT_DISPLAY 720
 # define HORIZONTAL 0
 # define VERTICAL 1
+
 
 #define SO 0
 #define NO 1
@@ -65,7 +66,6 @@ typedef struct s_keys
 typedef struct s_image   t_image;
 typedef struct s_data   t_data;
 
-
 typedef struct s_image
 {
 	void			*img;
@@ -88,17 +88,18 @@ typedef struct s_player
 	t_data		*cub;
 }				t_player;
 
+
 typedef struct s_map
 {
-	size_t		rows;
-	size_t		cols;
-	char		**grid;
-	char		**copy;
-	bool		status;
-	t_player	player;
-    int				floor_color;
-    int				cealing_color;
-}				t_map;
+	size_t					rows;
+	size_t					cols;
+	char					**grid;
+	char					**copy;
+	bool					status;
+	t_player				player;
+	int						floor_color;
+	int						ceiling_color;
+}							t_map;
 
 typedef struct s_ray
 {
@@ -170,27 +171,28 @@ typedef struct s_data
 ////////////////////////////////////////////////////////////////////////
 ////////     				ERRORS                  			////////
 ////////////////////////////////////////////////////////////////////////
-void			no_such_file_error(void);
-void			malloc_error(void);
-void			input_error(void);
-void			map_error(char **map, char **copy);
-void			empty_file_error(void);
+void						no_such_file_error(void);
+void						malloc_error(void);
+void						input_error(void);
+void						map_error(char **map, char **copy);
+void						empty_file_error(void);
 ////////////////////////////////////////////////////////////////////////
 ////////     				PARSING								////////
 ////////////////////////////////////////////////////////////////////////
-void			parsing(t_data *cub, char *file);
-void			check_file_name(char *file);
+void						parsing(t_data *cub, char *file);
+void						check_file_name(char *file);
 ////////////////////////////////////////////////////////////////////////
 ////////     				UTILS								////////
 ////////////////////////////////////////////////////////////////////////
-void			free_tabs(char **map, char **copy);
-bool			ft_search_char(char letter, char *charset);
-//void			ft_put_pos_nbr_fd(size_t n, int fd);
+void						free_tabs(char **map, char **copy);
+bool						ft_search_char(char letter, char *charset);
+bool						ft_is_space(const int c);
+// void			ft_put_pos_nbr_fd(size_t n, int fd);
 ////////////////////////////////////////////////////////////////////////
 ////////     				INIT								////////
 ////////////////////////////////////////////////////////////////////////
-void			init_mlx_win(t_data *img);
-void			init_screen(t_data *img);
+void						init_mlx_win(t_data *img);
+void						init_screen(t_data *img);
 ////////////////////////////////////////////////////////////////////////
 ////////     				MAP									////////
 ////////////////////////////////////////////////////////////////////////
@@ -223,9 +225,13 @@ double dest_x, double dest_y);
 int	key_press_hook(int keysym, t_data *cub);
 int	key_release_hook(int keysym, t_data *cub);
 ////////////////////////////////////////////////////////////////////////
+////////     				COLORS								////////
+////////////////////////////////////////////////////////////////////////
+bool						define_colors(t_data *cub);
+////////////////////////////////////////////////////////////////////////
 ////////     				EXIT								////////
 ////////////////////////////////////////////////////////////////////////
-void			destroy_images(t_data *cub);
-int				close_window(t_data *img);
+void						destroy_images(t_data *cub);
+int							close_window(t_data *img);
 
 #endif
