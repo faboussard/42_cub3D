@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../headers/cub3D.h"
 
 void	check_file_name(char *file)
 {
@@ -79,6 +79,6 @@ void	parsing(t_data *cub, char *file)
 	dprintf(2, "south: %s\n", cub->south_img);
 	dprintf(2, "west: %s\n", cub->west_img);
 	dprintf(2, "east: %s\n", cub->east_img);
-	ft_free_tab(cub->map.copy);
-	exit(1);
+//	ft_free_tab(cub->map.copy);
+//	exit(1);
 }

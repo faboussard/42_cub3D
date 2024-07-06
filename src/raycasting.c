@@ -366,7 +366,7 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 	get_texture_x(&render, ray);
 	projection_mapping(&render, x);
 }
-static int raycasting(t_data *cub)
+static int draw_walls(t_data *cub)
 {
 	int x;
 	t_ray	ray;
@@ -383,10 +383,33 @@ static int raycasting(t_data *cub)
 	return (0);
 }
 
+void	draw_background(t_data *cub)
+{
+	int	i;
+	int	j;
+	int	color;
+
+	i = 0;
+	color = cub->map.ceiling_color;
+	while (i < (int)cub->my_image.height)
+	{
+		j = 0;
+		while (j < (int)cub->my_image.width)
+		{
+			if (i > (int)cub->my_image.width / 2)
+				color = cub->map.floor_color;
+			my_pixel_put(&cub->my_image, j, i, color);
+			j++;
+		}
+		i++;
+	}
+}
+
 
 int game_loop(t_data *cub)
 {
-	raycasting(cub);
+	draw_background(cub);
+	draw_walls(cub);
     mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
 //	if (cub->keys.key_pressed_right)
 //		rotate_clockwise(data);

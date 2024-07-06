@@ -24,8 +24,6 @@ void init_game_loop(t_data *cub)
 int	main(int ac, char **av)
 {
 	t_data	cub;
-//	if (av[0] == NULL)
-//		return (0);
 
 	ft_bzero(&cub, 1);
 	if (ac != 2)

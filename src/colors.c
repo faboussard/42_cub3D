@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../headers/cub3D.h"
 
 static bool	check_char_color(char c, int *commas, int *nb_nums, bool *num_place)
 {
