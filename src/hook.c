@@ -16,6 +16,10 @@ int	key_press_hook(int keysym, t_data *cub)
 {
 	if (keysym == XK_Escape)
 		close_window(cub);
+	else if (keysym == XK_Right)
+		cub->keys.key_pressed_right = 1;
+	else if (keysym == XK_Left)
+		cub->keys.key_pressed_left = 1;
 	else if (keysym == XK_W || keysym == XK_w)
 		cub->keys.key_pressed_w = 1;
 	else if (keysym == XK_S || keysym == XK_s)
@@ -32,6 +36,10 @@ int	key_release_hook(int keysym, t_data *cub)
 {
 	if (keysym == XK_Escape)
 		close_window(cub); //enlever ?
+	else if (cub->keys.key_pressed_right && keysym == XK_Right)
+		cub->keys.key_pressed_right = 0;
+	else if (cub->keys.key_pressed_left && keysym == XK_Left)
+		cub->keys.key_pressed_left = 0;
 	else if (cub->keys.key_pressed_w && (keysym == XK_W || keysym == XK_w))
 		cub->keys.key_pressed_w = 0;
 	else if (cub->keys.key_pressed_s && (keysym == XK_S || keysym == XK_s))
