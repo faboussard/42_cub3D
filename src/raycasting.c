@@ -43,28 +43,7 @@ int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-static int is_valid_position(t_player *player)
-{
-	int map_x = (int) player->pos_x;
-	int map_y = (int) player->pos_y;
 
-	//map reste toujours a 12. pk
-	printf("map_x = %d, map_y = %d\n", map_x, map_y);
-	if (map_x < 0 || map_x >= MAP_WIDTH || map_y < 0 || map_y >= MAP_HEIGHT)
-		return 0;  // Out of bounds
-
-
-	return 1;  // Valid position
-}
-
-void	update_player_position(t_player *player, \
-double dest_x, double dest_y)
-{
-	if (is_valid_position(player))
-		player->pos_x = dest_x;
-	if (is_valid_position(player))
-		player->pos_y = dest_y;
-}
 static double get_delta(double ray_dir);
 static double get_side(double ray_dir, double map, double delta_dist, double pos);
 static int get_step(double ray_dir);
@@ -304,16 +283,16 @@ static void get_wall_player_dist(t_data *cub, t_ray *ray)
 //S
 static void get_texture_x(t_render *render, t_ray *ray) {
 	render->text_x = (int)(ray->wall_x * (double)TEX_W);
-	printf("Initial text_x = %d\n", render->text_x);
+//	printf("Initial text_x = %d\n", render->text_x);
 	if (ray->side == HORIZONTAL && render->cub->ray_dir_x > 0) {
 		render->text_x = TEX_W - render->text_x - 1;
-		printf("Inverted text_x (HORIZONTAL) = %d\n", render->text_x);
+//		printf("Inverted text_x (HORIZONTAL) = %d\n", render->text_x);
 	}
 	if (ray->side == VERTICAL && render->cub->ray_dir_y < 0) {
 		render->text_x = TEX_H - render->text_x - 1;
-		printf("Inverted text_x (VERTICAL) = %d\n", render->text_x);
+//		printf("Inverted text_x (VERTICAL) = %d\n", render->text_x);
 	}
-	printf("Final text_x = %d\n", render->text_x);
+//	printf("Final text_x = %d\n", render->text_x);
 }
 
 
