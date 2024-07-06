@@ -20,10 +20,10 @@ int	key_press_hook(int keysym, t_data *cub)
 		cub->keys.key_pressed_w = 1;
 	else if (keysym == XK_S || keysym == XK_s)
 		cub->keys.key_pressed_s = 1;
-//	else if (keysym == XK_A || keysym == XK_a)
-//		move_left(cub);
-//	else if (keysym == XK_D || keysym == XK_d)
-//		move_right(cub);
+	else if (keysym == XK_A || keysym == XK_a)
+		cub->keys.key_pressed_a = 1;
+	else if (keysym == XK_D || keysym == XK_d)
+		cub->keys.key_pressed_d = 1;
 	return (0);
 }
 
@@ -36,5 +36,9 @@ int	key_release_hook(int keysym, t_data *cub)
 		cub->keys.key_pressed_w = 0;
 	else if (cub->keys.key_pressed_s && (keysym == XK_S || keysym == XK_s))
 		cub->keys.key_pressed_s = 0;
+	else if (cub->keys.key_pressed_a && (keysym == XK_A || keysym == XK_a))
+		cub->keys.key_pressed_a = 0;
+	else if (cub->keys.key_pressed_d && (keysym == XK_D || keysym == XK_d))
+		cub->keys.key_pressed_d = 0;
 	return (0);
 }

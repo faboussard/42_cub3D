@@ -10,23 +10,4 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//
-//#include "cub3d.height"
-//
-//
-//void	draw_walls(t_data *cub)
-//{
-//	int	x;
-//
-//	x = 0;
-//	while (x < WIDTH_DISPLAY)
-//	{
-//		raycasting(cub);
-//		x++;
-//	}
-//}
-//
-//void	render(t_data *cub)
-//{
-//	draw_walls(cub);
-//}
+
