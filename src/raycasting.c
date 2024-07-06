@@ -411,10 +411,10 @@ int game_loop(t_data *cub)
 	draw_background(cub);
 	draw_walls(cub);
     mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
-//	if (cub->keys.key_pressed_right)
-//		rotate_clockwise(data);
-//	if (cub->keys.key_pressed_left)
-//		rotate_counterclockwise(data);
+	if (cub->keys.key_pressed_right == 1)
+		rotate_right(cub);
+	if (cub->keys.key_pressed_left == 1)
+		rotate_left(cub);
 	if (cub->keys.key_pressed_w == 1)
 		move_forward(cub);
 	if (cub->keys.key_pressed_s == 1)
