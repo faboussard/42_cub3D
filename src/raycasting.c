@@ -396,7 +396,7 @@ void	draw_background(t_data *cub)
 		j = 0;
 		while (j < (int)cub->my_image.width)
 		{
-			if (i > (int)cub->my_image.width / 2)
+			if (i > (int)cub->my_image.height / 2)
 				color = cub->map.floor_color;
 			my_pixel_put(&cub->my_image, j, i, color);
 			j++;
