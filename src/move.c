@@ -24,8 +24,8 @@ void	move_forward(t_data *cub)
 //		return ;
 //	if (cub->map.grid[(int)dest_x][(int)dest_y] == '0')
 	{
-		cub->player->pos_x += (cub->dir_x * MOVE);
-		cub->player->pos_y += (cub->dir_y * MOVE);
+		cub->player->pos_x = dest_x;
+		cub->player->pos_y = dest_y;
 	}
 }
 
@@ -41,8 +41,8 @@ void	move_backward(t_data *cub)
 //		return ;
 //	if (cub->map.grid[(int)dest_x][(int)dest_y] == '0')
 	{
-		cub->player->pos_x -= (cub->dir_x * MOVE);
-		cub->player->pos_y -= (cub->dir_y * MOVE);
+		cub->player->pos_x = dest_x;
+		cub->player->pos_y = dest_y;
 	}
 }
 
