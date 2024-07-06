@@ -17,8 +17,8 @@ static int create_wall_texture_img(t_data *cub, t_image *wall, int i);
 
 int set_wall_texture(t_data *cub) // en attendant parsing
 {
-	int i;
-	int j;
+	// int i;
+	// int j;
 
 //	char *paths[TEXTURE_NUM] = {
 //			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm",
@@ -26,28 +26,36 @@ int set_wall_texture(t_data *cub) // en attendant parsing
 //			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm",
 //			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm"
 //	};
-	char *paths[TEXTURE_NUM] = {
-			"/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm",
-			"/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm",
-			"/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm",
-			"/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm"
-	};
-	i = 0;
-	j = 0;
-	while (i < TEXTURE_NUM)
-	{
-		cub->wall[i].path = ft_strdup(paths[i]);
-		if (!cub->wall[i].path)
-		{
-			while (j < i)
-			{
-				free(cub->wall[j++].path);
-				printf("Erreur lors de la duplication du chemin de la texture %d\n", i);
-				exit(EXIT_FAILURE);
-			}
-		}
-		create_wall_texture_img(cub, cub->wall, i++);
-	}
+	// char *paths[TEXTURE_NUM] = {
+	// 		"TEST_CUB3D_ESLAMBER/textures/test/west.xpm",
+	// 		"TEST_CUB3D_ESLAMBER/textures/test/north.xpm",
+	// 		"TEST_CUB3D_ESLAMBER/textures/test/east.xpm",
+	// 		"TEST_CUB3D_ESLAMBER/textures/test/south.xpm"
+	// };
+	// i = 0;
+	// j = 0;
+	cub->wall[0].path = cub->north_img;
+	create_wall_texture_img(cub, cub->wall, 0);
+	cub->wall[1].path = cub->south_img;
+	create_wall_texture_img(cub, cub->wall, 1);
+	cub->wall[2].path = cub->east_img;
+	create_wall_texture_img(cub, cub->wall, 2);
+	cub->wall[3].path = cub->west_img;
+	create_wall_texture_img(cub, cub->wall, 3);
+	// while (i < TEXTURE_NUM)
+	// {
+	// 	cub->wall[i].path = ft_strdup(paths[i]);
+	// 	if (!cub->wall[i].path)
+	// 	{
+	// 		while (j < i)
+	// 		{
+	// 			free(cub->wall[j++].path);
+	// 			printf("Erreur lors de la duplication du chemin de la texture %d\n", i);
+	// 			exit(EXIT_FAILURE);
+	// 		}
+	// 	}
+	// 	create_wall_texture_img(cub, cub->wall, i++);
+	// }
 	return 0;
 }
 
