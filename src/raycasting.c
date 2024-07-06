@@ -60,9 +60,6 @@ static int is_valid_position(t_player *player)
 void	update_player_position(t_player *player, \
 double dest_x, double dest_y)
 {
-	t_data	*cub;
-
-	cub = player->cub;
 	if (is_valid_position(player))
 		player->pos_x = dest_x;
 	if (is_valid_position(player))

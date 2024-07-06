@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i);
+static void create_wall_texture_img(t_data *cub, t_image *wall, int i);
 
 //static void	init_pictures(t_data *img)
 //{
@@ -33,13 +33,18 @@ int set_wall_texture(t_data *cub, t_image *wall)
 {
 	int i;
 	int j;
-	int n = TEXTURE_NUM;
 
+//	char *paths[TEXTURE_NUM] = {
+//			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm",
+//			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm",
+//			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm",
+//			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm"
+//	};
 	char *paths[TEXTURE_NUM] = {
-			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm",
-			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm",
-			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm",
-			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm"
+			"/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm",
+			"/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm",
+			"/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm",
+			"/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm"
 	};
 	i = 0;
 	j = 0;
@@ -55,17 +60,14 @@ int set_wall_texture(t_data *cub, t_image *wall)
 				exit(EXIT_FAILURE);
 			}
 		}
-		create_wall_texture_img(cub, wall, n, i++);
+		create_wall_texture_img(cub, wall, i++);
 	}
 	return 0;
 }
 
 
-static void create_wall_texture_img(t_data *cub, t_image *wall, int n, int i)
+static void create_wall_texture_img(t_data *cub, t_image *wall, int i)
 {
-	if (n ==
-	    32000) // a supprimer une fois que wall[i] sera malloc (parsing). n sert juste a freer les images de textures
-		return;
 	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
 	if (wall[i].img == NULL)
 	{

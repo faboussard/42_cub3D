@@ -22,8 +22,6 @@ void	move_forward(t_data *cub)
 	//	if (cub->map.grid[dest_x - 1][dest_y] == '1')
 //		return ;
 	update_player_position(cub->player, dest_x, dest_y);
-//	map->pos_x = cub->player->pos_x;
-//	map->pos_y = cub->player->pos_y;
 }
 
 void	move_backward(t_data *cub)
@@ -36,8 +34,6 @@ void	move_backward(t_data *cub)
 //	if (cub->map.grid[dest_x - 1][dest_y] == '1')
 //		return ;
 	update_player_position(cub->player, dest_x, dest_y);
-//	map->pos_x = player->pos.x;
-//	map->pos_y = player->pos.y;
 }
 
 void	move_left(t_data *cub)
@@ -47,9 +43,9 @@ void	move_left(t_data *cub)
 
 	dest_x = cub->player->pos_x + (cub->dir_y * MOVE);
 	dest_y = cub->player->pos_y + (cub->dir_x * -1 * MOVE);
+	//	if (cub->map.grid[dest_x - 1][dest_y] == '1')
+//		return ;
 	update_player_position(cub->player, dest_x, dest_y);
-//	map->pos_x = player->pos.x;
-//	map->pos_y = player->pos.y;
 }
 
 void	move_right(t_data *cub)
@@ -59,10 +55,7 @@ void	move_right(t_data *cub)
 
 	dest_x = cub->player->pos_x  + (cub->dir_y * -1 * MOVE);
 	dest_y = cub->player->pos_y + (cub->dir_x * MOVE);
+	//	if (cub->map.grid[dest_x - 1][dest_y] == '1')
+//		return ;
 	update_player_position(cub->player, dest_x, dest_y);
-//	map->pos_x = player->pos.x;
-//	map->pos_y = player->pos.y;
 }
-
-//static void	update_player_position(t_data *cub, t_player *player, \
-//double dest_x, double dest_y)
