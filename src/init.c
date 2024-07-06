@@ -12,9 +12,10 @@
 
 #include "cub3D.h"
 
-static void create_wall_texture_img(t_data *cub, t_image *wall, int i);
+static int create_wall_texture_img(t_data *cub, t_image *wall, int i);
 
-int set_wall_texture(t_data *cub, t_image *wall)
+
+int set_wall_texture(t_data *cub) // en attendant parsing
 {
 	int i;
 	int j;
@@ -45,35 +46,52 @@ int set_wall_texture(t_data *cub, t_image *wall)
 				exit(EXIT_FAILURE);
 			}
 		}
-		create_wall_texture_img(cub, wall, i++);
+		create_wall_texture_img(cub, cub->wall, i++);
 	}
 	return 0;
 }
 
 
-static void create_wall_texture_img(t_data *cub, t_image *wall, int i)
+//int set_wall_texture(t_data *cub)
+//{
+//	int i;
+//
+//	i = 0;
+//	while (i < TEXTURE_NUM)
+//	{
+//		cub->wall[i].path = cub->map.copy[i];
+//		if (!cub->wall[i].path)
+//		{
+//			printf("Erreur lors de la duplication du chemin de la texture %d\n", i);
+//			return (1);
+//		}
+//		if (create_wall_texture_img(cub, cub->wall, i++) == 1)
+//			return (1);
+//	}
+//	return 0;
+//}
+
+
+static int create_wall_texture_img(t_data *cub, t_image *wall, int i)
 {
+	printf("Loading texture %d from path: %s\n", i, wall[i].path);
 	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
 	if (wall[i].img == NULL)
 	{
 		while (i-- > 0)
 			mlx_destroy_image(cub->mlx, wall[i].img);
-		while (++i < TEXTURE_NUM)
-			free(wall[i].path);
 		printf("Erreur lors du chargement de l'image de la texture\n");
-		exit(EXIT_FAILURE);
+		return (1);
 	}
-
 	wall[i].addr = mlx_get_data_addr(wall[i].img, &wall[i].bits_per_pixel, &wall[i].line_length, &wall[i].endian);
 	if (wall[i].addr == NULL)
 	{
 		while (i-- > 0)
 			mlx_destroy_image(cub->mlx, wall[i].img);
-		while (++i < TEXTURE_NUM)
-			free(wall[i].path);
 		printf("Erreur lors de l'obtention des données de la texture\n");
-		exit(EXIT_FAILURE);
+		return (1);
 	}
+	return (0);
 }
 
 

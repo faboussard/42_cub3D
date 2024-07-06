@@ -71,10 +71,17 @@ void	parsing(t_data *cub, char *file)
 		ft_free_tab(cub->map.copy);
 		exit(1);
 	}
-	cub->north_img = cub->map.copy[0];
-	cub->south_img = cub->map.copy[1];
-	cub->west_img = cub->map.copy[2];
-	cub->east_img = cub->map.copy[3];
+
+//	cub->north_img = cub->map.copy[0];
+//	cub->south_img = cub->map.copy[1];
+//	cub->west_img = cub->map.copy[2];
+//	cub->east_img = cub->map.copy[3];
+	//ici on met directement les images dans wall[i]. il faut parser le chemin sans NO / SO / WE / EA
+	if (set_wall_texture(cub) == 1)
+	{
+		//free
+		exit(1);
+	}
 	dprintf(2, "north: %s\n", cub->north_img);
 	dprintf(2, "south: %s\n", cub->south_img);
 	dprintf(2, "west: %s\n", cub->west_img);

@@ -14,7 +14,6 @@
 
 void init_game_loop(t_data *cub)
 {
-	set_wall_texture(cub, (*cub).wall);
 	(*cub).player = ft_calloc(sizeof (t_player), 1);
 	if ((*cub).player == NULL)
 		exit(EXIT_FAILURE);
@@ -32,8 +31,8 @@ int	main(int ac, char **av)
 		exit(1);
 	}
 	check_file_name(av[1]);
-	parsing(&cub, av[1]);
 	init_screen(&cub);
+	parsing(&cub, av[1]);
 	mlx_hook(cub.win, KeyPress, KeyPressMask, key_press_hook, &cub);
 	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, key_release_hook, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, close_window, &cub);
