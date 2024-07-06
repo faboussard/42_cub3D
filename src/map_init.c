@@ -57,7 +57,7 @@ static void	fill_tmp_map(int fd, char **tmp_map)
 	if (min_line_nb < 9)
 	{
 		free(*tmp_map);
-		map_error(NULL, NULL);
+		map_error(NULL);
 	}
 }
 

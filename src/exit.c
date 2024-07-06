@@ -14,8 +14,16 @@
 
 void	destroy_images(t_data *img)
 {
-	if (img->empty)
-		mlx_destroy_image(img->mlx, img->empty);
+	if (img->east_img)
+		mlx_destroy_image(img->mlx, img->east_img);
+	if (img->west_img)
+		mlx_destroy_image(img->mlx, img->west_img);
+	if (img->north_img)
+		mlx_destroy_image(img->mlx, img->north_img);
+	if (img->south_img)
+		mlx_destroy_image(img->mlx, img->south_img);
+	// if (img->empty)
+	// 	mlx_destroy_image(img->mlx, img->empty);
 //	if (img->north_wall)
 //		mlx_destroy_image(img->mlx, img->north_wall);
 //	if (img->south_wall)
@@ -36,6 +44,7 @@ int	close_window(t_data *img)
 		mlx_destroy_display(img->mlx);
 		free(img->mlx);
 	}
-	free_tabs(img->map.grid, img->map.copy);
+	ft_free_tab(&img->map.copy);
+	// free_tabs(img->map.grid, img->map.copy);
 	exit(1);
 }
