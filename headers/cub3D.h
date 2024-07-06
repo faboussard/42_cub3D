@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3D.h                                            :+:      :+:    :+:   */
+/*   cub3D.height                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -28,14 +28,43 @@
 # define TEX_H 64
 # define MAP_WIDTH 24
 # define MAP_HEIGHT 24
-# define WIDTH_DISPLAY 640
-# define HEIGHT_DISPLAY 480
+# define WIDTH_DISPLAY 960
+# define HEIGHT_DISPLAY 720
 # define HORIZONTAL 0
 # define VERTICAL 1
 
+#define SO 0
+#define NO 1
+#define EA 2
+#define WE 3
+
+#define TEXTURE_NUM 4
+
+# define MOVE 0.1
+# define ROTATE 0.03
+
+//enum	e_wallside
+//{
+//	NO,
+//	SO,
+//	WE,
+//	EA,
+//};
+
+typedef struct s_keys
+{
+	int			key_pressed_left;
+	int			key_pressed_right;
+	int			key_pressed_w;
+	int			key_pressed_s;
+	int			key_pressed_a;
+	int			key_pressed_d;
+	int			key_pressed_m;
+}	t_keys;
+
 typedef struct s_image   t_image;
-typedef struct mlx_texture   texture_t;
 typedef struct s_data   t_data;
+
 
 typedef struct s_image
 {
@@ -44,21 +73,19 @@ typedef struct s_image
 	int				bits_per_pixel;
 	int				line_length;
 	int				endian;
+	int		width;
+	int		height;
+	char		*path;
 }					t_image;
-
-typedef struct mlx_texture
-{
-    uint32_t	width;
-    uint32_t	height;
-    uint8_t		bytes_per_pixel;
-    uint8_t*	pixels;
-}	texture_t;
 
 typedef struct s_player
 {
 	size_t		x;
 	size_t		y;
 	size_t		moves;
+	double      pos_x;
+	double      pos_y;
+	t_data		*cub;
 }				t_player;
 
 typedef struct s_map
@@ -73,7 +100,7 @@ typedef struct s_map
     int				cealing_color;
 }				t_map;
 
-typedef struct s_raycasting
+typedef struct s_ray
 {
 	int      map_x;
 	int      map_y;
@@ -83,25 +110,27 @@ typedef struct s_raycasting
 	double      side_y;
 	int      step_x;
 	int      step_y;
-	double	impact_point;
+	double	wall_x;
 	int	side;
-}				t_raycasting;
+}				t_ray;
 
 typedef struct s_render
 {
 	int      line_height;
 	int      draw_start;
-	double      draw_end;
+	int      draw_end;
 	int 	text_x;
     int 	text_y;
     double	texture_pos;
-    double	step;
+    double	text_step;
 	t_data	*cub;
 }				t_render;
 
 
 typedef struct s_data
 {
+	int			win_height;
+	int			win_width;
 	void		*mlx;
 	void		*win;
 	void		*empty;
@@ -121,18 +150,20 @@ typedef struct s_data
 //	char		exit_img[26];
 	t_map		map;
 	t_image		my_image;
-	double      pos_x;
-	double      pos_y;
 	double      dir_x;
 	double      dir_y;
 	double      plane_x;
 	double      plane_y;
 	double      ray_dir_x;
 	double      ray_dir_y;
+	double		wall_player_dist;
 	int         **worldMap;
-	t_raycasting	*raycast;
-	t_render		*render;
-	texture_t		*textures;
+	t_player    *player;
+	t_ray		ray;
+	t_render	render;
+	t_image		wall[TEXTURE_NUM];
+	int		wall_side;
+	t_keys		keys;
 }				t_data;
 
 
@@ -167,24 +198,30 @@ void			define_map(t_map *map, char *file_name);
 void			launch_checks(t_map *map, char *tmp_map);
 void			fill_paths(t_map map, size_t x, size_t y);
 bool			check_path(t_map *map);
-////////////////////////////////////////////////////////////////////////
-////////     				MOVES								////////
-////////////////////////////////////////////////////////////////////////
-void			move_player_img(t_data *img, size_t x, size_t y, int direction);
-void			increment_moves(t_data *img);
-void			move_up(t_data *img);
-void			move_down(t_data *img);
-void			move_left(t_data *img);
-void			move_right(t_data *img);
+
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING							////////
 ////////////////////////////////////////////////////////////////////////
-void			raycasting(t_data *cub);
+int				game_loop(t_data *cub);
 void			render(t_data *cub);
+int set_wall_texture(t_data *data, t_image *wall);
+void init_vectors(t_data *cub);
+////////////////////////////////////////////////////////////////////////
+////////     				MOVE								////////
+////////////////////////////////////////////////////////////////////////
+
+void	move_forward(t_data *cub);
+void	move_backward(t_data *cub);
+void	move_left(t_data *cub);
+void	move_right(t_data *cub);
+void	update_player_position(t_player *player, \
+double dest_x, double dest_y);
+
 ////////////////////////////////////////////////////////////////////////
 ////////     				HOOK								////////
 ////////////////////////////////////////////////////////////////////////
-int				key_hook(int keysym, t_data *cub);
+int	key_press_hook(int keysym, t_data *cub);
+int	key_release_hook(int keysym, t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				EXIT								////////
 ////////////////////////////////////////////////////////////////////////

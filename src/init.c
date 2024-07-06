@@ -12,6 +12,8 @@
 
 #include "cub3D.h"
 
+static void create_wall_texture_img(t_data *cub, t_image *wall, int i);
+
 //static void	init_pictures(t_data *img)
 //{
 //	ft_strlcpy(img->emp_img, "./sprites/empty_80_80.xpm", 26);
@@ -26,17 +28,81 @@
 //
 //
 
-void	init_image(t_data *img)
+
+int set_wall_texture(t_data *cub, t_image *wall)
 {
-	img->my_image.img = mlx_new_image(img->mlx, 1920, 1080);
-	if (img->my_image.img == NULL)
+	int i;
+	int j;
+
+//	char *paths[TEXTURE_NUM] = {
+//			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm",
+//			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm",
+//			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm",
+//			"/home/fanny/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm"
+//	};
+	char *paths[TEXTURE_NUM] = {
+			"/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/west.xpm",
+			"/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/north.xpm",
+			"/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/east.xpm",
+			"/home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/test/south.xpm"
+	};
+	i = 0;
+	j = 0;
+	while (i < TEXTURE_NUM)
+	{
+		cub->wall[i].path = ft_strdup(paths[i]);
+		if (!cub->wall[i].path)
+		{
+			while (j < i)
+			{
+				free(cub->wall[j++].path);
+				printf("Erreur lors de la duplication du chemin de la texture %d\n", i);
+				exit(EXIT_FAILURE);
+			}
+		}
+		create_wall_texture_img(cub, wall, i++);
+	}
+	return 0;
+}
+
+
+static void create_wall_texture_img(t_data *cub, t_image *wall, int i)
+{
+	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
+	if (wall[i].img == NULL)
+	{
+		while (i-- > 0)
+			mlx_destroy_image(cub->mlx, wall[i].img);
+		while (++i < TEXTURE_NUM)
+			free(wall[i].path);
+		printf("Erreur lors du chargement de l'image de la texture\n");
+		exit(EXIT_FAILURE);
+	}
+
+	wall[i].addr = mlx_get_data_addr(wall[i].img, &wall[i].bits_per_pixel, &wall[i].line_length, &wall[i].endian);
+	if (wall[i].addr == NULL)
+	{
+		while (i-- > 0)
+			mlx_destroy_image(cub->mlx, wall[i].img);
+		while (++i < TEXTURE_NUM)
+			free(wall[i].path);
+		printf("Erreur lors de l'obtention des données de la texture\n");
+		exit(EXIT_FAILURE);
+	}
+}
+
+
+void init_image(t_data *cub)
+{
+	cub->my_image.img = mlx_new_image(cub->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY);
+	if (cub->my_image.img == NULL)
 	{
 //		free_all(cub);
 		exit(EXIT_FAILURE);
 	}
-	img->my_image.addr = mlx_get_data_addr(img->my_image.img,
-										   &img->my_image.bits_per_pixel, &img->my_image.line_length,
-										   &img->my_image.endian);
+	cub->my_image.addr = mlx_get_data_addr(cub->my_image.img,
+	                                       &cub->my_image.bits_per_pixel, &cub->my_image.line_length,
+	                                       &cub->my_image.endian);
 }
 
 //static void	init_map(t_data *img, size_t x, size_t y)
@@ -67,7 +133,7 @@ void	init_image(t_data *img)
 //	}
 //}
 
-void	init_screen(t_data *img)
+void init_screen(t_data *img)
 {
 //	init_pictures(img);
 	init_image(img);
@@ -75,7 +141,7 @@ void	init_screen(t_data *img)
 //	img->map.player.moves = 0;
 }
 
-void	init_mlx_win(t_data *img)
+void init_mlx_win(t_data *img)
 {
 //	size_t	cols;
 //	size_t	rows;

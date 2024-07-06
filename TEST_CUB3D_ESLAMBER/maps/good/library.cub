@@ -1,10 +1,10 @@
 F 139,99,58
 C 171,154,137
 
-NO ../tests/cub3D/textures/simonkraft/bookshelf.xpm
-SO ../tests/cub3D/textures/simonkraft/bookshelf_01.xpm
-WE ../tests/cub3D/textures/simonkraft/bookshelf_02.xpm
-EA ../tests/cub3D/textures/simonkraft/bookshelf_03.xpm
+NO ../tests/cub3D/wall/simonkraft/bookshelf.xpm
+SO ../tests/cub3D/wall/simonkraft/bookshelf_01.xpm
+WE ../tests/cub3D/wall/simonkraft/bookshelf_02.xpm
+EA ../tests/cub3D/wall/simonkraft/bookshelf_03.xpm
 
 1111111111111111111
 1001001001001001001

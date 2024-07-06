@@ -1,5 +1,5 @@
 /*
-** mlx.h for MinilibX in 
+** mlx.height for MinilibX in
 ** 
 ** Made by Charlie Root
 ** Login   <ol@epitech.net>
@@ -119,7 +119,7 @@ int	mlx_destroy_display(void *mlx_ptr);
 
 /*
 **  generic hook system for all events, and minilibX functions that
-**    can be hooked. Some macro and defines from X11/X.h are needed here.
+**    can be hooked. Some macro and defines from X11/X.height are needed here.
 */
 
 int	mlx_hook(void *win_ptr, int x_event, int x_mask,
