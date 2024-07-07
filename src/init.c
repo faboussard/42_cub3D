@@ -101,18 +101,21 @@ void init_screen(t_data *cub)
 	init_image(cub);
 }
 
-void init_mlx_win(t_data *img)
+void init_mlx_win(t_data *cub)
 {
-	img->mlx = mlx_init();
-	if (img->mlx == NULL)
-		malloc_error();
-
-	img->win = mlx_new_window(img->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY, "cub3d");
-	if (img->win == NULL)
+	cub->mlx = mlx_init();
+	if (cub->mlx == NULL)
 	{
-		mlx_destroy_display(img->mlx);
+		ft_free_tab(&cub->map.copy);
+		malloc_error();
+	}
+	cub->win = mlx_new_window(cub->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY, "cub3d");
+	if (cub->win == NULL)
+	{
+		mlx_destroy_display(cub->mlx);
+		ft_free_tab(&cub->map.copy);
 //		free_tabs(img->map.grid, img->map.copy);
-		free(img->mlx);
+		free(cub->mlx);
 		malloc_error();
 	}
 }
