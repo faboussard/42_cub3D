@@ -47,6 +47,7 @@ void	destroy_images(t_data *cub)
 int	close_window(t_data *cub)
 {
 	destroy_images(cub);
+	free(cub->player);
 	if (cub->win)
 		mlx_destroy_window(cub->mlx, cub->win);
 	if (cub->mlx)
