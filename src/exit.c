@@ -14,14 +14,24 @@
 
 void	destroy_images(t_data *cub)
 {
-	if (cub->east_img)
-		mlx_destroy_image(cub->mlx, cub->east_img);
-	if (cub->west_img)
-		mlx_destroy_image(cub->mlx, cub->west_img);
-	if (cub->north_img)
-		mlx_destroy_image(cub->mlx, cub->north_img);
-	if (cub->south_img)
-		mlx_destroy_image(cub->mlx, cub->south_img);
+	int	i;
+
+	i = 0;
+
+	while (i < 4)
+	{
+		if (cub->wall[i].img)
+			mlx_destroy_image(cub->mlx, cub->wall[i].img);
+		i++;
+	}
+	// if (cub->east_img)
+	// 	mlx_destroy_image(cub->mlx, cub->east_img);
+	// if (cub->west_img)
+	// 	mlx_destroy_image(cub->mlx, cub->west_img);
+	// if (cub->north_img)
+	// 	mlx_destroy_image(cub->mlx, cub->north_img);
+	// if (cub->south_img)
+	// 	mlx_destroy_image(cub->mlx, cub->south_img);
 	// if (img->empty)
 	// 	mlx_destroy_image(img->mlx, img->empty);
 //	if (img->north_wall)
