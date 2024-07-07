@@ -43,6 +43,19 @@ static void	define_textures_path(t_data *cub)
 	}
 }
 
+static void	check_if_textures_exist(char *path_to_texture)
+{
+	int	fd;
+
+	fd = open(path_to_texture, O_RDONLY);
+	if (fd == -1)
+	{
+		(void)write(2, "Error: Wrong texture path\n", 26);
+		exit(1);
+	}
+	close(fd);
+}
+
 void	parsing(t_data *cub, char *file)
 {
 	define_map(&cub->map, file);
@@ -60,15 +73,19 @@ void	parsing(t_data *cub, char *file)
 	// cub->west_img = cub->map.copy[2] + 2;
 	// cub->east_img = cub->map.copy[3] + 2;
 	//ici on met directement les images dans wall[i]. il faut parser le chemin sans NO / SO / WE / EA
-	if (set_wall_texture(cub) == 1)
-	{
-		//free
-		exit(1);
-	}
+	// if (set_wall_texture(cub) == 1)
+	// {
+	// 	//free
+	// 	exit(1);
+	// }
 	dprintf(2, "north: %s\n", cub->north_img);
 	dprintf(2, "south: %s\n", cub->south_img);
 	dprintf(2, "west: %s\n", cub->west_img);
 	dprintf(2, "east: %s\n", cub->east_img);
-	// ft_free_tab(cub->map.copy);
+	check_if_textures_exist(cub->north_img);
+	check_if_textures_exist(cub->south_img);
+	check_if_textures_exist(cub->west_img);
+	check_if_textures_exist(cub->east_img);
+	// ft_free_tab(&cub->map.copy);
 	// exit(1);
 }
