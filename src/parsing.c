@@ -27,18 +27,22 @@ void	check_file_name(char *file)
 static void	define_textures_path(t_data *cub)
 {
 	int	i;
+	int	j;
 
 	i = 0;
 	while (i < 6)
 	{
+		j = 3;
+		while (cub->map.copy[i][j] && ft_is_space(cub->map.copy[i][j]))
+			j++;
 		if (ft_strncmp(cub->map.copy[i], "NO ", 3) == 0)
-			cub->north_img = cub->map.copy[i] + 3;
+			cub->north_img = cub->map.copy[i] + j;
 		else if (ft_strncmp(cub->map.copy[i], "SO ", 3) == 0)
-			cub->south_img = cub->map.copy[i] + 3;
+			cub->south_img = cub->map.copy[i] + j;
 		else if (ft_strncmp(cub->map.copy[i], "WE ", 3) == 0)
-			cub->west_img = cub->map.copy[i] + 3;
+			cub->west_img = cub->map.copy[i] + j;
 		else if (ft_strncmp(cub->map.copy[i], "EA ", 3) == 0)
-			cub->east_img = cub->map.copy[i] + 3;
+			cub->east_img = cub->map.copy[i] + j;
 		i++;
 	}
 }
