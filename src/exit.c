@@ -24,7 +24,7 @@ void	destroy_images(t_data *cub)
 			mlx_destroy_image(cub->mlx, cub->wall[i].img);
 		i++;
 	}
-	free(cub->my_image.img);
+	mlx_destroy_image(cub->mlx, cub->my_image.img);
 	// if (cub->east_img)
 	// 	mlx_destroy_image(cub->mlx, cub->east_img);
 	// if (cub->west_img)
