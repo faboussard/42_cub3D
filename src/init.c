@@ -55,10 +55,11 @@ void init_image(t_data *cub)
 {
 	cub->my_image.width = WIDTH_DISPLAY;
 	cub->my_image.height = HEIGHT_DISPLAY;
-	cub->my_image.img = mlx_new_image(cub->mlx, cub->my_image.width, cub->my_image.height );
+	cub->my_image.img = mlx_new_image(cub->mlx, cub->my_image.width, cub->my_image.height);
 	if (cub->my_image.img == NULL)
 	{
 //		free_all(cub);
+		ft_free_tab(&cub->map.copy);
 		exit(EXIT_FAILURE);
 	}
 	cub->my_image.addr = mlx_get_data_addr(cub->my_image.img,
