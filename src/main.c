@@ -29,13 +29,6 @@ static void	init_cub_values(t_data *cub)
 	cub->keys.key_pressed_m = 0;
 	cub->keys.key_pressed_left = 0;
 	cub->keys.key_pressed_right = 0;
-	// IMPORTANT POUR LE DESTROY IMAGE DANS EXIT : DESTROY IMAGE
-	// NE SEMBLE PAS FONCTIONNER (FAIT DES ERREURS SI ON N A PAS INITIALISE
-	// LES IMAGES A NULL, FAIT DES LEAKS SI ON LES INITIALISE A NULL)
-	cub->east_img = NULL;
-	cub->west_img = NULL;
-	cub->north_img = NULL;
-	cub->south_img = NULL;
 }
 
 int	main(int ac, char **av)
