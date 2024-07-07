@@ -43,14 +43,16 @@ static void	define_textures_path(t_data *cub)
 	}
 }
 
-static void	check_if_textures_exist(char *path_to_texture)
+static void	check_if_textures_exist(t_data *cub, char *path_to_texture)
 {
 	int	fd;
 
 	fd = open(path_to_texture, O_RDONLY);
 	if (fd == -1)
 	{
-		(void)write(2, "Error: Wrong texture path\n", 26);
+		(void)write(2, "Error: Texture path error\n", 26);
+		perror(path_to_texture);
+		ft_free_tab(&cub->map.copy);
 		exit(1);
 	}
 	close(fd);
@@ -67,7 +69,7 @@ void	parsing(t_data *cub, char *file)
 		ft_free_tab(&cub->map.copy);
 		exit(1);
 	}
-	dprintf(2, "MAPPPPPPPPPPPPPPPPPPPPP \n%s\n", cub->map.grid[0]);
+	// dprintf(2, "MAPPPPPPPPPPPPPPPPPPPPP \n%s\n", cub->map.grid[0]);
 	// cub->north_img = cub->map.copy[0] + 2;
 	// cub->south_img = cub->map.copy[1] + 2;
 	// cub->west_img = cub->map.copy[2] + 2;
@@ -78,14 +80,14 @@ void	parsing(t_data *cub, char *file)
 	// 	//free
 	// 	exit(1);
 	// }
-	dprintf(2, "north: %s\n", cub->north_img);
-	dprintf(2, "south: %s\n", cub->south_img);
-	dprintf(2, "west: %s\n", cub->west_img);
-	dprintf(2, "east: %s\n", cub->east_img);
-	check_if_textures_exist(cub->north_img);
-	check_if_textures_exist(cub->south_img);
-	check_if_textures_exist(cub->west_img);
-	check_if_textures_exist(cub->east_img);
+	// dprintf(2, "north: %s\n", cub->north_img);
+	// dprintf(2, "south: %s\n", cub->south_img);
+	// dprintf(2, "west: %s\n", cub->west_img);
+	// dprintf(2, "east: %s\n", cub->east_img);
+	check_if_textures_exist(cub, cub->north_img);
+	check_if_textures_exist(cub, cub->south_img);
+	check_if_textures_exist(cub, cub->west_img);
+	check_if_textures_exist(cub, cub->east_img);
 	// ft_free_tab(&cub->map.copy);
 	// exit(1);
 }
