@@ -84,8 +84,8 @@ void	define_map(t_map *map, char *file_name)
 	tmp_map = get_map_inline(file_name);
 	map->copy = ft_split(tmp_map, '\n');
 	map->grid = map->copy + 6;
-	dprintf(2, "%s\n", tmp_map);
-	dprintf(2, "MAP GRID\n%s\n", map->grid[0]);
+	dprintf(2, "TMP_MAP\n%s\n\n", tmp_map);
+	// dprintf(2, "MAP GRID\n%s\n", map->grid[0]);
 	/*	fd = open(file_name, O_RDONLY);
 		if (fd < 0 || read(fd, tmp_map, 0) < 0)
 		{
