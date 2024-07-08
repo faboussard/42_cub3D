@@ -6,34 +6,34 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:20:55 by mbernard          #+#    #+#             */
-/*   Updated: 2024/06/29 13:49:25 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:56:08 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static bool	map_contains_01nsew(t_map *map, char *tmp_map)
-{
-	static size_t	player;
-	size_t			x;
+// static bool	map_contains_01nsew(t_map *map, char *tmp_map)
+// {
+// 	static size_t	player;
+// 	size_t			x;
 
-	(void)map;
-	player = 0;
-	x = 0;
-	if (tmp_map[x] && player < 2)
-	{
-		if (tmp_map[x] == 'N' || tmp_map[x] == 'S'
-			|| tmp_map[x] == 'E' || tmp_map[x] == 'W')
-			player++;
-		else if (tmp_map[x] != '0' && tmp_map[x] != '1' && tmp_map[x] != '\n'
-			&& !ft_is_space(tmp_map[x]))
-			return (0);
-		if (tmp_map[x + 1] && tmp_map[x] == '\n' && tmp_map[x + 1] == '\n')
-			return (0);
-		x++;
-	}
-	return (player < 2);
-}
+// 	(void)map;
+// 	player = 0;
+// 	x = 0;
+// 	if (tmp_map[x] && player < 2)
+// 	{
+// 		if (tmp_map[x] == 'N' || tmp_map[x] == 'S'
+// 			|| tmp_map[x] == 'E' || tmp_map[x] == 'W')
+// 			player++;
+// 		else if (tmp_map[x] != '0' && tmp_map[x] != '1' && tmp_map[x] != '\n'
+// 			&& !ft_is_space(tmp_map[x]))
+// 			return (0);
+// 		if (tmp_map[x + 1] && tmp_map[x] == '\n' && tmp_map[x + 1] == '\n')
+// 			return (0);
+// 		x++;
+// 	}
+// 	return (player < 2);
+// }
 
 /*
  * Pour configurer CLion pour un projet Makefile, vous pouvez suivre les étapes suivantes :
@@ -128,40 +128,37 @@ static bool	check_lines(char **map, size_t x, size_t rows)
 //	return (1);
 //}
 
-static bool	check_map(t_map *map)
-{
-	size_t	y;
-	size_t	x;
+// static bool	check_map(t_map *map)
+// {
+// 	size_t	y;
+// 	size_t	x;
 
-	y = 0;
-	if (!map->grid[3])
-		return (0);
-	while (map->grid[y])
-	{
-		x = 0;
-		while (map->grid[y][x])
-		{
-			if (!map_contains_01nsew(map, map->grid[y]))
-				return (0);
-			x++;
-		}
-	}
-	map->cols = x;
-	map->rows = y;
-	map->status = 1;
-	return (1);
-}
+// 	y = 0;
+// 	if (!map->grid[3])
+// 		return (0);
+// 	while (map->grid[y])
+// 	{
+// 		x = 0;
+// 		while (map->grid[y][x])
+// 		{
+// 			if (!map_contains_01nsew(map, map->grid[y]))
+// 				return (0);
+// 			x++;
+// 		}
+// 	}
+// 	map->cols = x;
+// 	map->rows = y;
+// 	map->status = 1;
+// 	return (1);
+// }
 
-void	launch_checks(t_map *map, char *tmp_map)
-{
-	(*map).grid = ft_split(tmp_map, '\n');
-	(*map).copy = ft_split(tmp_map, '\n');
-	if (check_map(map) == 0)
-	{
-		free(tmp_map);
-		map_error(map->grid);
-	}
-}
+// void	launch_checks(t_map *map, char *tmp_map)
+// {
+// 	// (*map).grid = ft_split(tmp_map, '\n');
+// 	(*map).copy = ft_split(tmp_map, '\n');
+// 	if (check_map(map) == 0)
+// 		map_error(tmp_map, map->copy);
+// }
 
 //void	launch_checks(t_map *map, char *tmp_map)
 //{
