@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:34:20 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/08 15:28:28 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:02:23 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,16 @@
 //	}
 //}
 
-static void	fill_tmp_map(int fd, char **tmp_map)
+static void	get_map_inline(char *ber, char **tmp_map)
 {
+	int		fd;
 	int		min_line_nb;
 	char	*line;
 
 	min_line_nb = 1;
+	fd = open(ber, O_RDONLY);
+	if (fd < 0)
+		no_such_file_error();
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -48,7 +52,7 @@ static void	fill_tmp_map(int fd, char **tmp_map)
 		if (!line)
 			break ;
 		*tmp_map = ft_strjoin_free_both(*tmp_map, line);
-		if (!*tmp_map)
+		if (!**tmp_map)
 			malloc_error();
 		if (min_line_nb < 9)
 			min_line_nb++;
@@ -56,19 +60,6 @@ static void	fill_tmp_map(int fd, char **tmp_map)
 	close(fd);
 	if (min_line_nb < 9)
 		map_error(*tmp_map, NULL);
-}
-
-static char	*get_map_inline(char *ber)
-{
-	int		fd;
-	char	*tmp_map;
-
-	fd = open(ber, O_RDONLY);
-	if (fd < 0)
-		no_such_file_error();
-	tmp_map = NULL;
-	fill_tmp_map(fd, &tmp_map);
-	return (tmp_map);
 }
 
 static bool	check_point_and_color(char *str, bool is_card)
@@ -137,7 +128,7 @@ static void	check_map_lines(char *str)
 		i++;
 	while (str[i] && str[i + 1])
 	{
-		if (str[i++] == '\n' && str[i] == '\n' 
+		if (str[i++] == '\n' && str[i] == '\n'
 			&& str[i + 1] && str[i + 1] != '\n')
 			map_error(str, NULL);
 	}
@@ -147,8 +138,8 @@ void	define_map(t_map *map, char *file_name)
 {
 	char	*tmp_map;
 
-	map->status = 0;
-	tmp_map = get_map_inline(file_name);
+	tmp_map = NULL;
+	get_map_inline(file_name, &tmp_map);
 	check_map_lines(tmp_map);
 	map->copy = ft_split(tmp_map, '\n');
 	map->grid = map->copy + 6;
