@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/08 12:35:23 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:41:17 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_file_name(char *file)
 	len = ft_strlen(file);
 	if (len < 5 || ft_strncmp(&file[len - 4], ".cub", 4))
 	{
-		(void)write(2, "Error: Wrong file extension\n", 28);
+		(void)write(2, "Error:\nWrong file extension\n", 28);
 		exit(1);
 	}
 }
