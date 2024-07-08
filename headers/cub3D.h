@@ -171,8 +171,7 @@ typedef struct s_data
 void						no_such_file_error(void);
 void						malloc_error(void);
 void						input_error(void);
-// void						map_error(char **map, char **copy);
-void	map_error(char **map);//, char **copy)
+void						map_error(char *tmp_map, char **map);
 void						empty_file_error(void);
 ////////////////////////////////////////////////////////////////////////
 ////////     				PARSING								////////
@@ -195,10 +194,10 @@ void						init_screen(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				MAP									////////
 ////////////////////////////////////////////////////////////////////////
-void			define_map(t_map *map, char *file_name);
-void			launch_checks(t_map *map, char *tmp_map);
-void			fill_paths(t_map map, size_t x, size_t y);
-bool			check_path(t_map *map);
+void define_map(t_map *map, char *file_name);
+void launch_checks(t_map *map, char *tmp_map);
+void fill_paths(t_map map, size_t x, size_t y);
+bool check_path(t_map *map);
 
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING							////////
