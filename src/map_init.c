@@ -6,33 +6,11 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:34:20 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/08 16:02:23 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:04:06 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-// static void	init_map(t_data *cub, char *line)
-//{
-//	size_t	i;
-//	size_t	j;
-//
-//	i = 0;
-//	j = 0;
-//	while (line[i])
-//	{
-//		if (ft_search_char(line[i], "NEWS"))
-//		{
-//			cub->player->pos_x = i + 0.5;
-//			cub->player->pos_y = j + 0.5;
-//			cub->player->dir = line[i];
-//			line[i] = '0';
-//		}
-//		if (line[i] == '2')
-//			cub->sprite->count++;
-//		i++;
-//	}
-//}
 
 static void	get_map_inline(char *ber, char **tmp_map)
 {

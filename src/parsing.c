@@ -6,23 +6,34 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/08 14:44:41 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:04:23 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/cub3D.h"
 
-void	check_file_name(char *file)
-{
-	size_t	len;
 
-	len = ft_strlen(file);
-	if (len < 5 || ft_strncmp(&file[len - 4], ".cub", 4))
-	{
-		(void)write(2, "Error:\nWrong file extension\n", 28);
-		exit(1);
-	}
-}
+// static void	init_player_position(t_data *cub, char *line)
+//{
+//	size_t	i;
+//	size_t	j;
+//
+//	i = 0;
+//	j = 0;
+//	while (line[i])
+//	{
+//		if (ft_search_char(line[i], "NEWS"))
+//		{
+//			cub->player->pos_x = i + 0.5;
+//			cub->player->pos_y = j + 0.5;
+//			cub->player->dir = line[i];
+//			line[i] = '0';
+//		}
+//		if (line[i] == '2')
+//			cub->sprite->count++;
+//		i++;
+//	}
+//}
 
 static void	define_textures_path(t_data *cub)
 {
