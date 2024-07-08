@@ -95,7 +95,7 @@ typedef struct s_map
 	size_t					cols;
 	char					**grid;
 	char					**copy;
-	bool					status;
+	// bool					status;
 	t_player				player;
 	int						floor_color;
 	int						ceiling_color;
@@ -177,7 +177,6 @@ void						empty_file_error(void);
 ////////     				PARSING								////////
 ////////////////////////////////////////////////////////////////////////
 void						parsing(t_data *cub, char *file);
-void						check_file_name(char *file);
 //////////////////////////////////////////////////////////////////////
 /////     				UTILS								////////
 /////////////////////////////////////////////////////////////////////
@@ -194,10 +193,10 @@ void						init_screen(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				MAP									////////
 ////////////////////////////////////////////////////////////////////////
-void define_map(t_map *map, char *file_name);
-void launch_checks(t_map *map, char *tmp_map);
-void fill_paths(t_map map, size_t x, size_t y);
-bool check_path(t_map *map);
+void						define_map(t_map *map, char *file_name);
+void						launch_checks(t_map *map, char *tmp_map);
+void						fill_paths(t_map map, size_t x, size_t y);
+bool						check_path(t_map *map);
 
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING							////////

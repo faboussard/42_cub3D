@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:42:35 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/07 10:36:00 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:42:09 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,17 @@ static void	init_cub_values(t_data *cub)
 	cub->keys.key_pressed_m = 0;
 	cub->keys.key_pressed_left = 0;
 	cub->keys.key_pressed_right = 0;
+}
+static void	check_file_name(char *file)
+{
+	size_t	len;
+
+	len = ft_strlen(file);
+	if (len < 5 || ft_strncmp(&file[len - 4], ".cub", 4))
+	{
+		(void)write(2, "Error:\nWrong file extension\n", 28);
+		exit(1);
+	}
 }
 
 int	main(int ac, char **av)
