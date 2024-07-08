@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:34:20 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/08 14:24:54 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:31:12 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,6 @@ static char	*get_map_inline(char *ber)
 	return (tmp_map);
 }
 
-// void	check_elements(char **tmp_map)
-// {
-// 	int	i;
-
-// 	dprintf(2, "START CHECK ELEMENT\n");
-// 	// dprintf(2, "%s", tmp_map);
-// 	i = 0;
-// 	check_cardinal_points_and_colors(tmp_map, &i);
-
-// 	dprintf(2, "END CHECK ELEMENT\n");
-// }
-
 static bool	check_point_and_color(char *str, bool is_card)
 {
 	static bool	north = 0;
@@ -91,9 +79,9 @@ static bool	check_point_and_color(char *str, bool is_card)
 	static bool	east = 0;
 
 	if (is_card && (ft_strncmp(str, "NO ", 3) == 0
-		|| ft_strncmp(str, "SO ", 3) == 0
-		|| ft_strncmp(str, "WE ", 3) == 0
-		|| ft_strncmp(str, "EA ", 3) == 0))
+			|| ft_strncmp(str, "SO ", 3) == 0
+			|| ft_strncmp(str, "WE ", 3) == 0
+			|| ft_strncmp(str, "EA ", 3) == 0))
 	{
 		if (ft_strncmp(str, "NO ", 3) == 0 && north == 0)
 			north = 1;
@@ -133,7 +121,7 @@ static void	check_map_lines(char *str)
 			colors++;
 		i++;
 	}
-	if (cardinal_points > 4 || colors > 2)
+	if (cardinal_points != 4 || colors != 2)
 		map_error(str, NULL);
 	while (str[i] && ft_strncmp(str + i, "\n", 2) != 0)
 		i++;
@@ -150,27 +138,11 @@ void	define_map(t_map *map, char *file_name)
 {
 	char	*tmp_map;
 
-	//	int		fd;
-	//	size_t	size;
 	map->status = 0;
 	tmp_map = get_map_inline(file_name);
 	check_map_lines(tmp_map);
 	map->copy = ft_split(tmp_map, '\n');
-	// check_elements(tmp_map);
 	map->grid = map->copy + 6;
 	dprintf(2, "TMP_MAP\n%s\n\n", tmp_map);
-	/*	fd = open(file_name, O_RDONLY);
-		if (fd < 0 || read(fd, tmp_map, 0) < 0)
-		{
-			free(tmp_map);
-			no_such_file_error();
-		}
-		size = read(fd, tmp_map, size);
-		if (size > 0)
-		{
-			tmp_map[size] = '\0';
-			launch_checks(map, tmp_map);
-		}*/
 	free(tmp_map);
-	//	close(fd);
 }
