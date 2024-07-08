@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:34:20 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/08 14:40:01 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:28:28 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ static bool	check_point_and_color(char *str, bool is_card)
 		return ((!ft_strncmp(str, "F ", 2) || !ft_strncmp(str, "C ", 2)));
 	return (0);
 }
-static void check_textures_and_color(char *str, int *i)
+
+static void	check_textures_and_color(char *str, int *i)
 {
 	int	cardinal_points;
 	int	colors;
@@ -117,8 +118,10 @@ static void check_textures_and_color(char *str, int *i)
 		else if (check_point_and_color(str + *i, 0))
 			colors++;
 		++(*i);
+		if (cardinal_points == 4 && colors == 2)
+			break ;
 	}
-	if (cardinal_points != 4 || colors != 2)
+	if (!str[*i] || cardinal_points != 4 || colors != 2)
 		map_error(str, NULL);
 }
 
@@ -128,13 +131,14 @@ static void	check_map_lines(char *str)
 
 	i = 2;
 	check_textures_and_color(str, &i);
-	while (str[i] && ft_strncmp(str + i, "\n", 2) != 0)
+	while (str[i] && ft_strncmp(str + i, "\n", 1) != 0)
 		i++;
-	while (str[i] && ft_strncmp(str + i, "\n", 2) == 0)
-		i += 2;
+	while (str[i] && ft_strncmp(str + i, "\n", 1) == 0)
+		i++;
 	while (str[i] && str[i + 1])
 	{
-		if (str[i++] == '\n' && str[i] == '\n')
+		if (str[i++] == '\n' && str[i] == '\n' 
+			&& str[i + 1] && str[i + 1] != '\n')
 			map_error(str, NULL);
 	}
 }
