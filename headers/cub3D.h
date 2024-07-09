@@ -32,6 +32,8 @@
 # define HEIGHT_DISPLAY 720
 # define HORIZONTAL 0
 # define VERTICAL 1
+#  define FOV 90
+#define M_PI 3.14159265358979323846
 
 
 #define NO 0
@@ -99,6 +101,8 @@ typedef struct s_player
 	double      pos_x;
 	double      pos_y;
 	t_data		*cub;
+	int			fov;
+	int			plane_length;
 }				t_player;
 
 
