@@ -14,6 +14,9 @@
 
 static bool	create_wall_texture_img(t_data *cub, t_image *wall, int i)
 {
+	int	j;
+
+	j = 0;
 	printf("Loading texture %d from path: %s\n", i, wall[i].path);
 	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
 	if (wall[i].img == NULL)
