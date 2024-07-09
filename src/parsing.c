@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 09:39:51 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:35:43 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,4 @@ void	parsing(t_data *cub, char *file)
 	check_if_textures_exist(cub, cub->south_img);
 	check_if_textures_exist(cub, cub->west_img);
 	check_if_textures_exist(cub, cub->east_img);
-	// ft_free_tab(&cub->map.copy);
-	// exit(1);
 }

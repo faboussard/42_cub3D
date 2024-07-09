@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:44:28 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/02 08:52:20 by faboussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:53:28 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,8 +244,8 @@ static void ray_tracer(t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->side = VERTICAL;
         }
-//        if (ray->cub->map.grid[ray->map_x][ray->map_y] == '1')
-		if (worldMap[ray->map_x][ray->map_y] > 0)
+       if (ray->cub->map.grid[ray->map_x][ray->map_y] == '1')
+		// if (worldMap[ray->map_x][ray->map_y] > 0)
             hit = 1;
     }
 }
