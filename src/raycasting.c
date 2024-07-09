@@ -24,7 +24,7 @@ int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
 		{1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
 		{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-		{1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,0,0,0,0,0,2,0,5,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -35,7 +35,7 @@ int worldMap[MAP_WIDTH][MAP_HEIGHT] = {
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-		{1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+		{1,4,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -89,8 +89,8 @@ void init_vectors(t_data *cub)
 {
 	cub->player->pos_x = 22;
 	cub->player->pos_y = 12;
-	cub->dir_x = -1;
-	cub->dir_y = 0;
+	cub->dir_x = 0;
+	cub->dir_y = 1;
 	cub->plane_x = 0;
 	cub->plane_y = 0.66; //simplification et arrondi a partir du FOV du jeu de base qui est 2 * atan(0.66/1.0)=66°
 }
@@ -117,34 +117,34 @@ static void projection_mapping(t_render *render, int x)
 		my_pixel_put(&render->cub->my_image, x, y, color);
 		y++;
 	}
-//	if (render->cub->wall_side == WE)
-//	{
-//		printf(" --------------------- WE ---------------------\n");
-//		printf("render->cub->wall_side = %d\n", render->cub->wall_side);
-//		printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
-//		printf("color = %d\n", color);
-//	}
-//	if (render->cub->wall_side == NO)
-//	{
-//		printf(" --------------------- NO ---------------------\n");
-//		printf("render->cub->wall_side = %d\n", render->cub->wall_side);
-//		printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
-//		printf("color = %d\n", color);
-//	}
-//	if (render->cub->wall_side == SO)
-//	{
-//		printf(" --------------------- SO ---------------------\n");
-//		printf("render->cub->wall_side = %d\n", render->cub->wall_side);
-//		printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
-//		printf("color = %d\n", color);
-//	}
-//	if (render->cub->wall_side == EA)
-//	{
-//		printf(" --------------------- EA ---------------------\n");
-//		printf("render->cub->wall_side = %d\n", render->cub->wall_side);
-//		printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
-//		printf("color = %d\n", color);
-//	}
+	// if (render->cub->wall_side == WE)
+	// {
+	// 	printf(" --------------------- WE ---------------------\n");
+	// 	printf("render->cub->wall_side = %d\n", render->cub->wall_side);
+	// 	printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
+	// 	printf("color = %d\n", color);
+	// }
+	// if (render->cub->wall_side == NO)
+	// {
+	// 	printf(" --------------------- NO ---------------------\n");
+	// 	printf("render->cub->wall_side = %d\n", render->cub->wall_side);
+	// 	printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
+	// 	printf("color = %d\n", color);
+	// }
+	// if (render->cub->wall_side == SO)
+	// {
+	// 	printf(" --------------------- SO ---------------------\n");
+	// 	printf("render->cub->wall_side = %d\n", render->cub->wall_side);
+	// 	printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
+	// 	printf("color = %d\n", color);
+	// }
+	// if (render->cub->wall_side == EA)
+	// {
+	// 	printf(" --------------------- EA ---------------------\n");
+	// 	printf("render->cub->wall_side = %d\n", render->cub->wall_side);
+	// 	printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
+	// 	printf("color = %d\n", color);
+	// }
 
 
 }
@@ -227,7 +227,7 @@ static void ray_tracer(t_ray *ray)
 {
     int hit;
 //	char	**map_memory;
-
+	static bool b = 0;
     hit = 0;
     while (hit == 0)
     {
@@ -245,7 +245,14 @@ static void ray_tracer(t_ray *ray)
 			ray->side = VERTICAL;
         }
 //        if (ray->cub->map.grid[ray->map_x][ray->map_y] == '1')
-		if (worldMap[ray->map_x][ray->map_y] > 0)
+		if (!b)
+		{
+		printf("ray->map_x is %i\n", ray->map_x);
+		printf("ray->map_y is %i\n", ray->map_y);
+		b = 1; 
+		}
+		// if (worldMap[ray->map_x][ray->map_y] == '1')
+       if (ray->cub->map.grid[ray->map_x][ray->map_y] == '1')
             hit = 1;
     }
 }
@@ -254,7 +261,7 @@ static void ray_tracer(t_ray *ray)
 static void get_wall_player_dist(t_data *cub, t_ray *ray)
 {
 //trouver le point dimpact
-	ray_tracer(ray);
+
 	if (ray->side == HORIZONTAL)
 //		cub->wall_player_dist = (ray->map_x - cub->player->pos_x
 //							+ (1 - ray->step_x) / 2) /
@@ -282,7 +289,7 @@ static void get_wall_player_dist(t_data *cub, t_ray *ray)
 static void get_texture_x(t_render *render, t_ray *ray) 
 {
 	//faire une fonctin qui definit tex_w en fonction de wall[SO ou EA]
-	render->text_x = (int)(ray->wall_x * (double)TEXT_WEST_W);
+	render->text_x = (int)(ray->wall_x * (double)TEXT_WEST_W); // pour savoir combien  on a de pixels
 //	printf("Initial text_x = %d\n", render->text_x);
 	if (ray->side == HORIZONTAL && render->cub->ray_dir_x > 0) 
 	{
@@ -301,38 +308,57 @@ static void get_texture_x(t_render *render, t_ray *ray)
 //en fonction de la direction du rayon
 static void get_wall_impact_point(t_data *cub, t_ray *ray)
 {
+	if (cub->wall_side == NO)
+		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->dir_y;
+	else if (cub->wall_side == SO)
+		ray->wall_x = cub->wall[SO].width
+		-  cub->player->pos_y - cub->wall_player_dist * cub->dir_y; // pb ici ? pk text_x = 0 ?
+
+	else if (cub->wall_side == WE)
+		ray->wall_x = cub->player->pos_x + cub->wall_player_dist * cub->dir_x;
+	else
+		ray->wall_x = cub->wall[EA].width
+		- cub->player->pos_x - cub->wall_player_dist * cub->dir_x;
+	if (ray->wall_x < 0.00001)
+		ray->wall_x  = 0.00001;
+	ray->wall_x -= floor(ray->wall_x); // explication ? 
+
+	// if (cub->wall_side == EA)
+	// {
+	// 	printf(" --------------------- NO ---------------------\n");
+	// 	printf("render->cub->wall_side = %d\n", cub->wall_side);
+	// 	printf("ray->wall_x = %f", ray->wall_x);
+	// }
+	if (cub->wall_side == SO)
+	{
+		printf(" --------------------- SO ---------------------\n");
+		printf("render->cub->wall_side = %d\n", cub->wall_side);
+		printf("pos_y = %f\n", cub->player->pos_y );
+		printf("dir_y = %f\n", cub->dir_y);
+		printf("wall_player_dist = %f\n",cub->wall_player_dist);
+		printf("ray->wall_x = %f", ray->wall_x);
+	}
+}
+
+static void get_wallside(t_data *cub, t_ray *ray)
+{
 	if (ray->side == HORIZONTAL)
 	{
 		if (cub->dir_y > 0)
-		{
-			ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->dir_y;
 			cub->wall_side = NO; // Sud
-		}
 		else
-		{
-			ray->wall_x = cub->wall[SO].width
-			-  cub->player->pos_y - cub->wall_player_dist * cub->dir_y; // pb ici ? pk text_x = 0 ?
 			cub->wall_side = SO; // Nord
-		}
 	}
 	else
 	{
 		if (cub->dir_x > 0)
-		{
-			ray->wall_x = cub->player->pos_x + cub->wall_player_dist * cub->dir_x;
 			cub->wall_side = WE; // Est
-		}
 		else
-		{
-			ray->wall_x = cub->wall[EA].width
-			- cub->player->pos_x - cub->wall_player_dist * cub->dir_x;
 			cub->wall_side = EA; // Ouest
-		}
 	}
-	if (ray->wall_x < 0.00001)
-		ray->wall_x  = 0.00001;
-	ray->wall_x -= floor(ray->wall_x); // explication ? 
 }
+
+
 
 static void define_draw_points(t_render *render, double wall_player_dist)
 {
@@ -364,6 +390,8 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 
 	render = cub->render;
 	render.cub = cub;
+	ray_tracer(ray);
+	get_wallside(cub, ray);
 	get_wall_player_dist(cub, ray);
    	define_draw_points(&render, cub->wall_player_dist);
 	get_wall_impact_point(cub, ray);
@@ -374,7 +402,6 @@ static int draw_walls(t_data *cub)
 {
 	int x;
 	t_ray	ray;
-//	t_player player;
 
 	ray = cub->ray;
 	ray.cub = cub;
