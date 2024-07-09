@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 09:39:51 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:37:13 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@
 
 static void check_if_no_double_textures(t_data *cub)
 {
-	if (ft_strcmp(cub->north_img, cub->south_img) == 0
-		|| ft_strcmp(cub->north_img, cub->west_img) == 0
-		|| ft_strcmp(cub->north_img, cub->east_img) == 0
-		|| ft_strcmp(cub->south_img, cub->west_img) == 0
-		|| ft_strcmp(cub->south_img, cub->east_img) == 0
-		|| ft_strcmp(cub->east_img, cub->west_img) == 0)
+	if (ft_strcmp_skip_spaces(cub->north_img, cub->south_img) == 0
+		|| ft_strcmp_skip_spaces(cub->north_img, cub->west_img) == 0
+		|| ft_strcmp_skip_spaces(cub->north_img, cub->east_img) == 0
+		|| ft_strcmp_skip_spaces(cub->south_img, cub->west_img) == 0
+		|| ft_strcmp_skip_spaces(cub->south_img, cub->east_img) == 0
+		|| ft_strcmp_skip_spaces(cub->east_img, cub->west_img) == 0)
 		{
 			write(2, "Error\nSame textures detected\n", 29);
 			ft_free_tab(&cub->map.copy);
@@ -56,18 +56,21 @@ static void	define_textures_path(t_data *cub)
 	int	j;
 
 	i = 0;
-	while (i < 6)
+	while (i < 7)
 	{
-		j = 3;
+		j = 0;
 		while (cub->map.copy[i][j] && ft_is_space(cub->map.copy[i][j]))
 			j++;
-		if (ft_strncmp(cub->map.copy[i], "NO ", 3) == 0)
+		j += 3;
+		while (cub->map.copy[i][j] && ft_is_space(cub->map.copy[i][j]))
+			j++;
+		if (ft_strncmp_skip_spaces(cub->map.copy[i], "NO ", 3) == 0)
 			cub->north_img = cub->map.copy[i] + j;
-		else if (ft_strncmp(cub->map.copy[i], "SO ", 3) == 0)
+		else if (ft_strncmp_skip_spaces(cub->map.copy[i], "SO ", 3) == 0)
 			cub->south_img = cub->map.copy[i] + j;
-		else if (ft_strncmp(cub->map.copy[i], "WE ", 3) == 0)
+		else if (ft_strncmp_skip_spaces(cub->map.copy[i], "WE ", 3) == 0)
 			cub->west_img = cub->map.copy[i] + j;
-		else if (ft_strncmp(cub->map.copy[i], "EA ", 3) == 0)
+		else if (ft_strncmp_skip_spaces(cub->map.copy[i], "EA ", 3) == 0)
 			cub->east_img = cub->map.copy[i] + j;
 		i++;
 	}
@@ -104,6 +107,4 @@ void	parsing(t_data *cub, char *file)
 	check_if_textures_exist(cub, cub->south_img);
 	check_if_textures_exist(cub, cub->west_img);
 	check_if_textures_exist(cub, cub->east_img);
-	// ft_free_tab(&cub->map.copy);
-	// exit(1);
 }

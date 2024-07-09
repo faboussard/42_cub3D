@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:34:20 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 09:36:21 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:55:01 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,10 @@ static void	check_textures_and_color(char *str, int *i)
 static void	check_map_lines(char *str)
 {
 	int	i;
+	bool	player_found;
 
 	i = 0;
+	player_found = 0;
 	check_textures_and_color(str, &i);
 	while (str[i] && ft_strncmp(str + i, "\n", 1) != 0)
 		i++;
@@ -105,10 +107,19 @@ static void	check_map_lines(char *str)
 		i++;
 	while (str[i] && str[i + 1])
 	{
+		if (str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W')
+		{
+			if (!player_found)
+				player_found = 1;
+			else
+				map_error(str, NULL);
+		}
 		if (str[i++] == '\n' && str[i] == '\n'
 			&& str[i + 1] && str[i + 1] != '\n')
 			map_error(str, NULL);
 	}
+	if (player_found == 0)
+		map_error(str, NULL);
 }
 
 void	define_map(t_map *map, char *file_name)
