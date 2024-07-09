@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/08 16:04:23 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:39:51 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,21 @@
 //	}
 //}
 
+static void check_if_no_double_textures(t_data *cub)
+{
+	if (ft_strcmp(cub->north_img, cub->south_img) == 0
+		|| ft_strcmp(cub->north_img, cub->west_img) == 0
+		|| ft_strcmp(cub->north_img, cub->east_img) == 0
+		|| ft_strcmp(cub->south_img, cub->west_img) == 0
+		|| ft_strcmp(cub->south_img, cub->east_img) == 0
+		|| ft_strcmp(cub->east_img, cub->west_img) == 0)
+		{
+			write(2, "Error\nSame textures detected\n", 29);
+			ft_free_tab(&cub->map.copy);
+			exit(EXIT_FAILURE);
+		}
+}
+
 static void	define_textures_path(t_data *cub)
 {
 	int	i;
@@ -56,6 +71,7 @@ static void	define_textures_path(t_data *cub)
 			cub->east_img = cub->map.copy[i] + j;
 		i++;
 	}
+	check_if_no_double_textures(cub);
 }
 
 static void	check_if_textures_exist(t_data *cub, char *path_to_texture)
