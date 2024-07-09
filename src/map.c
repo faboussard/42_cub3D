@@ -6,12 +6,21 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:20:55 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/08 12:56:08 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:34:24 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+void init_player_position(t_data *cub)
+{
+	cub->player->pos_x = 22;
+	cub->player->pos_y = 12;
+	cub->dir_x = -1;
+	cub->dir_y = 0;
+	cub->plane_x = 0;
+	cub->plane_y = 0.66; //simplification et arrondi a partir du FOV du jeu de base qui est 2 * atan(0.66/1.0)=66°
+}
 // static bool	map_contains_01nsew(t_map *map, char *tmp_map)
 // {
 // 	static size_t	player;
