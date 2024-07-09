@@ -287,14 +287,10 @@ wallX -= floor((wallX)) becomes wallX = 7.8 - 7.
 '7.8 - 7' equals 0.8.*/
 static void get_wall_impact_point(t_data *cub, t_ray *ray)
 {
-	if (cub->wall_side == NO)
-		ray->wall_x = cub->player->pos_x + cub->wall_player_dist * cub->ray_dir_x;
-	else if (cub->wall_side == SO)
-		ray->wall_x = cub->player->pos_x + cub->wall_player_dist * cub->ray_dir_x; // pb ici ? pk text_x = 0 ?
-	else if (cub->wall_side == WE)
+	if (ray->side == HORIZONTAL)
 		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->ray_dir_y;
 	else
-		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->ray_dir_y;
+		ray->wall_x = cub->player->pos_x + cub->wall_player_dist * cub->ray_dir_x; // pb ici ? pk text_x = 0 ?
 	// if (ray->wall_x < 0.00001)
 	// 	ray->wall_x  = 0.00001;
 	ray->wall_x -= floor(ray->wall_x);
