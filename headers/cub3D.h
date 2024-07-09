@@ -56,16 +56,8 @@
 
 #define TEXTURE_NUM 4
 
-# define MOVE 0.1
-# define ROTATE 0.03
-
-//enum	e_wallside
-//{
-//	NO,
-//	SO,
-//	WE,
-//	EA,
-//};
+# define MOVE 0.05
+# define ROTATE 0.05
 
 typedef struct s_keys
 {
@@ -75,7 +67,6 @@ typedef struct s_keys
 	bool			key_pressed_s;
 	bool			key_pressed_a;
 	bool			key_pressed_d;
-	bool			key_pressed_m;
 }	t_keys;
 
 typedef struct s_image   t_image;
