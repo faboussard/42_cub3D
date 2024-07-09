@@ -194,9 +194,10 @@ void						parsing(t_data *cub, char *file);
 /////     				UTILS								////////
 /////////////////////////////////////////////////////////////////////
 void	ft_free_tab(char ***tab);
-// void						free_tabs(char **map, char **copy);
 bool						ft_search_char(char letter, char *charset);
 bool						ft_is_space(const int c);
+int							ft_strcmp_skip_spaces(char *s1, char *s2);
+int	ft_strncmp_skip_spaces(char *s1, char *s2, size_t n);
 // void			ft_put_pos_nbr_fd(size_t n, int fd);
 ////////////////////////////////////////////////////////////////////////
 ////////     				INIT								////////
