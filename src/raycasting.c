@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-static void get_wall_impact_point(t_data *cub, t_ray *ray);
+static void get_wall_x(t_data *cub, t_ray *ray);
 
 static double get_delta(double ray_dir);
 
@@ -233,16 +233,16 @@ static void get_wall_player_dist(t_data *cub, t_ray *ray)
 static void get_texture_x(t_render *render, t_ray *ray)
 {
 	//faire une fonctin qui definit tex_w en fonction de wall[SO ou EA]
-	render->text_x = (int) (ray->wall_x * (double) TEXT_WEST_W); // pour savoir combien  on a de pixels
+	render->text_x = (int) (ray->wall_x * (double) TEX_W); // pour savoir combien  on a de pixels
 //	printf("Initial text_x = %d\n", render->text_x);
 	if (ray->side == HORIZONTAL && render->cub->ray_dir_x > 0)
 	{
-		render->text_x = TEXT_EAST_W - render->text_x - 1;
+		render->text_x = TEX_W - render->text_x - 1;
 //		printf("Inverted text_x (HORIZONTAL) = %d\n", render->text_x);
 	}
 	if (ray->side == VERTICAL && render->cub->ray_dir_y < 0)
 	{
-		render->text_x = TEXT_EAST_H - render->text_x - 1;
+		render->text_x = TEX_W - render->text_x - 1;
 //		printf("Inverted text_x (VERTICAL) = %d\n", render->text_x);
 	}
 //	printf("Final text_x = %d\n", render->text_x);
@@ -259,7 +259,7 @@ wallX -= floor((wallX)) becomes wallX = 7.8 - 7.
 4. We subtract 7 from 7.8:
 
 '7.8 - 7' equals 0.8.*/
-static void get_wall_impact_point(t_data *cub, t_ray *ray)
+static void get_wall_x(t_data *cub, t_ray *ray)
 {
 	if (ray->side == HORIZONTAL)
 		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->ray_dir_y;
@@ -368,7 +368,7 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 	get_wallside(cub, ray);
 	get_wall_player_dist(cub, ray);
 	define_draw_points(&render, cub->wall_player_dist);
-	get_wall_impact_point(cub, ray);
+	get_wall_x(cub, ray);
 	get_texture_x(&render, ray);
 	projection_mapping(&render, x);
 }

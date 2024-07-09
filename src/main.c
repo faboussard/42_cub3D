@@ -27,7 +27,6 @@ static void	init_cub_values(t_data *cub)
 	cub->keys.key_pressed_d = 0;
 	cub->keys.key_pressed_s = 0;
 	cub->keys.key_pressed_w = 0;
-	cub->keys.key_pressed_m = 0;
 	cub->keys.key_pressed_left = 0;
 	cub->keys.key_pressed_right = 0;
 	cub->wall[0].img = NULL;
