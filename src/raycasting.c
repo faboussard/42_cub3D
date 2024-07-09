@@ -15,9 +15,12 @@
 static void get_wall_impact_point(t_data *cub, t_ray *ray);
 
 static double get_delta(double ray_dir);
+
 static double get_side(double ray_dir, double map, double delta_dist, double pos);
+
 static int get_step(double ray_dir);
-static void		get_texture_x(t_render *render, t_ray *ray);
+
+static void get_texture_x(t_render *render, t_ray *ray);
 
 static void my_pixel_put(t_image *img, int x, int y, int color)
 {
@@ -56,12 +59,13 @@ static void projection_mapping(t_render *render, int x)
 	int color;
 
 	y = render->draw_start;
-	render->text_step = 1.0 * ((double)TEX_H) / (double) render->line_height;
-	render->texture_pos = ((double) render->draw_start - ((double)HEIGHT_DISPLAY / 2.0)
-						   + ((double)render->line_height / 2.0)) * render->text_step;
+	render->text_step = 1.0 * ((double) TEX_H) / (double) render->line_height;
+	render->texture_pos = ((double) render->draw_start - ((double) HEIGHT_DISPLAY / 2.0)
+	                       + ((double) render->line_height / 2.0)) * render->text_step;
 	while (y < render->draw_end)
 	{
-		render->text_y = (int)render->texture_pos & (TEX_H - 1); //sert à calculer l'index vertical (text_y) dans la texture en s'assurant qu'il reste dans les limites de la texture (de 0 à 63)
+		render->text_y = (int) render->texture_pos & (TEX_H -
+		                                              1); //sert à calculer l'index vertical (text_y) dans la texture en s'assurant qu'il reste dans les limites de la texture (de 0 à 63)
 		render->texture_pos += render->text_step;
 		// Obtenir la couleur du texel
 		color = get_texel(&render->cub->wall[render->cub->wall_side], render->text_x, render->text_y);
@@ -113,14 +117,15 @@ static void projection_mapping(t_render *render, int x)
 
 static void init_ray_info(t_data *cub, t_ray *ray, int x)
 {
-    double camera_x;
+	double camera_x;
 
-    camera_x = 2 * x / (double) WIDTH_DISPLAY - 1; // x / width-1 => normalise la valeur de x pour qu elle soit comprise entre 0 et 1. 2 : etend la plage jusqua 2. -1 : recentre la plage pour aller de -1 a 1.
-    cub->ray_dir_x = cub->dir_x + cub->plane_x * camera_x;
-    cub->ray_dir_y = cub->dir_y + cub->plane_y * camera_x;
-    ray->map_x = (int) cub->player->pos_x;
-    ray->map_y = (int) cub->player->pos_y;
-    ray->step_x = get_step(cub->ray_dir_x);
+	camera_x = 2 * x / (double) WIDTH_DISPLAY -
+	           1; // x / width-1 => normalise la valeur de x pour qu elle soit comprise entre 0 et 1. 2 : etend la plage jusqua 2. -1 : recentre la plage pour aller de -1 a 1.
+	cub->ray_dir_x = cub->dir_x + cub->plane_x * camera_x;
+	cub->ray_dir_y = cub->dir_y + cub->plane_y * camera_x;
+	ray->map_x = (int) cub->player->pos_x;
+	ray->map_y = (int) cub->player->pos_y;
+	ray->step_x = get_step(cub->ray_dir_x);
 	ray->step_y = get_step(cub->ray_dir_y);
 	ray->delta_x = get_delta(cub->ray_dir_x);
 	ray->delta_y = get_delta(cub->ray_dir_y);
@@ -136,9 +141,9 @@ static void init_ray_info(t_data *cub, t_ray *ray, int x)
  * donc la fonction retourne une très grande valeur (1e30) pour éviter une division par zéro.*/
 static double get_delta(double ray_dir)
 {
-    if (ray_dir == 0)
-        return 1e30;
-    return fabs(1 / ray_dir);
+	if (ray_dir == 0)
+		return 1e30;
+	return fabs(1 / ray_dir);
 }
 
 /*
@@ -157,21 +162,21 @@ get_side(-1.0, 22, 1.0, 22.5) => (22.5 - 22) * 1.0 => 0.5 * 1.0 => 0.5
  */
 static double get_side(double ray_dir, double map, double delta_dist, double pos)
 {
-    if (ray_dir < 0)
-        return (pos - map) * delta_dist;
-    return (map + 1.0 - pos) * delta_dist;
+	if (ray_dir < 0)
+		return (pos - map) * delta_dist;
+	return (map + 1.0 - pos) * delta_dist;
 }
 
 /*Détermine l'étape (sens du mouvement) à suivre pour avancer le long du rayon dans la grille.*/
 static int get_step(double ray_dir)
 {
-    int step;
+	int step;
 
-    if (ray_dir < 0)
-        step = -1;
-    else
-        step = 1;
-    return (step);
+	if (ray_dir < 0)
+		step = -1;
+	else
+		step = 1;
+	return (step);
 }
 
 /*La fonction ray_tracer détermine
@@ -180,27 +185,26 @@ static int get_step(double ray_dir)
  */
 static void ray_tracer(t_ray *ray)
 {
-    int hit;
+	int hit;
 
-    hit = 0;
-    while (hit == 0)
-    {
-        // jump to next map square, either in x-direction, or in y-direction
-        if (ray->side_x < ray->side_y) // la prochaine intersection de grille se produit sur un bord vertical.
-        {
+	hit = 0;
+	while (hit == 0)
+	{
+		// jump to next map square, either in x-direction, or in y-direction
+		if (ray->side_x < ray->side_y) // la prochaine intersection de grille se produit sur un bord vertical.
+		{
 			ray->side_x += ray->delta_x;
 			ray->map_x += ray->step_x;
 			ray->side = HORIZONTAL;
-        }
-        else
-        {
+		} else
+		{
 			ray->side_y += ray->delta_y;
 			ray->map_y += ray->step_y;
 			ray->side = VERTICAL;
-        }
-       if (ray->cub->map.grid[ray->map_x][ray->map_y] == '1')
-            hit = 1;
-    }
+		}
+		if (ray->cub->map.grid[ray->map_x][ray->map_y] == '1')
+			hit = 1;
+	}
 }
 
 //wall_player_dist ligne perpendiculaire a la place camera. same ratio for all walls
@@ -226,17 +230,17 @@ static void get_wall_player_dist(t_data *cub, t_ray *ray)
 //W |     P     | E
 //-------------
 //S
-static void get_texture_x(t_render *render, t_ray *ray) 
+static void get_texture_x(t_render *render, t_ray *ray)
 {
 	//faire une fonctin qui definit tex_w en fonction de wall[SO ou EA]
-	render->text_x = (int)(ray->wall_x * (double)TEXT_WEST_W); // pour savoir combien  on a de pixels
+	render->text_x = (int) (ray->wall_x * (double) TEXT_WEST_W); // pour savoir combien  on a de pixels
 //	printf("Initial text_x = %d\n", render->text_x);
-	if (ray->side == HORIZONTAL && render->cub->ray_dir_x > 0) 
+	if (ray->side == HORIZONTAL && render->cub->ray_dir_x > 0)
 	{
 		render->text_x = TEXT_EAST_W - render->text_x - 1;
 //		printf("Inverted text_x (HORIZONTAL) = %d\n", render->text_x);
 	}
-	if (ray->side == VERTICAL && render->cub->ray_dir_y < 0) 
+	if (ray->side == VERTICAL && render->cub->ray_dir_y < 0)
 	{
 		render->text_x = TEXT_EAST_H - render->text_x - 1;
 //		printf("Inverted text_x (VERTICAL) = %d\n", render->text_x);
@@ -260,67 +264,67 @@ static void get_wall_impact_point(t_data *cub, t_ray *ray)
 	if (ray->side == HORIZONTAL)
 		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->ray_dir_y;
 	else
-		ray->wall_x = cub->player->pos_x + cub->wall_player_dist * cub->ray_dir_x; // pb ici ? pk text_x = 0 ?
-	// if (ray->wall_x < 0.00001)
-	// 	ray->wall_x  = 0.00001;
+		ray->wall_x = cub->player->pos_x + cub->wall_player_dist * cub->ray_dir_x;
+	if (ray->wall_x < 0.00001)
+		ray->wall_x = 0.00001;
+	ray->wall_x = 1 - ray->wall_x;
 	ray->wall_x -= floor(ray->wall_x);
 
 	if (cub->wall_side == EA)
 	{
 		printf(" --------------------- EA ---------------------\n");
 		printf("render->cub->wall_side = %d\n", cub->wall_side);
-		printf("pos_y = %f\n", cub->player->pos_y );
-		printf("pos_x = %f\n", cub->player->pos_x );
+		printf("pos_y = %f\n", cub->player->pos_y);
+		printf("pos_x = %f\n", cub->player->pos_x);
 		printf("dir_y = %f\n", cub->ray_dir_y);
 		printf("dir_x = %f\n", cub->ray_dir_x);
-		printf("wall_player_dist = %f\n",cub->wall_player_dist);
+		printf("wall_player_dist = %f\n", cub->wall_player_dist);
 		printf("ray->wall_x = %f\n", ray->wall_x);
 	}
 	if (cub->wall_side == SO)
 	{
 		printf(" --------------------- SO ---------------------\n");
 		printf("render->cub->wall_side = %d\n", cub->wall_side);
-		printf("pos_y = %f\n", cub->player->pos_y );
-		printf("pos_x = %f\n", cub->player->pos_x );
+		printf("pos_y = %f\n", cub->player->pos_y);
+		printf("pos_x = %f\n", cub->player->pos_x);
 		printf("dir_y = %f\n", cub->ray_dir_y);
 		printf("dir_x = %f\n", cub->ray_dir_x);
-		printf("wall_player_dist = %f\n",cub->wall_player_dist);
+		printf("wall_player_dist = %f\n", cub->wall_player_dist);
 		printf("ray->wall_x = %f\n", ray->wall_x);
 	}
-		if (cub->wall_side == NO)
+	if (cub->wall_side == NO)
 	{
 		printf(" --------------------- NO ---------------------\n");
 		printf("render->cub->wall_side = %d\n", cub->wall_side);
-		printf("pos_y = %f\n", cub->player->pos_y );
-		printf("pos_x = %f\n", cub->player->pos_x );
+		printf("pos_y = %f\n", cub->player->pos_y);
+		printf("pos_x = %f\n", cub->player->pos_x);
 		printf("dir_y = %f\n", cub->ray_dir_y);
 		printf("dir_x = %f\n", cub->ray_dir_x);
-		printf("wall_player_dist = %f\n",cub->wall_player_dist);
+		printf("wall_player_dist = %f\n", cub->wall_player_dist);
 		printf("ray->wall_x = %f\n", ray->wall_x);
 	}
-			if (cub->wall_side == WE)
+	if (cub->wall_side == WE)
 	{
 		printf(" --------------------- WE ---------------------\n");
 		printf("render->cub->wall_side = %d\n", cub->wall_side);
-		printf("pos_y = %f\n", cub->player->pos_y );
-		printf("pos_x = %f\n", cub->player->pos_x );
+		printf("pos_y = %f\n", cub->player->pos_y);
+		printf("pos_x = %f\n", cub->player->pos_x);
 		printf("dir_y = %f\n", cub->ray_dir_y);
 		printf("dir_x = %f\n", cub->ray_dir_x);
-		printf("wall_player_dist = %f\n",cub->wall_player_dist);
+		printf("wall_player_dist = %f\n", cub->wall_player_dist);
 		printf("ray->wall_x = %f\n", ray->wall_x);
 	}
 }
 
 static void get_wallside(t_data *cub, t_ray *ray)
 {
-	if (ray->side == HORIZONTAL)
+	if (ray->side == VERTICAL)
 	{
 		if (cub->dir_y > 0)
 			cub->wall_side = NO;
 		else
 			cub->wall_side = SO;
-	}
-	else
+	} else
 	{
 		if (cub->dir_x > 0)
 			cub->wall_side = WE;
@@ -328,7 +332,6 @@ static void get_wallside(t_data *cub, t_ray *ray)
 			cub->wall_side = EA;
 	}
 }
-
 
 
 static void define_draw_points(t_render *render, double wall_player_dist)
@@ -364,15 +367,16 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 	ray_tracer(ray);
 	get_wallside(cub, ray);
 	get_wall_player_dist(cub, ray);
-   	define_draw_points(&render, cub->wall_player_dist);
+	define_draw_points(&render, cub->wall_player_dist);
 	get_wall_impact_point(cub, ray);
 	get_texture_x(&render, ray);
 	projection_mapping(&render, x);
 }
+
 static int draw_walls(t_data *cub)
 {
 	int x;
-	t_ray	ray;
+	t_ray ray;
 
 	ray = cub->ray;
 	ray.cub = cub;
@@ -386,20 +390,20 @@ static int draw_walls(t_data *cub)
 	return (0);
 }
 
-void	draw_background(t_data *cub)
+void draw_background(t_data *cub)
 {
-	int	i;
-	int	j;
-	int	color;
+	int i;
+	int j;
+	int color;
 
 	i = 0;
 	color = cub->map.ceiling_color;
-	while (i < (int)cub->my_image.height)
+	while (i < (int) cub->my_image.height)
 	{
 		j = 0;
-		while (j < (int)cub->my_image.width)
+		while (j < (int) cub->my_image.width)
 		{
-			if (i > (int)cub->my_image.height / 2)
+			if (i > (int) cub->my_image.height / 2)
 				color = cub->map.floor_color;
 			my_pixel_put(&cub->my_image, j, i, color);
 			j++;
@@ -413,7 +417,7 @@ int game_loop(t_data *cub)
 {
 	draw_background(cub);
 	draw_walls(cub);
-    mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
 	if (cub->keys.key_pressed_right == 1)
 		rotate_right(cub);
 	if (cub->keys.key_pressed_left == 1)
