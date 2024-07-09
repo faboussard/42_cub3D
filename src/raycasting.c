@@ -61,8 +61,8 @@ void init_vectors(t_data *cub)
 	cub->player->plane_length = tan(cub->player->fov);
 	cub->player->pos_x = 22;
 	cub->player->pos_y = 12;
-	cub->dir_x = 0;
-	cub->dir_y = 1;
+	cub->dir_x = 0; // 1 = regarder vers lest
+	cub->dir_y = 1; //1 = regarde vers le sud
 	cub->plane_x = -cub->dir_y  * cub->player->plane_length;
 	cub->plane_y = cub->dir_x * cub->player->plane_length;
 }
@@ -241,8 +241,6 @@ static void get_wall_player_dist(t_data *cub, t_ray *ray)
 	cub->wall_player_dist = (ray->side_x - ray->delta_x);
 //perpWallDist = (sideDistX — deltaDistX);
 	else
-//		cub->wall_player_dist = (ray->map_y - cub->player->pos_y
-//							+ (1 - ray->step_y) / 2) / cub->ray_dir_y;
 		cub->wall_player_dist = (ray->side_y - ray->delta_y);
 }
 
@@ -278,35 +276,56 @@ static void get_texture_x(t_render *render, t_ray *ray)
 
 
 //en fonction de la direction du rayon
+/*'floor(7.8)' is equal to 7. The ‘floor’ function rounds 7.8 down to the nearest integer, which is 7.
+
+3. Now, we perform the subtraction and assignment operation:
+
+wallX -= floor((wallX)) becomes wallX = 7.8 - 7.
+
+4. We subtract 7 from 7.8:
+
+'7.8 - 7' equals 0.8.*/
 static void get_wall_impact_point(t_data *cub, t_ray *ray)
 {
 	if (cub->wall_side == NO)
-		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->dir_y;
+		ray->wall_x = cub->player->pos_x + cub->wall_player_dist * cub->ray_dir_x;
 	else if (cub->wall_side == SO)
-		ray->wall_x = cub->wall[SO].width
-		-  cub->player->pos_y - cub->wall_player_dist * cub->dir_y; // pb ici ? pk text_x = 0 ?
-
+		ray->wall_x = cub->player->pos_x + cub->wall_player_dist * cub->ray_dir_x; // pb ici ? pk text_x = 0 ?
 	else if (cub->wall_side == WE)
-		ray->wall_x = cub->player->pos_x + cub->wall_player_dist * cub->dir_x;
+		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->ray_dir_y;
 	else
-		ray->wall_x = cub->wall[EA].width
-		- cub->player->pos_x - cub->wall_player_dist * cub->dir_x;
+		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->ray_dir_y;
 	if (ray->wall_x < 0.00001)
 		ray->wall_x  = 0.00001;
 	ray->wall_x -= floor(ray->wall_x); // explication ? 
 
-	// if (cub->wall_side == EA)
-	// {
-	// 	printf(" --------------------- NO ---------------------\n");
-	// 	printf("render->cub->wall_side = %d\n", cub->wall_side);
-	// 	printf("ray->wall_x = %f", ray->wall_x);
-	// }
-	if (cub->wall_side == SO)
+	if (cub->wall_side == EA)
 	{
-		printf(" --------------------- SO ---------------------\n");
+		printf(" --------------------- EA ---------------------\n");
 		printf("render->cub->wall_side = %d\n", cub->wall_side);
 		printf("pos_y = %f\n", cub->player->pos_y );
-		printf("dir_y = %f\n", cub->dir_y);
+		printf("dir_y = %f\n", cub->ray_dir_y);
+		printf("dir_x = %f\n", cub->ray_dir_x);
+		printf("wall_player_dist = %f\n",cub->wall_player_dist);
+		printf("ray->wall_x = %f", ray->wall_x);
+	}
+	if (cub->wall_side == NO)
+	{
+		printf(" --------------------- NO ---------------------\n");
+		printf("render->cub->wall_side = %d\n", cub->wall_side);
+		printf("pos_y = %f\n", cub->player->pos_y );
+		printf("dir_y = %f\n", cub->ray_dir_y);
+		printf("dir_x = %f\n", cub->ray_dir_x);
+		printf("wall_player_dist = %f\n",cub->wall_player_dist);
+		printf("ray->wall_x = %f", ray->wall_x);
+	}
+		if (cub->wall_side == NO)
+	{
+		printf(" --------------------- NO ---------------------\n");
+		printf("render->cub->wall_side = %d\n", cub->wall_side);
+		printf("pos_y = %f\n", cub->player->pos_y );
+		printf("dir_y = %f\n", cub->ray_dir_y);
+		printf("dir_x = %f\n", cub->ray_dir_x);
 		printf("wall_player_dist = %f\n",cub->wall_player_dist);
 		printf("ray->wall_x = %f", ray->wall_x);
 	}
@@ -317,16 +336,16 @@ static void get_wallside(t_data *cub, t_ray *ray)
 	if (ray->side == HORIZONTAL)
 	{
 		if (cub->dir_y > 0)
-			cub->wall_side = NO; // Sud
+			cub->wall_side = NO;
 		else
-			cub->wall_side = SO; // Nord
+			cub->wall_side = SO;
 	}
 	else
 	{
 		if (cub->dir_x > 0)
-			cub->wall_side = WE; // Est
+			cub->wall_side = WE;
 		else
-			cub->wall_side = EA; // Ouest
+			cub->wall_side = EA;
 	}
 }
 
