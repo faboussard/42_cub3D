@@ -95,9 +95,6 @@ typedef struct s_image
 
 typedef struct s_player
 {
-	size_t		x;
-	size_t		y;
-	size_t		moves;
 	double      pos_x;
 	double      pos_y;
 	t_data		*cub;
@@ -198,9 +195,10 @@ void						parsing(t_data *cub, char *file);
 /////     				UTILS								////////
 /////////////////////////////////////////////////////////////////////
 void	ft_free_tab(char ***tab);
-// void						free_tabs(char **map, char **copy);
 bool						ft_search_char(char letter, char *charset);
 bool						ft_is_space(const int c);
+int							ft_strcmp_skip_spaces(char *s1, char *s2);
+int	ft_strncmp_skip_spaces(char *s1, char *s2, size_t n);
 // void			ft_put_pos_nbr_fd(size_t n, int fd);
 ////////////////////////////////////////////////////////////////////////
 ////////     				INIT								////////
@@ -214,7 +212,7 @@ void						define_map(t_map *map, char *file_name);
 void						launch_checks(t_map *map, char *tmp_map);
 void						fill_paths(t_map map, size_t x, size_t y);
 bool						check_path(t_map *map);
-
+void						init_player_position(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING							////////
 ////////////////////////////////////////////////////////////////////////

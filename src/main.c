@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:42:35 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 09:13:06 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:31:39 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void init_game_loop(t_data *cub)
 	(*cub).player = ft_calloc(sizeof (t_player), 1);
 	if ((*cub).player == NULL)
 		exit(EXIT_FAILURE);
+	init_player_position(cub);
 	init_vectors(cub);
 }
 
@@ -34,7 +35,6 @@ static void	init_cub_values(t_data *cub)
 	cub->wall[2].img = NULL;
 	cub->wall[3].img = NULL;
 	cub->my_image.img = NULL;
-	cub->player = NULL;
 }
 static void	check_file_name(char *file)
 {
@@ -68,10 +68,10 @@ int	main(int ac, char **av)
 		close_window(&cub);
 		// exit(1);
 	}
+	init_game_loop(&cub);
 	mlx_hook(cub.win, KeyPress, KeyPressMask, key_press_hook, &cub);
 	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, key_release_hook, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, close_window, &cub);
-	init_game_loop(&cub);
 	mlx_loop_hook(cub.mlx, game_loop, &cub);
 	mlx_loop(cub.mlx);
 	return (EXIT_SUCCESS);

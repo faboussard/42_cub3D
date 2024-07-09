@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 11:00:35 by mbernard          #+#    #+#             */
-/*   Updated: 2024/06/28 11:00:42 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:31:52 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,34 @@ void	ft_free_tab(char ***tab)
 	}
 	free(*tab);
 	*tab = NULL;
+}
+
+int	ft_strncmp_skip_spaces(char *s1, char *s2, size_t n)
+{
+	size_t			i;
+	size_t			j;
+
+	i = 0;
+	j = 0;
+	while (ft_is_space(s1[i]))
+		i++;
+	while (ft_is_space(s2[i]))
+		j++;
+	return (ft_strncmp(s1 + i, s2 + j, n));
+}
+
+int	ft_strcmp_skip_spaces(char *s1, char *s2)
+{
+	size_t			i;
+	size_t			j;
+
+	i = 0;
+	j = 0;
+	while (ft_is_space(s1[i]))
+		i++;
+	while (ft_is_space(s2[i]))
+		j++;
+	return (ft_strcmp(s1 + i, s2 + j));
 }
 // void	ft_free_tab(char ***tab)
 // {

@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:44:28 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/02 08:52:20 by faboussa         ###   ########.fr       */
+/*   Updated: 2024/07/09 13:25:29 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,6 @@ unsigned int get_texel(t_image *texture, int x, int y)
 		return (*(unsigned int *) pxl);
 	}
 	return 0;
-}
-
-
-/*
- * If the direction vector and the camera plane vector have the same length, the FOV will be 90°
- * here FOV is  2 * atan(0.66/1.0)=66°
- * */
-void init_vectors(t_data *cub)
-{
-	cub->player->fov = FOV * M_PI / 180;
-	cub->player->plane_length = tan(cub->player->fov);
-	cub->player->pos_x = 22;
-	cub->player->pos_y = 12;
-	cub->dir_x = 0; // 1 = regarder vers lest
-	cub->dir_y = 1; //1 = regarde vers le sud
-	cub->plane_x = -cub->dir_y  * cub->player->plane_length;
-	cub->plane_y = cub->dir_x * cub->player->plane_length;
 }
 
 static void projection_mapping(t_render *render, int x)
@@ -198,8 +181,7 @@ static int get_step(double ray_dir)
 static void ray_tracer(t_ray *ray)
 {
     int hit;
-//	char	**map_memory;
-	static bool b = 0;
+
     hit = 0;
     while (hit == 0)
     {
@@ -216,14 +198,6 @@ static void ray_tracer(t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->side = VERTICAL;
         }
-//        if (ray->cub->map.grid[ray->map_x][ray->map_y] == '1')
-		if (!b)
-		{
-		printf("ray->map_x is %i\n", ray->map_x);
-		printf("ray->map_y is %i\n", ray->map_y);
-		b = 1; 
-		}
-		// if (worldMap[ray->map_x][ray->map_y] == '1')
        if (ray->cub->map.grid[ray->map_x][ray->map_y] == '1')
             hit = 1;
     }
@@ -235,11 +209,7 @@ static void get_wall_player_dist(t_data *cub, t_ray *ray)
 //trouver le point dimpact
 
 	if (ray->side == HORIZONTAL)
-//		cub->wall_player_dist = (ray->map_x - cub->player->pos_x
-//							+ (1 - ray->step_x) / 2) /
-//						   cub->ray_dir_x; //
-	cub->wall_player_dist = (ray->side_x - ray->delta_x);
-//perpWallDist = (sideDistX — deltaDistX);
+		cub->wall_player_dist = (ray->side_x - ray->delta_x);
 	else
 		cub->wall_player_dist = (ray->side_y - ray->delta_y);
 }

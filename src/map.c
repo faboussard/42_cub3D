@@ -6,12 +6,13 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:20:55 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/08 12:56:08 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:48:54 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+//simplification et arrondi a partir du FOV du jeu de base qui est 2 * atan(0.66/1.0)=66°
 // static bool	map_contains_01nsew(t_map *map, char *tmp_map)
 // {
 // 	static size_t	player;
