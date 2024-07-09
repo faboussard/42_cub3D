@@ -6,41 +6,87 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/06/23 15:46:10 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:39:51 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/cub3D.h"
 
-void	check_file_name(char *file)
-{
-	size_t	len;
 
-	len = ft_strlen(file);
-	if (len < 5 || ft_strncmp(&file[len - 4], ".cub", 4))
-	{
-		(void)write(2, "Error: Wrong file extension\n", 28);
-		exit(1);
-	}
+// static void	init_player_position(t_data *cub, char *line)
+//{
+//	size_t	i;
+//	size_t	j;
+//
+//	i = 0;
+//	j = 0;
+//	while (line[i])
+//	{
+//		if (ft_search_char(line[i], "NEWS"))
+//		{
+//			cub->player->pos_x = i + 0.5;
+//			cub->player->pos_y = j + 0.5;
+//			cub->player->dir = line[i];
+//			line[i] = '0';
+//		}
+//		if (line[i] == '2')
+//			cub->sprite->count++;
+//		i++;
+//	}
+//}
+
+static void check_if_no_double_textures(t_data *cub)
+{
+	if (ft_strcmp(cub->north_img, cub->south_img) == 0
+		|| ft_strcmp(cub->north_img, cub->west_img) == 0
+		|| ft_strcmp(cub->north_img, cub->east_img) == 0
+		|| ft_strcmp(cub->south_img, cub->west_img) == 0
+		|| ft_strcmp(cub->south_img, cub->east_img) == 0
+		|| ft_strcmp(cub->east_img, cub->west_img) == 0)
+		{
+			write(2, "Error\nSame textures detected\n", 29);
+			ft_free_tab(&cub->map.copy);
+			exit(EXIT_FAILURE);
+		}
 }
 
 static void	define_textures_path(t_data *cub)
 {
 	int	i;
+	int	j;
 
 	i = 0;
 	while (i < 6)
 	{
+		j = 3;
+		while (cub->map.copy[i][j] && ft_is_space(cub->map.copy[i][j]))
+			j++;
 		if (ft_strncmp(cub->map.copy[i], "NO ", 3) == 0)
-			cub->north_img = cub->map.copy[i] + 3;
+			cub->north_img = cub->map.copy[i] + j;
 		else if (ft_strncmp(cub->map.copy[i], "SO ", 3) == 0)
-			cub->south_img = cub->map.copy[i] + 3;
+			cub->south_img = cub->map.copy[i] + j;
 		else if (ft_strncmp(cub->map.copy[i], "WE ", 3) == 0)
-			cub->west_img = cub->map.copy[i] + 3;
+			cub->west_img = cub->map.copy[i] + j;
 		else if (ft_strncmp(cub->map.copy[i], "EA ", 3) == 0)
-			cub->east_img = cub->map.copy[i] + 3;
+			cub->east_img = cub->map.copy[i] + j;
 		i++;
 	}
+	check_if_no_double_textures(cub);
+}
+
+static void	check_if_textures_exist(t_data *cub, char *path_to_texture)
+{
+	int	fd;
+
+	fd = open(path_to_texture, O_RDONLY);
+	if (fd == -1)
+	{
+		(void)write(2, "Error:\nTexture path error\n", 26);
+		perror(path_to_texture);
+		ft_free_tab(&cub->map.copy);
+		exit(1);
+	}
+	close(fd);
 }
 
 void	parsing(t_data *cub, char *file)
@@ -54,16 +100,10 @@ void	parsing(t_data *cub, char *file)
 		(void)write(2, "Error: Wrong colors\n", 20);
 		exit(1);
 	}
-	dprintf(2, "MAPPPPPPPPPPPPPPPPPPPPP \n%s\n", cub->map.grid[0]);
-	if (set_wall_texture(cub) == 1)
-	{
-		ft_free_tab(&cub->map.copy);
-		exit(1);
-	}
-	dprintf(2, "north: %s\n", cub->north_img);
-	dprintf(2, "south: %s\n", cub->south_img);
-	dprintf(2, "west: %s\n", cub->west_img);
-	dprintf(2, "east: %s\n", cub->east_img);
-	ft_free_tab(&cub->map.copy);
+	check_if_textures_exist(cub, cub->north_img);
+	check_if_textures_exist(cub, cub->south_img);
+	check_if_textures_exist(cub, cub->west_img);
+	check_if_textures_exist(cub, cub->east_img);
+	// ft_free_tab(&cub->map.copy);
 	// exit(1);
 }

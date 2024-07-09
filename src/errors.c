@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:43:15 by mbernard          #+#    #+#             */
-/*   Updated: 2024/06/21 15:43:20 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:02:29 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,12 @@ void	malloc_error(void)
 	exit(EXIT_FAILURE);
 }
 
-//void	input_error(void)
-//{
-//	write(2, "Error\nNo file.ber given\n", 24);
-//	exit(EXIT_FAILURE);
-//}
-//
-void	map_error(char **map)
+void	map_error(char *tmp_map, char **map)
 {
 	if (map)
 		ft_free_tab(&map);
-	// if (map && copy)
-	// 	free_tabs(map, copy);
+	if (tmp_map)
+		free(tmp_map);
 	write(2, "Error\nInvalid map\n", 18);
 	exit(EXIT_FAILURE);
 }

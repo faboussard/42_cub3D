@@ -6,30 +6,13 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:43:59 by mbernard          #+#    #+#             */
-/*   Updated: 2024/06/21 15:44:01 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:37:37 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int create_wall_texture_img(t_data *cub, t_image *wall, int i);
-
-
-int set_wall_texture(t_data *cub)
-{
-	cub->wall[0].path = cub->north_img;
-	create_wall_texture_img(cub, cub->wall, 0);
-	cub->wall[1].path = cub->south_img;
-	create_wall_texture_img(cub, cub->wall, 1);
-	cub->wall[2].path = cub->east_img;
-	create_wall_texture_img(cub, cub->wall, 2);
-	cub->wall[3].path = cub->west_img;
-	if (create_wall_texture_img(cub, cub->wall, 3) == 1)
-		return (1);
-	return 0;
-}
-
-static int create_wall_texture_img(t_data *cub, t_image *wall, int i)
+static bool	create_wall_texture_img(t_data *cub, t_image *wall, int i)
 {
 	int	j;
 
@@ -38,32 +21,49 @@ static int create_wall_texture_img(t_data *cub, t_image *wall, int i)
 	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
 	if (wall[i].img == NULL)
 	{
-		while (j-- > i)
-			mlx_destroy_image(cub->mlx, wall[i].img);
-		printf("Erreur lors du chargement de l'image de la texture\n");
+		// while (--i > 0)
+		// 	mlx_destroy_image(cub->mlx, wall[i].img);
+		perror("Error loading texture's picture");
+		close_window(cub);
 		return (1);
 	}
 	wall[i].addr = mlx_get_data_addr(wall[i].img, &wall[i].bits_per_pixel, &wall[i].line_length, &wall[i].endian);
 	if (wall[i].addr == NULL)
 	{
-		j = 0;
-		while (j-- > i)
+		while (--i > 0)
 			mlx_destroy_image(cub->mlx, wall[i].img);
-		printf("Erreur lors de l'obtention des données de la texture\n");
+		perror("Error obtening texture's data");
 		return (1);
 	}
 	return (0);
 }
 
+bool set_wall_texture(t_data *cub)
+{
+	cub->wall[0].path = cub->north_img;
+	if (create_wall_texture_img(cub, cub->wall, 0))
+		return (1);
+	cub->wall[1].path = cub->south_img;
+	if (create_wall_texture_img(cub, cub->wall, 1))
+		return (1);
+	cub->wall[2].path = cub->east_img;
+	if (create_wall_texture_img(cub, cub->wall, 2))
+		return (1);
+	cub->wall[3].path = cub->west_img;
+	if (create_wall_texture_img(cub, cub->wall, 3))
+		return (1);
+	return 0;
+}
 
 void init_image(t_data *cub)
 {
 	cub->my_image.width = WIDTH_DISPLAY;
 	cub->my_image.height = HEIGHT_DISPLAY;
-	cub->my_image.img = mlx_new_image(cub->mlx, cub->my_image.width, cub->my_image.height );
+	cub->my_image.img = mlx_new_image(cub->mlx, cub->my_image.width, cub->my_image.height);
 	if (cub->my_image.img == NULL)
 	{
 //		free_all(cub);
+		ft_free_tab(&cub->map.copy);
 		exit(EXIT_FAILURE);
 	}
 	cub->my_image.addr = mlx_get_data_addr(cub->my_image.img,
@@ -106,18 +106,21 @@ void init_screen(t_data *cub)
 	init_image(cub);
 }
 
-void init_mlx_win(t_data *img)
+void init_mlx_win(t_data *cub)
 {
-	img->mlx = mlx_init();
-	if (img->mlx == NULL)
-		malloc_error();
-
-	img->win = mlx_new_window(img->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY, "cub3d");
-	if (img->win == NULL)
+	cub->mlx = mlx_init();
+	if (cub->mlx == NULL)
 	{
-		mlx_destroy_display(img->mlx);
+		ft_free_tab(&cub->map.copy);
+		malloc_error();
+	}
+	cub->win = mlx_new_window(cub->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY, "cub3d");
+	if (cub->win == NULL)
+	{
+		mlx_destroy_display(cub->mlx);
+		ft_free_tab(&cub->map.copy);
 //		free_tabs(img->map.grid, img->map.copy);
-		free(img->mlx);
+		free(cub->mlx);
 		malloc_error();
 	}
 }
