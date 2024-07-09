@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:43:59 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/08 16:10:33 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:37:37 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ static bool	create_wall_texture_img(t_data *cub, t_image *wall, int i)
 	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
 	if (wall[i].img == NULL)
 	{
-		while (--i > 0)
-			mlx_destroy_image(cub->mlx, wall[i].img);
+		// while (--i > 0)
+		// 	mlx_destroy_image(cub->mlx, wall[i].img);
 		perror("Error loading texture's picture");
+		close_window(cub);
 		return (1);
 	}
 	wall[i].addr = mlx_get_data_addr(wall[i].img, &wall[i].bits_per_pixel, &wall[i].line_length, &wall[i].endian);

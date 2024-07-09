@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:34:20 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 09:05:40 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:36:21 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,12 @@ static void	check_textures_and_color(char *str, int *i)
 		cardinal_points++;
 	else if (check_point_and_color(str, *i, 0))
 		colors++;
-	while (str[*i] && cardinal_points < 5 && colors < 3)
+	while (str[++(*i)] && cardinal_points < 5 && colors < 3)
 	{
 		if (check_point_and_color(str, *i, 1))
 			cardinal_points++;
 		else if (check_point_and_color(str, *i, 0))
 			colors++;
-		++(*i);
 		if (cardinal_points == 4 && colors == 2)
 			break ;
 	}
@@ -98,7 +97,7 @@ static void	check_map_lines(char *str)
 {
 	int	i;
 
-	i = 2;
+	i = 0;
 	check_textures_and_color(str, &i);
 	while (str[i] && ft_strncmp(str + i, "\n", 1) != 0)
 		i++;

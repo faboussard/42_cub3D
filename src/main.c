@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:42:35 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/08 15:42:09 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:13:06 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ static void	init_cub_values(t_data *cub)
 	cub->keys.key_pressed_m = 0;
 	cub->keys.key_pressed_left = 0;
 	cub->keys.key_pressed_right = 0;
+	cub->wall[0].img = NULL;
+	cub->wall[1].img = NULL;
+	cub->wall[2].img = NULL;
+	cub->wall[3].img = NULL;
+	cub->my_image.img = NULL;
+	cub->player = NULL;
 }
 static void	check_file_name(char *file)
 {
@@ -52,16 +58,16 @@ int	main(int ac, char **av)
 		exit(1);
 	}
 	ft_bzero(&cub, 1);
+	init_cub_values(&cub);
 	check_file_name(av[1]);
 	parsing(&cub, av[1]);
 	init_screen(&cub);
 	if (set_wall_texture(&cub) == 1)
 	{
-		ft_free_tab(&cub.map.copy);
-		// close_window(&cub);
-		exit(1);
+		// ft_free_tab(&cub.map.copy);
+		close_window(&cub);
+		// exit(1);
 	}
-	init_cub_values(&cub);
 	mlx_hook(cub.win, KeyPress, KeyPressMask, key_press_hook, &cub);
 	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, key_release_hook, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, close_window, &cub);
