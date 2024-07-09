@@ -34,10 +34,23 @@
 # define VERTICAL 1
 
 
-#define SO 0
-#define NO 1
+#define NO 0
+#define SO 1
 #define EA 2
 #define WE 3
+
+#define TEXT_NORTH_W render->cub->wall[NO].width
+#define TEXT_SOUTH_W render->cub->wall[SO].width
+#define TEXT_EAST_W render->cub->wall[EA].width
+#define TEXT_WEST_W render->cub->wall[WE].width
+
+
+#define TEXT_NORTH_H render->cub->wall[NO].height
+#define TEXT_SOUTH_H render->cub->wall[SO].height
+#define TEXT_EAST_H render->cub->wall[EA].height
+#define TEXT_WEST_H render->cub->wall[WE].height
+
+
 
 #define TEXTURE_NUM 4
 
@@ -214,6 +227,8 @@ void	move_left(t_data *cub);
 void	move_right(t_data *cub);
 void	update_player_position(t_player *player, \
 double dest_x, double dest_y);
+void	rotate_right(t_data *cub);
+void	rotate_left(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				HOOK								////////
 ////////////////////////////////////////////////////////////////////////
