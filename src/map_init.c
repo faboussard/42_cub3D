@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:34:20 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 11:52:23 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 12:55:01 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,17 +93,6 @@ static void	check_textures_and_color(char *str, int *i)
 		map_error(str, NULL);
 }
 
-static void	assign_player_orientation(char *str, int i, char c)
-{
-	if (c == 'N')
-		str[i] = '4';
-	else if (c == 'S')
-		str[i] = '5';
-	else if (c == 'E')
-		str[i] = '6';
-	else if (c == 'W')
-		str[i] = '7';
-}
 static void	check_map_lines(char *str)
 {
 	int	i;
@@ -120,7 +109,6 @@ static void	check_map_lines(char *str)
 	{
 		if (str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W')
 		{
-			assign_player_orientation(str, i, str[i]);
 			if (!player_found)
 				player_found = 1;
 			else
@@ -130,6 +118,8 @@ static void	check_map_lines(char *str)
 			&& str[i + 1] && str[i + 1] != '\n')
 			map_error(str, NULL);
 	}
+	if (player_found == 0)
+		map_error(str, NULL);
 }
 
 void	define_map(t_map *map, char *file_name)

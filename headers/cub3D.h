@@ -210,7 +210,7 @@ void						define_map(t_map *map, char *file_name);
 void						launch_checks(t_map *map, char *tmp_map);
 void						fill_paths(t_map map, size_t x, size_t y);
 bool						check_path(t_map *map);
-
+void						init_player_position(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING							////////
 ////////////////////////////////////////////////////////////////////////
