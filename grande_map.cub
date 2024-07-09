@@ -1,7 +1,7 @@
-NO /home/faboussa/cub3d/textures/test/north.xpm
-SO /home/faboussa/cub3d/textures/test/south.xpm
-WE /home/faboussa/cub3d/textures/test/west.xpm
-EA /home/faboussa/cub3d/textures/test/east.xpm
+NO textures/test/north.xpm
+SO textures/test/south.xpm
+WE textures/test/west.xpm
+EA textures/test/east.xpm
 
 C 125, 230, 4
 F 124, 23, 14
