@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:42:35 by mbernard          #+#    #+#             */
-/*   Updated: 2024/06/21 15:42:40 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/09 09:13:06 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,45 @@ static void	init_cub_values(t_data *cub)
 	cub->keys.key_pressed_m = 0;
 	cub->keys.key_pressed_left = 0;
 	cub->keys.key_pressed_right = 0;
-	// IMPORTANT POUR LE DESTROY IMAGE DANS EXIT : DESTROY IMAGE
-	// NE SEMBLE PAS FONCTIONNER (FAIT DES ERREURS SI ON N A PAS INITIALISE
-	// LES IMAGES A NULL, FAIT DES LEAKS SI ON LES INITIALISE A NULL)
-	cub->east_img = NULL;
-	cub->west_img = NULL;
-	cub->north_img = NULL;
-	cub->south_img = NULL;
+	cub->wall[0].img = NULL;
+	cub->wall[1].img = NULL;
+	cub->wall[2].img = NULL;
+	cub->wall[3].img = NULL;
+	cub->my_image.img = NULL;
+	cub->player = NULL;
+}
+static void	check_file_name(char *file)
+{
+	size_t	len;
+
+	len = ft_strlen(file);
+	if (len < 5 || ft_strncmp(&file[len - 4], ".cub", 4))
+	{
+		(void)write(2, "Error:\nWrong file extension\n", 28);
+		exit(1);
+	}
 }
 
 int	main(int ac, char **av)
 {
 	t_data	cub;
 
-	ft_bzero(&cub, 1);
 	if (ac != 2)
 	{
-		ft_putendl_fd("Error: Wrong number of arguments", 2);
+		(void)write(2, "Error: Wrong number of arguments\n", 33);
 		exit(1);
 	}
-	check_file_name(av[1]);
-	init_screen(&cub);
-	parsing(&cub, av[1]);
+	ft_bzero(&cub, 1);
 	init_cub_values(&cub);
+	check_file_name(av[1]);
+	parsing(&cub, av[1]);
+	init_screen(&cub);
+	if (set_wall_texture(&cub) == 1)
+	{
+		// ft_free_tab(&cub.map.copy);
+		close_window(&cub);
+		// exit(1);
+	}
 	mlx_hook(cub.win, KeyPress, KeyPressMask, key_press_hook, &cub);
 	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, key_release_hook, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, close_window, &cub);
