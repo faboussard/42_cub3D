@@ -295,39 +295,53 @@ static void get_wall_impact_point(t_data *cub, t_ray *ray)
 		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->ray_dir_y;
 	else
 		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->ray_dir_y;
-	if (ray->wall_x < 0.00001)
-		ray->wall_x  = 0.00001;
-	ray->wall_x -= floor(ray->wall_x); // explication ? 
+	// if (ray->wall_x < 0.00001)
+	// 	ray->wall_x  = 0.00001;
+	ray->wall_x -= floor(ray->wall_x);
 
 	if (cub->wall_side == EA)
 	{
 		printf(" --------------------- EA ---------------------\n");
 		printf("render->cub->wall_side = %d\n", cub->wall_side);
 		printf("pos_y = %f\n", cub->player->pos_y );
+		printf("pos_x = %f\n", cub->player->pos_x );
 		printf("dir_y = %f\n", cub->ray_dir_y);
 		printf("dir_x = %f\n", cub->ray_dir_x);
 		printf("wall_player_dist = %f\n",cub->wall_player_dist);
-		printf("ray->wall_x = %f", ray->wall_x);
+		printf("ray->wall_x = %f\n", ray->wall_x);
 	}
-	if (cub->wall_side == NO)
+	if (cub->wall_side == SO)
 	{
-		printf(" --------------------- NO ---------------------\n");
+		printf(" --------------------- SO ---------------------\n");
 		printf("render->cub->wall_side = %d\n", cub->wall_side);
 		printf("pos_y = %f\n", cub->player->pos_y );
+		printf("pos_x = %f\n", cub->player->pos_x );
 		printf("dir_y = %f\n", cub->ray_dir_y);
 		printf("dir_x = %f\n", cub->ray_dir_x);
 		printf("wall_player_dist = %f\n",cub->wall_player_dist);
-		printf("ray->wall_x = %f", ray->wall_x);
+		printf("ray->wall_x = %f\n", ray->wall_x);
 	}
 		if (cub->wall_side == NO)
 	{
 		printf(" --------------------- NO ---------------------\n");
 		printf("render->cub->wall_side = %d\n", cub->wall_side);
 		printf("pos_y = %f\n", cub->player->pos_y );
+		printf("pos_x = %f\n", cub->player->pos_x );
 		printf("dir_y = %f\n", cub->ray_dir_y);
 		printf("dir_x = %f\n", cub->ray_dir_x);
 		printf("wall_player_dist = %f\n",cub->wall_player_dist);
-		printf("ray->wall_x = %f", ray->wall_x);
+		printf("ray->wall_x = %f\n", ray->wall_x);
+	}
+			if (cub->wall_side == WE)
+	{
+		printf(" --------------------- WE ---------------------\n");
+		printf("render->cub->wall_side = %d\n", cub->wall_side);
+		printf("pos_y = %f\n", cub->player->pos_y );
+		printf("pos_x = %f\n", cub->player->pos_x );
+		printf("dir_y = %f\n", cub->ray_dir_y);
+		printf("dir_x = %f\n", cub->ray_dir_x);
+		printf("wall_player_dist = %f\n",cub->wall_player_dist);
+		printf("ray->wall_x = %f\n", ray->wall_x);
 	}
 }
 
