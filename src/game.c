@@ -28,18 +28,15 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 	draw(&render, x);
 }
 
-static int walls(t_data *cub)
+static int walls(t_data *cub, t_ray *ray)
 {
 	int x;
-	t_ray ray;
 
-	ray = cub->ray;
-	ray.cub = cub;
 	x = 0;
 	while (x < WIDTH_DISPLAY)
 	{
-		init_ray_info(cub, &ray, x);
-		create_walls(cub, &ray, x);
+		init_ray_info(cub, ray, x);
+		create_walls(cub, ray, x);
 		x++;
 	}
 	return (0);
@@ -70,20 +67,22 @@ static void background(t_data *cub)
 
 int game_loop(t_data *cub)
 {
+	t_ray ray;
+
 	background(cub);
-	walls(cub);
+	walls(cub, &ray);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->my_image.img, 0, 0);
 	if (cub->keys.key_pressed_right == 1)
 		rotate_right(cub);
 	if (cub->keys.key_pressed_left == 1)
 		rotate_left(cub);
 	if (cub->keys.key_pressed_w == 1)
-		move_forward(cub);
+		move_forward(cub, &ray);
 	if (cub->keys.key_pressed_s == 1)
-		move_backward(cub);
+		move_backward(cub, &ray);
 	if (cub->keys.key_pressed_a == 1)
-		move_left(cub);
+		move_left(cub, &ray);
 	if (cub->keys.key_pressed_d == 1)
-		move_right(cub);
+		move_right(cub, &ray);
 	return (0);
 }

@@ -231,10 +231,11 @@ int game_loop(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				MOVE								////////
 ////////////////////////////////////////////////////////////////////////
-void	move_forward(t_data *cub);
-void	move_backward(t_data *cub);
-void	move_left(t_data *cub);
-void	move_right(t_data *cub);
+
+void	move_forward(t_data *cub, t_ray *ray);
+void	move_backward(t_data *cub, t_ray *ray);
+void move_left(t_data *cub, t_ray *ray);
+void move_right(t_data *cub, t_ray *ray);
 void	update_player_position(t_player *player, \
 double dest_x, double dest_y);
 void	rotate_right(t_data *cub);
