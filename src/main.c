@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-static void	init_cub_values(t_data *cub)
+static void	init_keys(t_data *cub)
 {
 	cub->keys.key_pressed_a = 0;
 	cub->keys.key_pressed_d = 0;
@@ -20,12 +20,8 @@ static void	init_cub_values(t_data *cub)
 	cub->keys.key_pressed_w = 0;
 	cub->keys.key_pressed_left = 0;
 	cub->keys.key_pressed_right = 0;
-	cub->wall[0].img = NULL;
-	cub->wall[1].img = NULL;
-	cub->wall[2].img = NULL;
-	cub->wall[3].img = NULL;
-	cub->my_image.img = NULL;
 }
+
 static void	check_file_name(char *file)
 {
 	size_t	len;
@@ -34,7 +30,7 @@ static void	check_file_name(char *file)
 	if (len < 5 || ft_strncmp(&file[len - 4], ".cub", 4))
 	{
 		(void)write(2, "Error:\nWrong file extension\n", 28);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -45,10 +41,10 @@ int	main(int ac, char **av)
 	if (ac != 2)
 	{
 		(void)write(2, "Error: Wrong number of arguments\n", 33);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 	ft_bzero(&cub, 1);
-	init_cub_values(&cub);
+	init_keys(&cub);
 	check_file_name(av[1]);
 	parsing(&cub, av[1]);
 	init_mlx_win(&cub);
