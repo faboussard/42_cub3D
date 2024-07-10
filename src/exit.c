@@ -17,7 +17,6 @@ void	destroy_images(t_data *cub)
 	int	i;
 
 	i = 0;
-
 	while (i < 4)
 	{
 		if (cub->wall[i].img)

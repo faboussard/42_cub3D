@@ -23,8 +23,8 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 	get_wallside(cub, ray);
 	get_wall_player_dist(cub, ray);
 	get_wall_x(cub, ray);
-	define_draw_points(&render, cub->wall_player_dist);
 	get_texture_x(&render, ray);
+	define_draw_points(&render, cub->wall_player_dist);
 	draw(&render, x);
 }
 
