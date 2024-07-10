@@ -16,23 +16,23 @@ static void	init_player_eyes(t_data *cub, char c)
 {
 	if (c == 'N')
 	{
-		cub->dir_x = 0;
-		cub->dir_y = -1;
+		cub->player->dir_x = 0;
+		cub->player->dir_y = -1;
 	}
 	else if (c == 'S')
 	{
-		cub->dir_x = 0;
-		cub->dir_y = 1;
+		cub->player->dir_x = 0;
+		cub->player->dir_y = 1;
 	}
 	else if (c == 'E')
 	{
-		cub->dir_x = 1;
-		cub->dir_y = 0;
+		cub->player->dir_x = 1;
+		cub->player->dir_y = 0;
 	}
 	else if (c == 'W')
 	{
-		cub->dir_x = -1;
-		cub->dir_y = 0;
+		cub->player->dir_x = -1;
+		cub->player->dir_y = 0;
 	}
 }
 
@@ -79,6 +79,6 @@ void init_vectors(t_data *cub)
 {
 	cub->player->fov = FOV * M_PI / 180;
 	cub->player->plane_length = tan(cub->player->fov);
-	cub->plane_x = -cub->dir_y  * cub->player->plane_length;
-	cub->plane_y = cub->dir_x * cub->player->plane_length;
+	cub->plane_x = -cub->player->dir_y  * cub->player->plane_length;
+	cub->plane_y = cub->player->dir_x * cub->player->plane_length;
 }

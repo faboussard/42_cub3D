@@ -88,6 +88,8 @@ typedef struct s_player
 {
 	double      pos_x;
 	double      pos_y;
+	double      dir_x;
+	double      dir_y;
 	t_data		*cub;
 	int			fov;
 	int			plane_length;

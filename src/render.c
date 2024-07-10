@@ -13,55 +13,64 @@
 
 
 /*
- --------------------- SO ---------------------
-render->cub->wall_side = 1
-pos_y = 41.387039
-pos_x = 3.496761
-dir_y = 0.976906
-dir_x = 1.020535
-wall_player_dist = 1.651091
-ray->wall_x = 0.818242
-
-
- --------------------- WE ---------------------
-render->cub->wall_side = 3
-pos_y = 38.500000
-pos_x = 1.500000
-dir_y = -0.409652
-dir_x = 1.339790
-wall_player_dist = 25.750305
-ray->wall_x = 0.048655
-
-
- --------------------- NO ---------------------
-render->cub->wall_side = 0
-pos_y = 38.500000
-pos_x = 1.500000
-dir_y = 0.423358
-dir_x = 1.104194
-wall_player_dist = 10.629300
-ray->wall_x = 0.763190
+ --------------------- EA ---------------------
+render->cub->wall_side = 2
+text_x = 12, text_y = 62
+color = 16777215
+cub->dir_x = 0.000000
+ --------------------- EA ---------------------
+render->cub->wall_side = 2
+pos_y = 35.950000
+pos_x = 21.300000
+dir_y = -1.000000
+dir_x = 0.997917
+wall_player_dist = 14.730689
+ray->wall_x = 0.780689
+ray->side = 0
+ --------------------- EA ---------------------
+render->cub->wall_side = 2
+text_x = 14, text_y = 62
+color = 16777215
 
 
  --------------------- EA ---------------------
 render->cub->wall_side = 2
+text_x = 9, text_y = 52
+color = 16777215
+cub->dir_x = 0.000000
+ --------------------- EA ---------------------
+render->cub->wall_side = 2
 pos_y = 38.500000
 pos_x = 1.500000
-dir_y = -0.991260
-dir_x = -0.137146
-wall_player_dist = 3.645748
-ray->wall_x = 0.113886
+dir_y = -1.000000
+dir_x = -0.777083
+wall_player_dist = 0.643432
+ray->wall_x = 0.143432
+ray->side = 0
+ --------------------- EA ---------------------
+render->cub->wall_side = 2
+text_x = 9, text_y = 52
+color = 16777215
+cub->dir_x = 0.000000
 
- --------------------- WE ---------------------
-render->cub->wall_side = 3
+ --------------------- EA ---------------------
+render->cub->wall_side = 2
+text_x = 25, text_y = 60
+color = 16777215
+cub->dir_x = 0.000000
+ --------------------- EA ---------------------
+render->cub->wall_side = 2
 pos_y = 38.500000
 pos_x = 1.500000
-dir_y = -1.164250
-dir_x = -0.709934
-wall_player_dist = 0.704291
-ray->wall_x = 0.319970
-
-
-
+dir_y = -1.000000
+dir_x = -0.554167
+wall_player_dist = 0.902256
+ray->wall_x = 0.402256
+ray->side = 0
+ --------------------- EA ---------------------
+render->cub->wall_side = 2
+text_x = 25, text_y = 60
+color = 16777215
+cub->dir_x = 0.000000
 
 */
