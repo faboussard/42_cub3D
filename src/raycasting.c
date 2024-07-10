@@ -53,7 +53,7 @@ unsigned int get_texel(t_image *texture, int x, int y)
 	return 0;
 }
 
-static void projection_mapping(t_render *render, int x)
+static void draw(t_render *render, int x)
 {
 	int y;
 	int color;
@@ -76,34 +76,34 @@ static void projection_mapping(t_render *render, int x)
 		my_pixel_put(&render->cub->my_image, x, y, color);
 		y++;
 	}
-	// if (render->cub->wall_side == WE)
-	// {
-	// 	printf(" --------------------- WE ---------------------\n");
-	// 	printf("render->cub->wall_side = %d\n", render->cub->wall_side);
-	// 	printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
-	// 	printf("color = %d\n", color);
-	// }
-	// if (render->cub->wall_side == NO)
-	// {
-	// 	printf(" --------------------- NO ---------------------\n");
-	// 	printf("render->cub->wall_side = %d\n", render->cub->wall_side);
-	// 	printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
-	// 	printf("color = %d\n", color);
-	// }
-	// if (render->cub->wall_side == SO)
-	// {
-	// 	printf(" --------------------- SO ---------------------\n");
-	// 	printf("render->cub->wall_side = %d\n", render->cub->wall_side);
-	// 	printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
-	// 	printf("color = %d\n", color);
-	// }
-	// if (render->cub->wall_side == EA)
-	// {
-	// 	printf(" --------------------- EA ---------------------\n");
-	// 	printf("render->cub->wall_side = %d\n", render->cub->wall_side);
-	// 	printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
-	// 	printf("color = %d\n", color);
-	// }
+	if (render->cub->wall_side == WE)
+	{
+		printf(" --------------------- WE ---------------------\n");
+		printf("render->cub->wall_side = %d\n", render->cub->wall_side);
+		printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
+		printf("color = %d\n", color);
+	}
+	if (render->cub->wall_side == NO)
+	{
+		printf(" --------------------- NO ---------------------\n");
+		printf("render->cub->wall_side = %d\n", render->cub->wall_side);
+		printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
+		printf("color = %d\n", color);
+	}
+	if (render->cub->wall_side == SO)
+	{
+		printf(" --------------------- SO ---------------------\n");
+		printf("render->cub->wall_side = %d\n", render->cub->wall_side);
+		printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
+		printf("color = %d\n", color);
+	}
+	if (render->cub->wall_side == EA)
+	{
+		printf(" --------------------- EA ---------------------\n");
+		printf("render->cub->wall_side = %d\n", render->cub->wall_side);
+		printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
+		printf("color = %d\n", color);
+	}
 
 
 }
@@ -324,7 +324,8 @@ static void get_wallside(t_data *cub, t_ray *ray)
 			cub->wall_side = NO;
 		else
 			cub->wall_side = SO;
-	} else
+	}
+	else
 	{
 		if (cub->dir_x > 0)
 			cub->wall_side = WE;
@@ -332,7 +333,6 @@ static void get_wallside(t_data *cub, t_ray *ray)
 			cub->wall_side = EA;
 	}
 }
-
 
 static void define_draw_points(t_render *render, double wall_player_dist)
 {
@@ -370,7 +370,7 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 	define_draw_points(&render, cub->wall_player_dist);
 	get_wall_x(cub, ray);
 	get_texture_x(&render, ray);
-	projection_mapping(&render, x);
+	draw(&render, x);
 }
 
 static int draw_walls(t_data *cub)

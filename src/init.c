@@ -68,38 +68,9 @@ void init_image(t_data *cub)
 	                                       &cub->my_image.endian);
 }
 
-//static void	init_map(t_data *img, size_t x, size_t y)
-//{
-//	t_data	*mlx;
-//	t_data	*win;
-//
-//	mlx = img->mlx;
-//	win = img->win;
-//	while (x <= img->map.rows)
-//	{
-//		y = 0;
-//		while (y <= img->map.cols)
-//		{
-//			if (img->map.grid[x][y] == '1')
-//				mlx_put_image_to_window(mlx, win, img->wall, y * 80, x * 80);
-//			else if (img->map.grid[x][y] == '0')
-//				mlx_put_image_to_window(mlx, win, img->empty, y * 80, x * 80);
-//			else if (img->map.grid[x][y] == 'C')
-//				mlx_put_image_to_window(mlx, win, img->coll, y * 80, x * 80);
-//			else if (img->map.grid[x][y] == 'E')
-//				mlx_put_image_to_window(mlx, win, img->exit, y * 80, x * 80);
-//			else if (img->map.grid[x][y] == 'P')
-//				mlx_put_image_to_window(mlx, win, img->down, y * 80, x * 80);
-//			y++;
-//		}
-//		x++;
-//	}
-//}
-
 void init_screen(t_data *cub)
 {
 	init_mlx_win(cub);
-
 	init_image(cub);
 }
 
@@ -111,7 +82,7 @@ void init_mlx_win(t_data *cub)
 		ft_free_tab(&cub->map.copy);
 		malloc_error();
 	}
-	cub->win = mlx_new_window(cub->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY, "cub3d");
+	cub->win = mlx_new_window(cub->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY, "cub3D");
 	if (cub->win == NULL)
 	{
 		mlx_destroy_display(cub->mlx);

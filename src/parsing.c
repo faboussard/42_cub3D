@@ -13,28 +13,6 @@
 #include "../headers/cub3D.h"
 
 
-// static void	init_player_position(t_data *cub, char *line)
-//{
-//	size_t	i;
-//	size_t	j;
-//
-//	i = 0;
-//	j = 0;
-//	while (line[i])
-//	{
-//		if (ft_search_char(line[i], "NEWS"))
-//		{
-//			cub->player->pos_x = i + 0.5;
-//			cub->player->pos_y = j + 0.5;
-//			cub->player->dir = line[i];
-//			line[i] = '0';
-//		}
-//		if (line[i] == '2')
-//			cub->sprite->count++;
-//		i++;
-//	}
-//}
-
 static void check_if_no_double_textures(t_data *cub)
 {
 	if (ft_strcmp_skip_spaces(cub->north_img, cub->south_img) == 0
