@@ -46,7 +46,6 @@ unsigned int get_texel(t_image *texture, int x, int y)
 
 	offset_x = x * (texture->bits_per_pixel / 8);
 	offset_y = y * texture->line_length;
-//	if (x >= 0 && x < 60 && y >= 0 && y < 60) // limiter la map au parsing sinon ca ne fonctionne pas ex / /home/juba/cub3d/TEST_CUB3D_ESLAMBER/textures/wall.xpm
 	{
 		pxl = texture->addr + offset_y + offset_x;
 		return (*(unsigned int *) pxl);
@@ -68,12 +67,7 @@ void draw(t_render *render, int x)
 		render->text_y = (int) render->texture_pos & (TEX_H -
 		                                              1); //sert à calculer l'index vertical (text_y) dans la texture en s'assurant qu'il reste dans les limites de la texture (de 0 à 63)
 		render->texture_pos += render->text_step;
-		// Obtenir la couleur du texel
 		color = get_texel(&render->cub->wall[render->cub->wall_side], render->text_x, render->text_y);
-
-		// Appliquer l'effet d'ombrage si nécessaire
-//		if (render->cub->wall_side == NO)
-//			color = (color >> 1) & 8355711;
 		my_pixel_put(&render->cub->my_image, x, y, color);
 		y++;
 	}
