@@ -43,13 +43,10 @@
 #define TEXT_EAST_W render->cub->wall[EA].width
 #define TEXT_WEST_W render->cub->wall[WE].width
 
-
 #define TEXT_NORTH_H render->cub->wall[NO].height
 #define TEXT_SOUTH_H render->cub->wall[SO].height
 #define TEXT_EAST_H render->cub->wall[EA].height
 #define TEXT_WEST_H render->cub->wall[WE].height
-
-
 
 #define TEXTURE_NUM 4
 

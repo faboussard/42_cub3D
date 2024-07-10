@@ -46,15 +46,26 @@ void get_wall_player_dist(t_data *cub, t_ray *ray)
 
 void get_texture_x(t_render *render, t_ray *ray)
 {
-	render->text_x = (int) (ray->wall_x * (double) TEX_W); 
-	if (ray->side == HORIZONTAL && ray->dir_x > 0)
-	{
-		render->text_x = TEX_W - render->text_x - 1;
-	}
-	if (ray->side == VERTICAL && ray->dir_y < 0)
-	{
-		render->text_x = TEX_W - render->text_x - 1;
-	}
+    if (ray->side == VERTICAL)
+    {
+        if (ray->dir_y > 0)
+            render->text_x = (int) (ray->wall_x * (double) TEXT_NORTH_W); 
+        else
+        {
+            render->text_x = (int) (ray->wall_x * (double) TEXT_SOUTH_W); 
+            render->text_x = TEXT_SOUTH_W - render->text_x - 1;
+        }
+    }
+    else
+    {
+        if (ray->dir_x > 0)
+        {
+            render->text_x = (int) (ray->wall_x * (double) TEXT_EAST_W); 
+            render->text_x = TEXT_EAST_W - render->text_x - 1;
+        }
+        else
+            render->text_x = (int) (ray->wall_x * (double) TEXT_WEST_W); 
+    }
 }
 
 void get_wall_x(t_data *cub, t_ray *ray)
