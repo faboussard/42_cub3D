@@ -18,21 +18,29 @@ static void	init_player_eyes(t_data *cub, char c)
 	{
 		cub->player->dir_x = 0;
 		cub->player->dir_y = -1;
+		cub->plane_x = 0.66;
+		cub->plane_y = 0.0;
 	}
 	else if (c == 'S')
 	{
 		cub->player->dir_x = 0;
 		cub->player->dir_y = 1;
+		cub->plane_x = -0.66;
+		cub->plane_y = 0.0;
 	}
 	else if (c == 'E')
 	{
 		cub->player->dir_x = 1;
 		cub->player->dir_y = 0;
+		cub->plane_x = 0.0;
+		cub->plane_y = 0.66;
 	}
 	else if (c == 'W')
 	{
 		cub->player->dir_x = -1;
 		cub->player->dir_y = 0;
+		cub->plane_x = -0.0;
+		cub->plane_y = -0.66;
 	}
 }
 
@@ -69,16 +77,4 @@ void	init_player_position(t_data *cub)
 	cub->player->pos_y = (double)y + 0.15;
 	cub->player->pos_x = (double)x + 0.15;
 	init_player_eyes(cub, cub->map.grid[y][x]);
-}
-
-/*
- * If the direction vector and the camera plane vector have the same length, the FOV will be 90°
- * here FOV is  2 * atan(0.66/1.0)=66°
- * */
-void init_vectors(t_data *cub)
-{
-	cub->player->fov = FOV * M_PI / 180;
-	cub->player->plane_length = tan(cub->player->fov);
-	cub->plane_x = -cub->player->dir_y  * cub->player->plane_length;
-	cub->plane_y = cub->player->dir_x * cub->player->plane_length;
 }
