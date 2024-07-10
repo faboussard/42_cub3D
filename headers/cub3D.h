@@ -56,8 +56,8 @@
 
 #define TEXTURE_NUM 4
 
-# define MOVE 0.05
-# define ROTATE 0.05
+# define MOVE 0.03
+# define ROTATE 0.01
 
 typedef struct s_keys
 {
@@ -210,6 +210,24 @@ int				game_loop(t_data *cub);
 void			render(t_data *cub);
 bool			set_wall_texture(t_data *cub);
 void			init_vectors(t_data *cub);
+void ray_tracer(t_ray *ray);
+void get_wall_player_dist(t_data *cub, t_ray *ray);
+void get_texture_x(t_render *render, t_ray *ray);
+void get_wall_x(t_data *cub, t_ray *ray);
+void get_wallside(t_data *cub, t_ray *ray);
+void init_ray_info(t_data *cub, t_ray *ray, int x);
+////////////////////////////////////////////////////////////////////////
+////////     				RENDER								////////
+////////////////////////////////////////////////////////////////////////
+void draw(t_render *render, int x);
+unsigned int get_texel(t_image *texture, int x, int y);
+void my_pixel_put(t_image *img, int x, int y, int color);
+void define_draw_points(t_render *render, double wall_player_dist);
+////////////////////////////////////////////////////////////////////////
+////////     				GAME								////////
+////////////////////////////////////////////////////////////////////////
+int game_loop(t_data *cub);
+
 ////////////////////////////////////////////////////////////////////////
 ////////     				MOVE								////////
 ////////////////////////////////////////////////////////////////////////

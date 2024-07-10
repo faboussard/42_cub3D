@@ -27,18 +27,20 @@ DIR_SRC	=	src/
 
 SOURCES		=	$(DIR_SRC)main.c\
                 $(DIR_SRC)raycasting.c\
+				$(DIR_SRC)raycasting_utils.c\
+				$(DIR_SRC)render.c\
                 $(DIR_SRC)init.c\
                 $(DIR_SRC)utils.c\
                 $(DIR_SRC)hook.c\
                 $(DIR_SRC)errors.c\
                 $(DIR_SRC)exit.c\
-                $(DIR_SRC)render.c\
                 $(DIR_SRC)parsing.c\
                 $(DIR_SRC)map.c\
                 $(DIR_SRC)map_init.c\
                 $(DIR_SRC)player.c\
                 $(DIR_SRC)move.c\
                 $(DIR_SRC)rotate.c\
+				$(DIR_SRC)game.c\
                 $(DIR_SRC)colors.c
 
 DIR_OBJS	    =	.objs/
