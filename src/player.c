@@ -63,6 +63,9 @@ void	init_player_position(t_data *cub)
 	int	y;
 	int	x;
 
+	(*cub).player = ft_calloc(sizeof (t_player), 1);
+	if ((*cub).player == NULL)
+		close_window(cub);
 	y = 0;
 	x = search_player_position(cub->map.grid[y]);
 	if (x != 0)
@@ -74,7 +77,7 @@ void	init_player_position(t_data *cub)
 			break ;
 		y++;
 	}
-	cub->player->pos_y = (double)y + 0.15;
-	cub->player->pos_x = (double)x + 0.15;
+	cub->player->pos_y = (double)y + 0.1;
+	cub->player->pos_x = (double)x + 0.1;
 	init_player_eyes(cub, cub->map.grid[y][x]);
 }

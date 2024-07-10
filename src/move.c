@@ -19,16 +19,12 @@ void	move_forward(t_data *cub)
 
 	x = (int)cub->player->pos_x + (cub->player->dir_x * MOVE);
 	y = (int)cub->player->pos_y;
-			printf("now x is  %d\n", x);
-		printf("y is  %d\n", y);
+	printf("x is  %d\n", x);
+	printf("y is  %d\n", y);
 	if (cub->map.grid[y][x] != '1')
 		cub->player->pos_x += cub->player->dir_x * MOVE;
 	x = (int)cub->player->pos_x;
 	y = (int)cub->player->pos_y + (cub->player->dir_y * MOVE);
-	printf("%c\n", cub->map.grid[y][x]);
-
-		printf("now x is  %d\n", x);
-		printf("y is  %d\n", y);
 	if (cub->map.grid[y][x] != '1')
 		cub->player->pos_y += cub->player->dir_y * MOVE;
 }

@@ -183,7 +183,8 @@ int	ft_strncmp_skip_spaces(char *s1, char *s2, size_t n);
 ////////     				INIT								////////
 ////////////////////////////////////////////////////////////////////////
 void						init_mlx_win(t_data *cub);
-void						init_screen(t_data *cub);
+void init_image(t_data *cub);
+void	init_player_position(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				MAP									////////
 ////////////////////////////////////////////////////////////////////////
@@ -197,7 +198,7 @@ void						init_player_position(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 int				game_loop(t_data *cub);
 void			render(t_data *cub);
-bool			set_wall_texture(t_data *cub);
+void			set_wall_texture(t_data *cub);
 void			init_vectors(t_data *cub);
 void ray_tracer(t_data *cub, t_ray *ray);
 void get_wall_player_dist(t_data *cub, t_ray *ray);
