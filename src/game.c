@@ -19,7 +19,7 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 
 	render = cub->render;
 	render.cub = cub;
-	ray_tracer(ray);
+	ray_tracer(cub, ray);
 	get_wallside(cub, ray);
 	get_wall_player_dist(cub, ray);
 	get_wall_x(cub, ray);

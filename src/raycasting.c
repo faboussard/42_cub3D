@@ -17,9 +17,15 @@
  * le chemin d'un rayon à travers une grille jusqu'à ce qu'il frappe un mur.
  * lalgo fait le plus petit pas possible suivant x ou y
  */
-void ray_tracer(t_ray *ray)
+void ray_tracer(t_data *cub, t_ray *ray)
 {
 	int hit;
+
+	// while (cub->map.grid[ray->map_x][ray->map_y])
+	// {
+	// 	 dprintf("ray->map_x is %d\n", ray->map_x++);
+	// 	//printf("ray->map_y is %d\n", ray->map_y++);
+	// }
 
 	hit = 0;
 	while (hit == 0)
@@ -36,7 +42,7 @@ void ray_tracer(t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->side = VERTICAL;
 		}
-		if (ray->cub->map.grid[ray->map_x][ray->map_y] == '1')
+		if (cub->map.grid[ray->map_x][ray->map_y] == '1')
 			hit = 1;
 	}
 }

@@ -210,7 +210,7 @@ int				game_loop(t_data *cub);
 void			render(t_data *cub);
 bool			set_wall_texture(t_data *cub);
 void			init_vectors(t_data *cub);
-void ray_tracer(t_ray *ray);
+void ray_tracer(t_data *cub, t_ray *ray);
 void get_wall_player_dist(t_data *cub, t_ray *ray);
 void get_texture_x(t_render *render, t_ray *ray);
 void get_wall_x(t_data *cub, t_ray *ray);
