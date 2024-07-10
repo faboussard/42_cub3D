@@ -18,7 +18,6 @@ void init_game_loop(t_data *cub)
 	if ((*cub).player == NULL)
 		exit(EXIT_FAILURE);
 	init_player_position(cub);
-	init_vectors(cub);
 }
 
 static void	init_cub_values(t_data *cub)
