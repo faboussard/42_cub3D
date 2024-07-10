@@ -44,29 +44,51 @@ void get_wall_player_dist(t_data *cub, t_ray *ray)
 		cub->wall_player_dist = (ray->side_y - ray->delta_y);
 }
 
+// void get_texture_x(t_render *render, t_ray *ray)
+// {
+//     if (ray->side == VERTICAL)
+//     {
+//         if (ray->dir_y > 0)
+// 		{
+// 			render->texture_height = TEXT_NORTH_H;
+//             render->text_x = (int) (ray->wall_x * (double) TEXT_NORTH_W);
+// 		}
+//         else
+//         {
+// 			render->texture_height = TEXT_SOUTH_H;
+//             render->text_x = (int) (ray->wall_x * (double) TEXT_SOUTH_W); 
+//             render->text_x = TEXT_SOUTH_W - render->text_x - 1;
+//         }
+//     }
+//     else
+//     {
+//         if (ray->dir_x > 0)
+//         {
+// 			render->texture_height = TEXT_EAST_H;
+//             render->text_x = (int) (ray->wall_x * (double) TEXT_EAST_W); 
+//             render->text_x = TEXT_EAST_W - render->text_x - 1;
+//         }
+//         else
+// 		{
+// 			render->texture_height = TEXT_WEST_H;
+//             render->text_x = (int) (ray->wall_x * (double) TEXT_WEST_W);
+// 		}
+//     }
+// }
+
 void get_texture_x(t_render *render, t_ray *ray)
 {
-    if (ray->side == VERTICAL)
-    {
-        if (ray->dir_y > 0)
-            render->text_x = (int) (ray->wall_x * (double) TEXT_NORTH_W); 
-        else
-        {
-            render->text_x = (int) (ray->wall_x * (double) TEXT_SOUTH_W); 
-            render->text_x = TEXT_SOUTH_W - render->text_x - 1;
-        }
-    }
-    else
-    {
-        if (ray->dir_x > 0)
-        {
-            render->text_x = (int) (ray->wall_x * (double) TEXT_EAST_W); 
-            render->text_x = TEXT_EAST_W - render->text_x - 1;
-        }
-        else
-            render->text_x = (int) (ray->wall_x * (double) TEXT_WEST_W); 
-    }
+	render->text_x = (int) (ray->wall_x * (double) TEX_W);
+	if (ray->side == HORIZONTAL && ray->dir_x > 0)
+	{
+		render->text_x = TEX_W - render->text_x - 1;
+	}
+	if (ray->side == VERTICAL && ray->dir_y < 0)
+	{
+		render->text_x = TEX_W - render->text_x - 1;
+	}
 }
+
 
 void get_wall_x(t_data *cub, t_ray *ray)
 {

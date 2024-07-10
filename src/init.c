@@ -18,12 +18,14 @@ static void	create_wall_texture_img(t_data *cub, t_image *wall, int i)
 	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
 	if (wall[i].img == NULL)
 	{
+		perror("Error\n");
 		perror("Error loading texture's picture");
 		close_window(cub);
 	}
 	wall[i].addr = mlx_get_data_addr(wall[i].img, &wall[i].bits_per_pixel, &wall[i].line_length, &wall[i].endian);
 	if (wall[i].addr == NULL)
 	{
+		perror("Error\n");
 		perror("Error obtening texture's data");
 		close_window(cub);
 	}
@@ -48,6 +50,7 @@ void init_image(t_data *cub)
 	cub->my_image.img = mlx_new_image(cub->mlx, cub->my_image.width, cub->my_image.height);
 	if (cub->my_image.img == NULL)
 	{
+		perror("Error\n");
 		perror("Error init cub->my_image.img");
 		close_window(cub);
 	}
@@ -56,6 +59,7 @@ void init_image(t_data *cub)
 	                                       &cub->my_image.endian);
 	if (cub->my_image.addr == NULL)
 	{
+		perror("Error\n");
 		perror("Error init cub->my_image.addr");
 		close_window(cub);
 	}
@@ -66,12 +70,14 @@ void init_mlx_win(t_data *cub)
 	cub->mlx = mlx_init();
 	if (cub->mlx == NULL)
 	{
+		perror("Error\n");
 		perror("Error init cub->mlx");
 		close_window(cub);
 	}
 	cub->win = mlx_new_window(cub->mlx, WIDTH_DISPLAY, HEIGHT_DISPLAY, "cub3D");
 	if (cub->win == NULL)
 	{
+		perror("Error\n");
 		perror("Error init cub->win");
 		close_window(cub);
 	}

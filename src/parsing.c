@@ -78,7 +78,7 @@ void	parsing(t_data *cub, char *file)
 		|| cub->map.floor_color == -1)
 	{
 		ft_free_tab(&cub->map.copy);
-		(void)write(2, "Error: Wrong colors\n", 20);
+		(void)write(2, "Error\n: Wrong colors\n", 21);
 		exit(1);
 	}
 	check_if_textures_exist(cub, cub->north_img);
