@@ -121,16 +121,16 @@ static void init_ray_info(t_data *cub, t_ray *ray, int x)
 
 	camera_x = 2 * x / (double) WIDTH_DISPLAY -
 	           1; // x / width-1 => normalise la valeur de x pour qu elle soit comprise entre 0 et 1. 2 : etend la plage jusqua 2. -1 : recentre la plage pour aller de -1 a 1.
-	cub->ray_dir_x = cub->player->dir_x + cub->plane_x * camera_x;
-	cub->ray_dir_y = cub->player->dir_y + cub->plane_y * camera_x;
+	ray->dir_x = cub->player->dir_x + cub->plane_x * camera_x;
+	ray->dir_y = cub->player->dir_y + cub->plane_y * camera_x;
 	ray->map_x = (int) cub->player->pos_x;
 	ray->map_y = (int) cub->player->pos_y;
-	ray->step_x = get_step(cub->ray_dir_x);
-	ray->step_y = get_step(cub->ray_dir_y);
-	ray->delta_x = get_delta(cub->ray_dir_x);
-	ray->delta_y = get_delta(cub->ray_dir_y);
-	ray->side_x = get_side(cub->ray_dir_x, ray->map_x, ray->delta_x, cub->player->pos_x);
-	ray->side_y = get_side(cub->ray_dir_y, ray->map_y, ray->delta_y, cub->player->pos_y);
+	ray->step_x = get_step(ray->dir_x);
+	ray->step_y = get_step(ray->dir_y);
+	ray->delta_x = get_delta(ray->dir_x);
+	ray->delta_y = get_delta(ray->dir_y);
+	ray->side_x = get_side(ray->dir_x, ray->map_x, ray->delta_x, cub->player->pos_x);
+	ray->side_y = get_side(ray->dir_y, ray->map_y, ray->delta_y, cub->player->pos_y);
 }
 
 /* or slope or gradient.
@@ -235,12 +235,12 @@ static void get_texture_x(t_render *render, t_ray *ray)
 	//faire une fonctin qui definit tex_w en fonction de wall[SO ou EA]
 	render->text_x = (int) (ray->wall_x * (double) TEX_W); // pour savoir combien  on a de pixels
 //	printf("Initial text_x = %d\n", render->text_x);
-	if (ray->side == HORIZONTAL && render->cub->ray_dir_x > 0)
+	if (ray->side == HORIZONTAL && ray->dir_x > 0)
 	{
 		render->text_x = TEX_W - render->text_x - 1;
 //		printf("Inverted text_x (HORIZONTAL) = %d\n", render->text_x);
 	}
-	if (ray->side == VERTICAL && render->cub->ray_dir_y < 0)
+	if (ray->side == VERTICAL && ray->dir_y < 0)
 	{
 		render->text_x = TEX_W - render->text_x - 1;
 //		printf("Inverted text_x (VERTICAL) = %d\n", render->text_x);
@@ -262,9 +262,9 @@ wallX -= floor((wallX)) becomes wallX = 7.8 - 7.
 static void get_wall_x(t_data *cub, t_ray *ray)
 {
 	if (ray->side == HORIZONTAL)
-		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * cub->ray_dir_y;
+		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * ray->dir_y;
 	else
-		ray->wall_x = cub->player->pos_x + cub->wall_player_dist * cub->ray_dir_x;
+		ray->wall_x = cub->player->pos_x + cub->wall_player_dist * ray->dir_x;
 	if (ray->wall_x < 0.00001)
 		ray->wall_x = 0.00001;
 	ray->wall_x = 1 - ray->wall_x;
@@ -276,44 +276,24 @@ static void get_wall_x(t_data *cub, t_ray *ray)
 		printf("render->cub->wall_side = %d\n", cub->wall_side);
 		printf("pos_y = %f\n", cub->player->pos_y);
 		printf("pos_x = %f\n", cub->player->pos_x);
-		printf("ray_dir_y = %f\n", cub->ray_dir_y);
-		printf("ray_dir_x = %f\n", cub->ray_dir_x);
+		printf("ray_dir_y = %f\n", ray->dir_y);
+		printf("ray_dir_x = %f\n", ray->dir_x);
 		printf("dir_y = %f\n", cub->player->dir_y);
 		printf("dir_x = %f\n", cub->player->dir_x);
 		printf("wall_player_dist = %f\n", cub->wall_player_dist);
 		printf("ray->wall_x = %f\n", ray->wall_x);
 		printf("ray->side = %d\n", ray->side);
 	}
-	// if (cub->wall_side == SO)
-	// {
-	// 	printf(" --------------------- SO ---------------------\n");
-	// 	printf("render->cub->wall_side = %d\n", cub->wall_side);
-	// 	printf("pos_y = %f\n", cub->player->pos_y);
-	// 	printf("pos_x = %f\n", cub->player->pos_x);
-	// 	printf("dir_y = %f\n", cub->ray_dir_y);
-	// 	printf("dir_x = %f\n", cub->ray_dir_x);
-	// 	printf("wall_player_dist = %f\n", cub->wall_player_dist);
-	// 	printf("ray->wall_x = %f\n", ray->wall_x);
-	// }
-	// if (cub->wall_side == NO)
-	// {
-	// 	printf(" --------------------- NO ---------------------\n");
-	// 	printf("render->cub->wall_side = %d\n", cub->wall_side);
-	// 	printf("pos_y = %f\n", cub->player->pos_y);
-	// 	printf("pos_x = %f\n", cub->player->pos_x);
-	// 	printf("dir_y = %f\n", cub->ray_dir_y);
-	// 	printf("dir_x = %f\n", cub->ray_dir_x);
-	// 	printf("wall_player_dist = %f\n", cub->wall_player_dist);
-	// 	printf("ray->wall_x = %f\n", ray->wall_x);
-	// }
+	
 	if (cub->wall_side == WE)
 	{
 		printf(" --------------------- WE ---------------------\n");
 		printf("render->cub->wall_side = %d\n", cub->wall_side);
 		printf("pos_y = %f\n", cub->player->pos_y);
 		printf("pos_x = %f\n", cub->player->pos_x);
-		printf("ray_dir_y = %f\n", cub->ray_dir_y);
-		printf("ray_dir_x = %f\n", cub->ray_dir_x);
+		printf("ray_dir_y = %f\n", ray->dir_y);
+		printf("ray_dir_x = %f\n", ray->dir_x);
+		printf("ray_dir_x = %f\n", ray->dir_x);
 		printf("wall_player_dist = %f\n", cub->wall_player_dist);
 		printf("ray->wall_x = %f\n", ray->wall_x);
 		printf("ray->side = %d\n", ray->side);
@@ -324,22 +304,22 @@ static void get_wallside(t_data *cub, t_ray *ray)
 {
 	if (ray->side == VERTICAL)
 	{
-		if (cub->dir_y > 0)
+		if (ray->dir_y > 0)
 			cub->wall_side = NO;
 		else
 			cub->wall_side = SO;
 	}
 	else
 	{
-		if (cub->dir_x > 0)
+		if (ray->dir_x > 0)
 		{
-			printf("cub->dir_x = %f\n", cub->dir_x);
-			printf("cub->dir_y = %f\n", cub->dir_y);
+			//printf("cub->dir_x = %f\n", cub->dir_x);
+			//printf("cub->dir_y = %f\n", cub->dir_y);
 			cub->wall_side = WE;
 		}
 		else
 		{
-			printf("cub->dir_x = %f\n",cub->dir_x);
+			//printf("cub->dir_x = %f\n",cub->dir_x);
 			cub->wall_side = EA;
 		}
 	}

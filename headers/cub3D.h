@@ -110,6 +110,8 @@ typedef struct s_map
 
 typedef struct s_ray
 {
+	double      dir_x;
+	double      dir_y;
 	int      map_x;
 	int      map_y;
 	double      delta_x;
@@ -155,12 +157,8 @@ typedef struct s_data
 //	char		exit_img[26];
 	t_map		map;
 	t_image		my_image;
-	double      dir_x;
-	double      dir_y;
 	double      plane_x;
 	double      plane_y;
-	double      ray_dir_x;
-	double      ray_dir_y;
 	double		wall_player_dist;
 	t_player    *player;
 	t_ray		ray;
