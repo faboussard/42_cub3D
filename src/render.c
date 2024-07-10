@@ -46,11 +46,8 @@ unsigned int get_texel(t_image *texture, int x, int y)
 
 	offset_x = x * (texture->bits_per_pixel / 8);
 	offset_y = y * texture->line_length;
-	{
-		pxl = texture->addr + offset_y + offset_x;
-		return (*(unsigned int *) pxl);
-	}
-	return 0;
+	pxl = texture->addr + offset_y + offset_x;
+	return (*(unsigned int *) pxl);
 }
 
 void draw(t_render *render, int x)

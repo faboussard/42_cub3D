@@ -20,7 +20,7 @@ void ray_tracer(t_data *cub, t_ray *ray)
 	hit = 0;
 	while (hit == 0)
 	{
-		if (ray->side_x < ray->side_y) 
+		if (ray->side_x < ray->side_y)
 		{
 			ray->side_x += ray->delta_x;
 			ray->map_x += ray->step_x;

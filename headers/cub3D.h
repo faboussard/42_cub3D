@@ -81,18 +81,15 @@ typedef struct s_player
 	double      dir_x;
 	double      dir_y;
 	t_data		*cub;
-	int			fov;
-	int			plane_length;
 }				t_player;
 
 
 typedef struct s_map
 {
-	size_t					rows;
-	size_t					cols;
+	size_t					width;
+	size_t					height;
 	char					**grid;
 	char					**copy;
-	t_player				player;
 	int						floor_color;
 	int						ceiling_color;
 }							t_map;
@@ -121,7 +118,6 @@ typedef struct s_render
 	int      draw_end;
 	int 	text_x;
     int 	text_y;
-	int		texture_height;
     double	texture_pos;
     double	text_step;
 	t_data	*cub;
@@ -130,8 +126,6 @@ typedef struct s_render
 
 typedef struct s_data
 {
-	int			win_height;
-	int			win_width;
 	void		*mlx;
 	void		*win;
 	char		*north_img;
@@ -144,7 +138,6 @@ typedef struct s_data
 	double      plane_y;
 	double		wall_player_dist;
 	t_player    *player;
-	t_ray		ray;
 	t_render	render;
 	t_image		wall[4];
 	int			wall_side;
@@ -157,7 +150,6 @@ typedef struct s_data
 ////////////////////////////////////////////////////////////////////////
 void						no_such_file_error(void);
 void						malloc_error(void);
-void						input_error(void);
 void						map_error(char *tmp_map, char **map);
 void						empty_file_error(void);
 ////////////////////////////////////////////////////////////////////////
@@ -168,11 +160,9 @@ void						parsing(t_data *cub, char *file);
 /////     				UTILS								////////
 /////////////////////////////////////////////////////////////////////
 void	ft_free_tab(char ***tab);
-bool						ft_search_char(char letter, char *charset);
 bool						ft_is_space(const int c);
 int							ft_strcmp_skip_spaces(char *s1, char *s2);
 int	ft_strncmp_skip_spaces(char *s1, char *s2, size_t n);
-// void			ft_put_pos_nbr_fd(size_t n, int fd);
 ////////////////////////////////////////////////////////////////////////
 ////////     				INIT								////////
 ////////////////////////////////////////////////////////////////////////
@@ -183,17 +173,12 @@ void	init_player_position(t_data *cub);
 ////////     				MAP									////////
 ////////////////////////////////////////////////////////////////////////
 void						define_map(t_map *map, char *file_name);
-void						launch_checks(t_map *map, char *tmp_map);
-void						fill_paths(t_map map, size_t x, size_t y);
-bool						check_path(t_map *map);
 void						init_player_position(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING							////////
 ////////////////////////////////////////////////////////////////////////
 int				game_loop(t_data *cub);
-void			render(t_data *cub);
 void			set_wall_texture(t_data *cub);
-void			init_vectors(t_data *cub);
 void ray_tracer(t_data *cub, t_ray *ray);
 void get_wall_player_dist(t_data *cub, t_ray *ray);
 void get_texture_x(t_render *render, t_ray *ray);
@@ -220,8 +205,6 @@ void	move_forward(t_data *cub);
 void	move_backward(t_data *cub);
 void move_left(t_data *cub);
 void move_right(t_data *cub);
-void	update_player_position(t_player *player, \
-double dest_x, double dest_y);
 void	rotate_right(t_data *cub);
 void	rotate_left(t_data *cub);
 ////////////////////////////////////////////////////////////////////////

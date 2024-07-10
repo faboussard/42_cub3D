@@ -46,7 +46,7 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 	{
-		(void)write(2, "Error: Wrong number of arguments\n", 33);
+		(void)write(2, "Error:\nWrong number of arguments\n", 33);
 		exit(1);
 	}
 	ft_bzero(&cub, 1);
