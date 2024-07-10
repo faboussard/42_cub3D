@@ -20,7 +20,7 @@ void	move_forward(t_data *cub)
 	dest_x = cub->player->pos_x + (cub->dir_x * MOVE);
 	dest_y = cub->player->pos_y + (cub->dir_y * MOVE);
 	if (cub->map.grid[(int)dest_x][(int)dest_y] 
-	&& cub->map.grid[(int)dest_x][(int)dest_y] != '1') // voir comment on traite les espaces . et si le perso rentre dans le mur 
+	&& cub->map.grid[(int)dest_x][(int)dest_y] != '1') // voir comment on traite les espaces
 	{
 		cub->player->pos_x = dest_x;
 		cub->player->pos_y = dest_y;

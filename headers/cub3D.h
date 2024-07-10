@@ -117,7 +117,7 @@ typedef struct s_ray
 	int      step_x;
 	int      step_y;
 	double	wall_x;
-	int	side;
+	int		side;
 	t_data 	*cub;
 }				t_ray;
 
@@ -160,7 +160,6 @@ typedef struct s_data
 	double      ray_dir_x;
 	double      ray_dir_y;
 	double		wall_player_dist;
-	int         **worldMap;
 	t_player    *player;
 	t_ray		ray;
 	t_render	render;
