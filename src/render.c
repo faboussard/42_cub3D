@@ -64,39 +64,10 @@ void draw(t_render *render, int x)
 	                       + ((double) render->line_height / 2.0)) * render->text_step;
 	while (y < render->draw_end)
 	{
-		render->text_y = (int) render->texture_pos & (TEX_H -
-		                                              1); //sert à calculer l'index vertical (text_y) dans la texture en s'assurant qu'il reste dans les limites de la texture (de 0 à 63)
+		render->text_y = (int) render->texture_pos & (TEX_H - 1);
 		render->texture_pos += render->text_step;
 		color = get_texel(&render->cub->wall[render->cub->wall_side], render->text_x, render->text_y);
 		my_pixel_put(&render->cub->my_image, x, y, color);
 		y++;
 	}
-	// if (render->cub->wall_side == WE)
-	// {
-	// 	printf(" --------------------- WE ---------------------\n");
-	// 	printf("render->cub->wall_side = %d\n", render->cub->wall_side);
-	// 	printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
-	// 	printf("color = %d\n", color);
-	// }
-	// if (render->cub->wall_side == NO)
-	// {
-	// 	printf(" --------------------- NO ---------------------\n");
-	// 	printf("render->cub->wall_side = %d\n", render->cub->wall_side);
-	// 	printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
-	// 	printf("color = %d\n", color);
-	// }
-	// if (render->cub->wall_side == SO)
-	// {
-	// 	printf(" --------------------- SO ---------------------\n");
-	// 	printf("render->cub->wall_side = %d\n", render->cub->wall_side);
-	// 	printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
-	// 	printf("color = %d\n", color);
-	// }
-	// if (render->cub->wall_side == EA)
-	// {
-	// 	printf(" --------------------- EA ---------------------\n");
-	// 	printf("render->cub->wall_side = %d\n", render->cub->wall_side);
-	// 	printf("text_x = %d, text_y = %d\n", render->text_x, render->text_y);
-	// 	printf("color = %d\n", color);
-	// }
 }
