@@ -26,8 +26,6 @@
 
 # define TEX_W 64
 # define TEX_H 64
-# define MAP_WIDTH 24
-# define MAP_HEIGHT 24
 # define WIDTH_DISPLAY 960
 # define HEIGHT_DISPLAY 720
 # define HORIZONTAL 0
@@ -50,7 +48,7 @@
 
 #define TEXTURE_NUM 4
 
-# define MOVE 0.03
+# define MOVE 0.01
 # define ROTATE 0.01
 
 typedef struct s_keys
@@ -125,6 +123,7 @@ typedef struct s_render
 	int      draw_end;
 	int 	text_x;
     int 	text_y;
+	int		texture_height;
     double	texture_pos;
     double	text_step;
 	t_data	*cub;

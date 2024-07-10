@@ -63,8 +63,8 @@ void	init_player_position(t_data *cub)
 	int	y;
 	int	x;
 
-	(*cub).player = ft_calloc(sizeof (t_player), 1);
-	if ((*cub).player == NULL)
+	cub->player = ft_calloc(sizeof (t_player), 1);
+	if (cub->player == NULL)
 		close_window(cub);
 	y = 0;
 	x = search_player_position(cub->map.grid[y]);
