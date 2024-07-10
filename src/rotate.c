@@ -31,8 +31,8 @@ void	rotate_left(t_data *cub)
 	double old_dir_x;
 	double old_plane_x;
 
-	old_dir_x = cub->dir_x;
-	cub->player->dir_x = cub->dir_x * cos(-ROTATE) - cub->player->dir_y * sin(-ROTATE);
+	old_dir_x = cub->player->dir_x;
+	cub->player->dir_x = cub->player->dir_x * cos(-ROTATE) - cub->player->dir_y * sin(-ROTATE);
 	cub->player->dir_y = old_dir_x * sin(-ROTATE) + cub->player->dir_y * cos(-ROTATE);
 	old_plane_x = cub->plane_x;
 	cub->plane_x = cub->plane_x * cos(-ROTATE) - cub->plane_y * sin(-ROTATE);
