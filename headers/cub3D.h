@@ -36,17 +36,15 @@
 #define EA 2
 #define WE 3
 
-#define TEXT_NORTH_W render->cub->wall[NO].width
-#define TEXT_SOUTH_W render->cub->wall[SO].width
-#define TEXT_EAST_W render->cub->wall[EA].width
-#define TEXT_WEST_W render->cub->wall[WE].width
+// #define TEXT_NORTH_W render->cub->wall[NO].width
+// #define TEXT_SOUTH_W render->cub->wall[SO].width
+// #define TEXT_EAST_W render->cub->wall[EA].width
+// #define TEXT_WEST_W render->cub->wall[WE].width
 
-#define TEXT_NORTH_H render->cub->wall[NO].height
-#define TEXT_SOUTH_H render->cub->wall[SO].height
-#define TEXT_EAST_H render->cub->wall[EA].height
-#define TEXT_WEST_H render->cub->wall[WE].height
-
-#define TEXTURE_NUM 4
+// #define TEXT_NORTH_H render->cub->wall[NO].height
+// #define TEXT_SOUTH_H render->cub->wall[SO].height
+// #define TEXT_EAST_H render->cub->wall[EA].height
+// #define TEXT_WEST_H render->cub->wall[WE].height
 
 # define MOVE 0.01
 # define ROTATE 0.01
@@ -148,7 +146,7 @@ typedef struct s_data
 	t_player    *player;
 	t_ray		ray;
 	t_render	render;
-	t_image		wall[TEXTURE_NUM];
+	t_image		wall[4];
 	int			wall_side;
 	t_keys		keys;
 }				t_data;

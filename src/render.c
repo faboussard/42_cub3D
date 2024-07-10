@@ -59,12 +59,12 @@ void draw(t_render *render, int x)
 	int color;
 
 	y = render->draw_start;
-	render->text_step = 1.0 * ((double) TEXT_NORTH_H) / (double) render->line_height;
+	render->text_step = 1.0 * ((double) TEX_H) / (double) render->line_height;
 	render->texture_pos = ((double) render->draw_start - ((double) HEIGHT_DISPLAY / 2.0)
 	                       + ((double) render->line_height / 2.0)) * render->text_step;
 	while (y < render->draw_end)
 	{
-		render->text_y = (int) render->texture_pos & (TEXT_NORTH_H - 1);
+		render->text_y = (int) render->texture_pos & (TEX_H - 1);
 		render->texture_pos += render->text_step;
 		color = get_texel(&render->cub->wall[render->cub->wall_side], render->text_x, render->text_y);
 		my_pixel_put(&render->cub->my_image, x, y, color);
