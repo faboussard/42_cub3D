@@ -77,7 +77,7 @@ void	init_player_position(t_data *cub)
 			break ;
 		y++;
 	}
-	cub->player->pos_y = (double)y + 0.1;
-	cub->player->pos_x = (double)x + 0.1;
+	cub->player->pos_y = (double)y;
+	cub->player->pos_x = (double)x;
 	init_player_eyes(cub, cub->map.grid[y][x]);
 }
