@@ -64,7 +64,6 @@ static void background(t_data *cub)
 	}
 }
 
-
 int game_loop(t_data *cub)
 {
 	t_ray ray;
