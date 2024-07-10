@@ -39,7 +39,7 @@ static void	init_player_eyes(t_data *cub, char c)
 	{
 		cub->player->dir_x = -1;
 		cub->player->dir_y = 0;
-		cub->plane_x = -0.0;
+		cub->plane_x = 0.0;
 		cub->plane_y = -0.66;
 	}
 }

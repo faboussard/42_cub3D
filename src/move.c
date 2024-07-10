@@ -19,11 +19,17 @@ void	move_forward(t_data *cub)
 
 	x = (int)cub->player->pos_x + (cub->player->dir_x * MOVE);
 	y = (int)cub->player->pos_y;
-	if (cub->map.grid[x][y] != '1')
+			printf("now x is  %d\n", x);
+		printf("y is  %d\n", y);
+	if (cub->map.grid[y][x] != '1')
 		cub->player->pos_x += cub->player->dir_x * MOVE;
 	x = (int)cub->player->pos_x;
 	y = (int)cub->player->pos_y + (cub->player->dir_y * MOVE);
-	if (cub->map.grid[x][y] && cub->map.grid[x][y] != '1')
+	printf("%c\n", cub->map.grid[y][x]);
+
+		printf("now x is  %d\n", x);
+		printf("y is  %d\n", y);
+	if (cub->map.grid[y][x] != '1')
 		cub->player->pos_y += cub->player->dir_y * MOVE;
 }
 
@@ -34,11 +40,11 @@ void	move_backward(t_data *cub)
 
 	x = (int)cub->player->pos_x + (cub->player->dir_x * -1 * MOVE);
 	y = (int)cub->player->pos_y;
-	if (cub->map.grid[x][y] != '1')
+	if (cub->map.grid[y][x] != '1')
 		cub->player->pos_x += cub->player->dir_x * -1 * MOVE;
 	x = (int)cub->player->pos_x;
 	y = (int)cub->player->pos_y + (cub->player->dir_y * -1 * MOVE);
-	if (cub->map.grid[x][y] != '1')
+	if (cub->map.grid[y][x] != '1')
 		cub->player->pos_y += cub->player->dir_y * -1 * MOVE;
 }
 
@@ -49,26 +55,26 @@ void move_left(t_data *cub)
 
 	x = (int)cub->player->pos_x + (cub->player->dir_x * MOVE);
 	y = (int)cub->player->pos_y;
-	if (cub->map.grid[x][y] != '1')
+	if (cub->map.grid[y][x] != '1')
 		cub->player->pos_x += cub->player->dir_y * MOVE;
 	x = (int)cub->player->pos_x;
 	y = (int)cub->player->pos_y - (cub->player->dir_y * MOVE);
-	if (cub->map.grid[x][y] != '1')
+	if (cub->map.grid[y][x] != '1')
 		cub->player->pos_y -= cub->player->dir_x * MOVE;
 }
 
 void move_right(t_data *cub)
 {
-		int	x;
+	int	x;
 	int	y;
 
 	x = (int)cub->player->pos_x - (cub->player->dir_y * MOVE);
 	y = (int)cub->player->pos_y;
-	if (cub->map.grid[x][y] != '1')
+	if (cub->map.grid[y][x] != '1')
 		cub->player->pos_x -= cub->player->dir_y * MOVE;
 	x = (int)cub->player->pos_x;
 	y = (int)cub->player->pos_y + (cub->player->dir_x * MOVE);
-	if (cub->map.grid[x][y] != '1')
+	if (cub->map.grid[y][x] != '1')
 		cub->player->pos_y += cub->player->dir_x * MOVE;
 }
 

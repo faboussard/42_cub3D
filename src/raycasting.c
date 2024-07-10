@@ -21,9 +21,9 @@ void ray_tracer(t_data *cub, t_ray *ray)
 {
 	int hit;
 
-	// while (cub->map.grid[ray->map_x][ray->map_y])
+	// while (cub->map.copy[ray->map_x][ray->map_y] && cub->map.copy[ray->map_x][ray->map_y])
 	// {
-	// 	 dprintf("ray->map_x is %d\n", ray->map_x++);
+	// 	 printf("ray->map_x is %d\n", ray->map_x++);
 	// 	//printf("ray->map_y is %d\n", ray->map_y++);
 	// }
 
@@ -42,7 +42,7 @@ void ray_tracer(t_data *cub, t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->side = VERTICAL;
 		}
-		if (cub->map.grid[ray->map_x][ray->map_y] == '1')
+		if (cub->map.grid[ray->map_y][ray->map_x] == '1')
 			hit = 1;
 	}
 }

@@ -32,9 +32,6 @@
 # define HEIGHT_DISPLAY 720
 # define HORIZONTAL 0
 # define VERTICAL 1
-#  define FOV 90
-#define M_PI 3.14159265358979323846
-
 
 #define NO 0
 #define SO 1
@@ -102,7 +99,6 @@ typedef struct s_map
 	size_t					cols;
 	char					**grid;
 	char					**copy;
-	// bool					status;
 	t_player				player;
 	int						floor_color;
 	int						ceiling_color;
@@ -144,17 +140,10 @@ typedef struct s_data
 	int			win_width;
 	void		*mlx;
 	void		*win;
-	// void		*empty;
-	void		*up;
-	void		*down;
-	void		*left;
-	void		*right;
-	// char		emp_img[26];
 	char		*north_img;
 	char		*south_img;
 	char		*east_img;
 	char		*west_img;
-//	char		exit_img[26];
 	t_map		map;
 	t_image		my_image;
 	double      plane_x;
