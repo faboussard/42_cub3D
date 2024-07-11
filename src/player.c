@@ -75,21 +75,21 @@ static void	init_player_eyes(t_data *cub, char c)
 // 	return (0);
 // }
 
-static void	init_player_pos(t_data *cub, int y, int x)
-{
-	if (y <= 1 || x <= 1)
-	{
-		cub->player->pos_y = (double)y + 0.5;
-		cub->player->pos_x = (double)x + 0.5;
-	}
-	else
-	{
-		cub->player->pos_y = (double)y - 0.5;
-		cub->player->pos_x = (double)x - 0.5;
-	}
-}
+//static void	init_player_pos(t_data *cub, int y, int x)
+//{
+//	if (y <= 1 || x <= 1)
+//	{
+//		cub->player->pos_y = (double)y + 0.5;
+//		cub->player->pos_x = (double)x + 0.5;
+//	}
+//	else
+//	{
+//		cub->player->pos_y = (double)y - 0.5;
+//		cub->player->pos_x = (double)x - 0.5;
+//	}
+//}
 
-void	init_player_position(t_data *cub, int player_pos[2])
+void	init_player_position(t_data *cub)
 {
 	int	y;
 	int	x;
@@ -97,8 +97,10 @@ void	init_player_position(t_data *cub, int player_pos[2])
 	cub->player = ft_calloc(sizeof(t_player), 1);
 	if (cub->player == NULL)
 		close_window(cub);
-	y = player_pos[0];
-	x = player_pos[1];
-	init_player_pos(cub, y, x);
+	y = cub->player_pos[0];
+	x = cub->player_pos[1];
+//	init_player_pos(cub, y, x);
+	cub->player->pos_y = (double)(y + 0.5);
+	cub->player->pos_x = (double)(x + 0.5);
 	init_player_eyes(cub, cub->map.grid[y][x]);
 }

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3D.h"
+#include "cub3D.h"
 
 static void	check_if_no_double_textures(t_data *cub)
 {
@@ -101,7 +101,11 @@ void	parsing(t_data *cub, char *file, int player_pos[2])
 	check_if_textures_exist(cub, cub->south_img);
 	check_if_textures_exist(cub, cub->west_img);
 	check_if_textures_exist(cub, cub->east_img);
-	if (check_map_is_closed(cub, cub->map.grid, player_pos))
+	if (check_map_is_closed(cub, cub->map.grid))
+//
+//	if (check_map_is_closed(cub->map.grid) || check_map_size(cub->map.grid,
+//			&cub->map))
+//
 	{
 		ft_free_tab(&cub->map.copy);
 		(void)write(2, "Error\n: Map isn't closed\n", 25);

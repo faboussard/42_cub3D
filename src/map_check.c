@@ -12,14 +12,14 @@
 
 #include "cub3D.h"
 
-static bool	wall_or_player(t_data *cub, char c, int player_pos[2], int y, int x)
+static bool	wall_or_player(t_data *cub, char c, int y, int x)
 {
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
 		if (x == 0 || y == 0)
 			map_error(NULL, cub->map.copy);
-		player_pos[0] = y; 
-		player_pos[1] = x;
+		cub->player_pos[0] = y;
+		cub->player_pos[1] = x;
 		return (0);
 	}
 	return (c == '1' || c == ' ');
@@ -37,6 +37,19 @@ static bool	is_within_the_map(char **map, size_t y, size_t x, size_t max_y)
 		|| map[y][x + 1] == ' ')
 		return (0);
 	return (1);
+}
+
+static bool	check_max_size(t_data *cub, int y, int x)
+{
+	if (cub->map.width < x)
+		cub->map.width = x;
+	if (cub->map.height < y)
+		cub->map.height = y;
+	if (cub->map.width >= MAX_WIDTH)
+		return (1);
+	if (cub->map.height >= MAX_HEIGHT)
+		return (1);
+	return (0);
 }
 
 bool	check_map_is_closed(t_data *cub, char **map, int player_pos[2])
@@ -58,8 +71,8 @@ bool	check_map_is_closed(t_data *cub, char **map, int player_pos[2])
 		x = -1;
 		while (map[y][++x])
 		{
-			if (!wall_or_player(cub, map[y][x], player_pos, y, x)
-			&& !is_within_the_map(map, y, x, max_y))
+			if (!wall_or_player(cub, map[y][x], y, x) || check_max_size(cub, y, x))
+				&& !is_within_the_map(map, y, x, max_y))
 				return (1);
 		}
 		if (max_x < 3 && x > max_x)
