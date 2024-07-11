@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 12:46:24 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:02:56 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	check_if_no_double_textures(t_data *cub)
 		|| ft_strcmp_skip_spaces(cub->south_img, cub->east_img) == 0
 		|| ft_strcmp_skip_spaces(cub->east_img, cub->west_img) == 0)
 	{
-		write(2, "Error\nSame textures detected\n", 29);
+		(void)write(2, "Error\nSame textures detected\n", 29);
 		ft_free_tab(&cub->map.copy);
 		exit(EXIT_FAILURE);
 	}
