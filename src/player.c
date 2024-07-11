@@ -94,23 +94,7 @@ void	init_player_position(t_data *cub)
 			break ;
 		y++;
 	}
-	printf("x is %d", x);
-	printf("x is %d", y);
-	if (y <= 1)
-	{
-		cub->player->pos_y = (double)(y + 0.5);
-	}
-	else
-	{
-		cub->player->pos_y = (double)(y);
-	}
-	if (x <= 1)
-	{
-		cub->player->pos_x = (double)(x + 0.5);
-	}
-	else
-	{
-		cub->player->pos_x = (double)(x);
-	}
+	cub->player->pos_y = (double)(y + 0.5);
+	cub->player->pos_x = (double)(x + 0.5);
 	init_player_eyes(cub, cub->map.grid[y][x]);
 }

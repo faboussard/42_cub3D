@@ -31,12 +31,6 @@ void	ray_tracer(t_data *cub, t_ray *ray)
 			ray->map_y += ray->step_y;
 			ray->side = VERTICAL;
 		}
-		if (cub->player->pos_x > MAX_WIDTH - 1
-			|| cub->player->pos_x > MAX_HEIGHT - 1)
-		{
-			printf("map.x  is %d\n", ray->map_x);
-			printf("map.y  is %d\n", ray->map_y);
-		}
 		if (cub->map.grid[ray->map_y][ray->map_x] == '1')
 			hit = 1;
 	}
