@@ -6,14 +6,13 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 08:29:02 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 08:31:47 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/cub3D.h"
 
-
-static void check_if_no_double_textures(t_data *cub)
+static void	check_if_no_double_textures(t_data *cub)
 {
 	if (ft_strcmp_skip_spaces(cub->north_img, cub->south_img) == 0
 		|| ft_strcmp_skip_spaces(cub->north_img, cub->west_img) == 0
@@ -21,11 +20,11 @@ static void check_if_no_double_textures(t_data *cub)
 		|| ft_strcmp_skip_spaces(cub->south_img, cub->west_img) == 0
 		|| ft_strcmp_skip_spaces(cub->south_img, cub->east_img) == 0
 		|| ft_strcmp_skip_spaces(cub->east_img, cub->west_img) == 0)
-		{
-			write(2, "Error\nSame textures detected\n", 29);
-			ft_free_tab(&cub->map.copy);
-			exit(EXIT_FAILURE);
-		}
+	{
+		write(2, "Error\nSame textures detected\n", 29);
+		ft_free_tab(&cub->map.copy);
+		exit(EXIT_FAILURE);
+	}
 }
 
 static void	define_textures_path(t_data *cub)
@@ -69,6 +68,7 @@ static void	check_if_textures_exist(t_data *cub, char *path_to_texture)
 	}
 	close(fd);
 }
+
 static void	check_if_texture_is_xpm(t_data *cub, char *path_to_texture)
 {
 	size_t	len;
@@ -81,6 +81,7 @@ static void	check_if_texture_is_xpm(t_data *cub, char *path_to_texture)
 		exit(1);
 	}
 }
+
 void	parsing(t_data *cub, char *file)
 {
 	define_map(&cub->map, file);
