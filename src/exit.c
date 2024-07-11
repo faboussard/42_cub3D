@@ -17,7 +17,6 @@ void	destroy_images(t_data *cub)
 	int	i;
 
 	i = 0;
-
 	while (i < 4)
 	{
 		if (cub->wall[i].img)
@@ -31,8 +30,6 @@ void	destroy_images(t_data *cub)
 int	close_window(t_data *cub)
 {
 	destroy_images(cub);
-	if (cub->player)
-		free(cub->player);
 	if (cub->win)
 		mlx_destroy_window(cub->mlx, cub->win);
 	if (cub->mlx)
@@ -42,7 +39,8 @@ int	close_window(t_data *cub)
 	}
 	if (cub->map.copy)
 		ft_free_tab(&cub->map.copy);
-	// ft_free_tab(&cub->map.copy);
+	if (cub->player)
+		free(cub->player);
 	// free_tabs(img->map.grid, img->map.copy);
-	exit(1);
+	exit(EXIT_FAILURE);
 }

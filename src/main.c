@@ -12,15 +12,6 @@
 
 #include "cub3D.h"
 
-void init_game_loop(t_data *cub)
-{
-	(*cub).player = ft_calloc(sizeof (t_player), 1);
-	if ((*cub).player == NULL)
-		exit(EXIT_FAILURE);
-	init_player_position(cub);
-	init_vectors(cub);
-}
-
 static void	init_cub_values(t_data *cub)
 {
 	cub->keys.key_pressed_a = 0;
@@ -36,6 +27,7 @@ static void	init_cub_values(t_data *cub)
 	cub->my_image.img = NULL;
 	cub->player = NULL;
 }
+
 static void	check_file_name(char *file)
 {
 	size_t	len;
@@ -54,21 +46,17 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 	{
-		(void)write(2, "Error: Wrong number of arguments\n", 33);
+		(void)write(2, "Error:\nWrong number of arguments\n", 33);
 		exit(1);
 	}
 	ft_bzero(&cub, 1);
 	init_cub_values(&cub);
 	check_file_name(av[1]);
 	parsing(&cub, av[1]);
-	init_screen(&cub);
-	if (set_wall_texture(&cub) == 1)
-	{
-		// ft_free_tab(&cub.map.copy);
-		close_window(&cub);
-		// exit(1);
-	}
-	init_game_loop(&cub);
+	init_mlx_win(&cub);
+	init_image(&cub);
+	set_wall_texture(&cub);
+	init_player_position(&cub);
 	mlx_hook(cub.win, KeyPress, KeyPressMask, key_press_hook, &cub);
 	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, key_release_hook, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, close_window, &cub);

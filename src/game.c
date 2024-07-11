@@ -23,8 +23,8 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 	get_wallside(cub, ray);
 	get_wall_player_dist(cub, ray);
 	get_wall_x(cub, ray);
-	define_draw_points(&render, cub->wall_player_dist);
 	get_texture_x(&render, ray);
+	define_draw_points(&render, cub->wall_player_dist);
 	draw(&render, x);
 }
 
@@ -64,7 +64,6 @@ static void background(t_data *cub)
 	}
 }
 
-
 int game_loop(t_data *cub)
 {
 	t_ray ray;
@@ -77,12 +76,12 @@ int game_loop(t_data *cub)
 	if (cub->keys.key_pressed_left == 1)
 		rotate_left(cub);
 	if (cub->keys.key_pressed_w == 1)
-		move_forward(cub, &ray);
+		move_forward(cub);
 	if (cub->keys.key_pressed_s == 1)
-		move_backward(cub, &ray);
+		move_backward(cub);
 	if (cub->keys.key_pressed_a == 1)
-		move_left(cub, &ray);
+		move_left(cub);
 	if (cub->keys.key_pressed_d == 1)
-		move_right(cub, &ray);
+		move_right(cub);
 	return (0);
 }
