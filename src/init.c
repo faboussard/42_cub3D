@@ -23,7 +23,7 @@ static void	create_wall_texture_img(t_data *cub, t_image *wall, int i)
 	}
 	if (wall[i].width != 64 || wall[i].height != 64)
 	{
-		perror("Error\nerror in loading texture's picture");
+		perror("Error\nimages must be of 64 pixels");
 		close_window(cub);
 	}
 	wall[i].addr = mlx_get_data_addr(wall[i].img, &wall[i].bits_per_pixel,
