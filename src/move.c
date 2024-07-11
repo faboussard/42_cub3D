@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   move.c                          					 :+:      :+:    :+:   */
+/*   move.c                          						:+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -19,11 +19,10 @@ void	move_forward(t_data *cub)
 
 	new_x = cub->player->pos_x + cub->player->dir_x * MOVE;
 	new_y = cub->player->pos_y + cub->player->dir_y * MOVE;
-	if (cub->map.grid[(int)new_y][(int)new_x] != '1')
-	{
+	if (new_x < cub->map.width)
 		cub->player->pos_x = new_x;
+	if (new_y < cub->map.height)
 		cub->player->pos_y = new_y;
-	}
 }
 
 void	move_backward(t_data *cub)
@@ -33,11 +32,10 @@ void	move_backward(t_data *cub)
 
 	new_x = cub->player->pos_x - cub->player->dir_x * MOVE;
 	new_y = cub->player->pos_y - cub->player->dir_y * MOVE;
-	if (cub->map.grid[(int)new_y][(int)new_x] != '1')
-	{
+	if (new_x < cub->map.width)
 		cub->player->pos_x = new_x;
+	if (new_y < cub->map.height)
 		cub->player->pos_y = new_y;
-	}
 }
 
 void	move_left(t_data *cub)
@@ -51,11 +49,10 @@ void	move_left(t_data *cub)
 	perp_y = -cub->player->dir_x;
 	new_x = cub->player->pos_x + perp_x * MOVE;
 	new_y = cub->player->pos_y + perp_y * MOVE;
-	if (cub->map.grid[(int)new_y][(int)new_x] != '1')
-	{
+	if (new_x < cub->map.width)
 		cub->player->pos_x = new_x;
+	if (new_y < cub->map.height)
 		cub->player->pos_y = new_y;
-	}
 }
 
 void	move_right(t_data *cub)
@@ -69,9 +66,8 @@ void	move_right(t_data *cub)
 	perp_y = cub->player->dir_x;
 	new_x = cub->player->pos_x + perp_x * MOVE;
 	new_y = cub->player->pos_y + perp_y * MOVE;
-	if (cub->map.grid[(int)new_y][(int)new_x] != '1')
-	{
+	if (new_x < cub->map.width)
 		cub->player->pos_x = new_x;
+	if (new_y < cub->map.height)
 		cub->player->pos_y = new_y;
-	}
 }
