@@ -6,11 +6,35 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:20:55 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 14:49:01 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:55:48 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	init_plane(t_data *cub, char c)
+{
+	if (c == 'N')
+	{
+		cub->plane_x = 0.66;
+		cub->plane_y = 0.0;
+	}
+	else if (c == 'S')
+	{
+		cub->plane_x = -0.66;
+		cub->plane_y = 0.0;
+	}
+	else if (c == 'E')
+	{
+		cub->plane_x = 0.0;
+		cub->plane_y = 0.66;
+	}
+	else if (c == 'W')
+	{
+		cub->plane_x = 0.0;
+		cub->plane_y = -0.66;
+	}
+}
 
 static void	init_player_eyes(t_data *cub, char c)
 {
@@ -18,30 +42,23 @@ static void	init_player_eyes(t_data *cub, char c)
 	{
 		cub->player->dir_x = 0;
 		cub->player->dir_y = -1;
-		cub->plane_x = 0.66;
-		cub->plane_y = 0.0;
 	}
 	else if (c == 'S')
 	{
 		cub->player->dir_x = 0;
 		cub->player->dir_y = 1;
-		cub->plane_x = -0.66;
-		cub->plane_y = 0.0;
 	}
 	else if (c == 'E')
 	{
 		cub->player->dir_x = 1;
 		cub->player->dir_y = 0;
-		cub->plane_x = 0.0;
-		cub->plane_y = 0.66;
 	}
 	else if (c == 'W')
 	{
 		cub->player->dir_x = -1;
 		cub->player->dir_y = 0;
-		cub->plane_x = 0.0;
-		cub->plane_y = -0.66;
 	}
+	init_plane(cub, c);
 }
 
 static int	search_player_position(char *str)
@@ -63,7 +80,7 @@ void	init_player_position(t_data *cub)
 	int	y;
 	int	x;
 
-	cub->player = ft_calloc(sizeof (t_player), 1);
+	cub->player = ft_calloc(sizeof(t_player), 1);
 	if (cub->player == NULL)
 		close_window(cub);
 	y = 0;

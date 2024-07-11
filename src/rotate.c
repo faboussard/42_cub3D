@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   move.c                          	         	    :+:      :+:    :+:   */
+/*   move.c                          				    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -21,14 +21,14 @@ void	rotate_left(t_data *cub)
 	rot_speed = ROTATE;
 	old_dir_x = cub->player->dir_x;
 	old_plane_x = cub->plane_x;
-	cub->player->dir_x = cub->player->dir_x * cos(-1.0 * rot_speed) - cub->player->dir_y
-		* sin(-1.0 * rot_speed);
-	cub->player->dir_y = old_dir_x * sin(-1.0 * rot_speed) + cub->player->dir_y * cos(-1.0
-			* rot_speed);
+	cub->player->dir_x = cub->player->dir_x * cos(-1.0 * rot_speed)
+		- cub->player->dir_y * sin(-1.0 * rot_speed);
+	cub->player->dir_y = old_dir_x * sin(-1.0 * rot_speed) + cub->player->dir_y
+		* cos(-1.0 * rot_speed);
 	cub->plane_x = cub->plane_x * cos(-1.0 * rot_speed) - cub->plane_y
 		* sin(-1.0 * rot_speed);
-	cub->plane_y = old_plane_x * sin(-1.0 * rot_speed) + cub->plane_y
-		* cos(-1.0 * rot_speed);
+	cub->plane_y = old_plane_x * sin(-1.0 * rot_speed) + cub->plane_y * cos(-1.0
+			* rot_speed);
 }
 
 void	rotate_right(t_data *cub)
@@ -40,12 +40,12 @@ void	rotate_right(t_data *cub)
 	rot_speed = ROTATE;
 	old_dir_x = cub->player->dir_x;
 	old_plane_x = cub->plane_x;
-	cub->player->dir_x = cub->player->dir_x * cos(1.0 * rot_speed) - cub->player->dir_y
-		* sin(1.0 * rot_speed);
-	cub->player->dir_y = old_dir_x * sin(1.0 * rot_speed) + cub->player->dir_y * cos(1.0
-			* rot_speed);
-	cub->plane_x = cub->plane_x * cos(1.0 * rot_speed) - cub->plane_y
-		* sin(1.0 * rot_speed);
-	cub->plane_y = old_plane_x * sin(1.0 * rot_speed) + cub->plane_y
+	cub->player->dir_x = cub->player->dir_x * cos(1.0 * rot_speed)
+		- cub->player->dir_y * sin(1.0 * rot_speed);
+	cub->player->dir_y = old_dir_x * sin(1.0 * rot_speed) + cub->player->dir_y
 		* cos(1.0 * rot_speed);
+	cub->plane_x = cub->plane_x * cos(1.0 * rot_speed) - cub->plane_y * sin(1.0
+			* rot_speed);
+	cub->plane_y = old_plane_x * sin(1.0 * rot_speed) + cub->plane_y * cos(1.0
+			* rot_speed);
 }

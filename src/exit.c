@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:43:32 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 08:53:43 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:53:25 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,5 @@ int	close_window(t_data *cub)
 		ft_free_tab(&cub->map.copy);
 	if (cub->player)
 		free(cub->player);
-	// free_tabs(img->map.grid, img->map.copy);
 	exit(EXIT_FAILURE);
 }

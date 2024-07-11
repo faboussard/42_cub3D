@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:43:59 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 09:37:37 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:51:25 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	create_wall_texture_img(t_data *cub, t_image *wall, int i)
 {
-	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width, &wall[i].height);
+	wall[i].img = mlx_xpm_file_to_image(cub->mlx, wall[i].path, &wall[i].width,
+			&wall[i].height);
 	if (wall[i].img == NULL)
 	{
 		perror("Error\nerror in loading texture's picture");
@@ -25,7 +26,8 @@ static void	create_wall_texture_img(t_data *cub, t_image *wall, int i)
 		perror("Error\nerror in loading texture's picture");
 		close_window(cub);
 	}
-	wall[i].addr = mlx_get_data_addr(wall[i].img, &wall[i].bits_per_pixel, &wall[i].line_length, &wall[i].endian);
+	wall[i].addr = mlx_get_data_addr(wall[i].img, &wall[i].bits_per_pixel,
+			&wall[i].line_length, &wall[i].endian);
 	if (wall[i].addr == NULL)
 	{
 		perror("Error\nerror in obtening texture's data");
@@ -33,7 +35,7 @@ static void	create_wall_texture_img(t_data *cub, t_image *wall, int i)
 	}
 }
 
-void set_wall_texture(t_data *cub)
+void	set_wall_texture(t_data *cub)
 {
 	cub->wall[0].path = cub->north_img;
 	create_wall_texture_img(cub, cub->wall, 0);
@@ -45,19 +47,20 @@ void set_wall_texture(t_data *cub)
 	create_wall_texture_img(cub, cub->wall, 3);
 }
 
-void init_image(t_data *cub)
+void	init_image(t_data *cub)
 {
 	cub->my_image.width = WIDTH_DISPLAY;
 	cub->my_image.height = HEIGHT_DISPLAY;
-	cub->my_image.img = mlx_new_image(cub->mlx, cub->my_image.width, cub->my_image.height);
+	cub->my_image.img = mlx_new_image(cub->mlx, cub->my_image.width,
+			cub->my_image.height);
 	if (cub->my_image.img == NULL)
 	{
 		perror("Error\nerror in init cub->my_image.img");
 		close_window(cub);
 	}
 	cub->my_image.addr = mlx_get_data_addr(cub->my_image.img,
-	                                       &cub->my_image.bits_per_pixel, &cub->my_image.line_length,
-	                                       &cub->my_image.endian);
+			&cub->my_image.bits_per_pixel, &cub->my_image.line_length,
+			&cub->my_image.endian);
 	if (cub->my_image.addr == NULL)
 	{
 		perror("Error\nerror in init cub->my_image.addr");
@@ -65,7 +68,7 @@ void init_image(t_data *cub)
 	}
 }
 
-void init_mlx_win(t_data *cub)
+void	init_mlx_win(t_data *cub)
 {
 	cub->mlx = mlx_init();
 	if (cub->mlx == NULL)
