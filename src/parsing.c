@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 15:50:14 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 21:05:38 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,6 @@ void	parsing(t_data *cub, char *file)
 	check_if_textures_exist(cub, cub->west_img);
 	check_if_textures_exist(cub, cub->east_img);
 	if (check_map_is_closed(cub, cub->map.grid))
-//
-//	if (check_map_is_closed(cub->map.grid) || check_map_size(cub->map.grid,
-//			&cub->map))
-//
 	{
 		ft_free_tab(&cub->map.copy);
 		(void)write(2, "Error\n: Map isn't closed\n", 25);
