@@ -19,13 +19,15 @@ void	move_forward(t_data *cub)
 
 	new_x = cub->player->pos_x + cub->player->dir_x * MOVE;
 	new_y = cub->player->pos_y + cub->player->dir_y * MOVE;
-	// printf("new_x is %f\n", new_x);
-	// printf("new_y is %f\n", new_y);
-	// printf("map.width  is %zu\n", cub->map.width);
-	// printf("map.height  is %zu\n", cub->map.height);
-	if (new_x < cub->map.width - 1 && new_x > 1)
+	printf("new_x is %f\n", new_x);
+	printf("new_y is %f\n", new_y);
+	printf("map.width  is %zu\n", cub->map.width);
+	printf("map.height  is %zu\n", cub->map.height);
+	if (new_x < cub->map.width - 1 && new_x > 1
+		&& cub->map.grid[(int)new_y][(int)new_x] != '1')
 		cub->player->pos_x = new_x;
-	if (new_y < cub->map.height - 1 && new_y > 1)
+	if (new_x < cub->map.width - 1 && new_x > 1
+		&& cub->map.grid[(int)new_y][(int)new_x] != '1')
 		cub->player->pos_y = new_y;
 }
 
@@ -36,9 +38,11 @@ void	move_backward(t_data *cub)
 
 	new_x = cub->player->pos_x - cub->player->dir_x * MOVE;
 	new_y = cub->player->pos_y - cub->player->dir_y * MOVE;
-	if (new_x < cub->map.width - 1 && new_x > 1)
+	if (new_x < cub->map.width - 1 && new_x > 1
+		&& cub->map.grid[(int)new_y][(int)new_x] != '1')
 		cub->player->pos_x = new_x;
-	if (new_y < cub->map.height - 1 && new_y > 1)
+	if (new_x < cub->map.width - 1 && new_x > 1
+		&& cub->map.grid[(int)new_y][(int)new_x] != '1')
 		cub->player->pos_y = new_y;
 }
 
@@ -53,9 +57,11 @@ void	move_left(t_data *cub)
 	perp_y = -cub->player->dir_x;
 	new_x = cub->player->pos_x + perp_x * MOVE;
 	new_y = cub->player->pos_y + perp_y * MOVE;
-	if (new_x < cub->map.width - 1 && new_x > 1)
+	if (new_x < cub->map.width - 1 && new_x > 1
+		&& cub->map.grid[(int)new_y][(int)new_x] != '1')
 		cub->player->pos_x = new_x;
-	if (new_y < cub->map.height - 1 && new_y > 1)
+	if (new_x < cub->map.width - 1 && new_x > 1
+		&& cub->map.grid[(int)new_y][(int)new_x] != '1')
 		cub->player->pos_y = new_y;
 }
 
@@ -70,8 +76,10 @@ void	move_right(t_data *cub)
 	perp_y = cub->player->dir_x;
 	new_x = cub->player->pos_x + perp_x * MOVE;
 	new_y = cub->player->pos_y + perp_y * MOVE;
-	if (new_x < cub->map.width - 1 && new_x > 1)
+	if (new_x < cub->map.width - 1 && new_x > 1
+		&& cub->map.grid[(int)new_y][(int)new_x] != '1')
 		cub->player->pos_x = new_x;
-	if (new_y < cub->map.height - 1 && new_y > 1)
+	if (new_x < cub->map.width - 1 && new_x > 1
+		&& cub->map.grid[(int)new_y][(int)new_x] != '1')
 		cub->player->pos_y = new_y;
 }
