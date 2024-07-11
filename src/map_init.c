@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:34:20 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 12:52:48 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:31:01 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,5 @@ void	define_map(t_map *map, char *file_name)
 	check_map_lines(tmp_map);
 	map->copy = ft_split(tmp_map, '\n');
 	map->grid = map->copy + 6;
-	dprintf(2, "TMP_MAP\n%s\n\n", tmp_map);
 	free(tmp_map);
 }
