@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:42:35 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 09:59:32 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:01:26 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	init_cub_values(t_data *cub)
 {
 	cub->keys.key_pressed_a = 0;
 	cub->keys.key_pressed_d = 0;
-	cub->keys.key_pressed_s = 0;
+	cub->keys.key_pressed_s = 0;	
 	cub->keys.key_pressed_w = 0;
 	cub->keys.key_pressed_left = 0;
 	cub->keys.key_pressed_right = 0;

@@ -98,7 +98,7 @@ typedef struct s_ray
 {
 	double      dir_x;
 	double      dir_y;
-	int      map_x;
+	int    	  map_x;
 	int      map_y;
 	double      delta_x;
 	double      delta_y;
@@ -144,7 +144,6 @@ typedef struct s_data
 	t_keys		keys;
 }				t_data;
 
-
 ////////////////////////////////////////////////////////////////////////
 ////////     				ERRORS                  			////////
 ////////////////////////////////////////////////////////////////////////
@@ -153,65 +152,61 @@ void						malloc_error(void);
 void						map_error(char *tmp_map, char **map);
 void						empty_file_error(void);
 ////////////////////////////////////////////////////////////////////////
-////////     				PARSING								////////
+/////     					UTILS								////////
 ////////////////////////////////////////////////////////////////////////
-void						parsing(t_data *cub, char *file);
-//////////////////////////////////////////////////////////////////////
-/////     				UTILS								////////
-/////////////////////////////////////////////////////////////////////
-void	ft_free_tab(char ***tab);
+void						ft_free_tab(char ***tab);
 bool						ft_is_space(const int c);
 int							ft_strcmp_skip_spaces(char *s1, char *s2);
-int	ft_strncmp_skip_spaces(char *s1, char *s2, size_t n);
+int							ft_strncmp_skip_spaces(char *s1, char *s2, size_t n);
 ////////////////////////////////////////////////////////////////////////
 ////////     				INIT								////////
 ////////////////////////////////////////////////////////////////////////
 void						init_mlx_win(t_data *cub);
-void init_image(t_data *cub);
-void	init_player_position(t_data *cub);
+void						init_image(t_data *cub);
+void						init_player_position(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
-////////     				MAP									////////
+////////     				MAP && PARSING						////////
 ////////////////////////////////////////////////////////////////////////
+void						parsing(t_data *cub, char *file);
 void						define_map(t_map *map, char *file_name);
 void						init_player_position(t_data *cub);
+bool						check_map_is_closed(char **map);
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING							////////
 ////////////////////////////////////////////////////////////////////////
-int				game_loop(t_data *cub);
-void			set_wall_texture(t_data *cub);
-void ray_tracer(t_data *cub, t_ray *ray);
-void get_wall_player_dist(t_data *cub, t_ray *ray);
-void get_texture_x(t_render *render, t_ray *ray);
-void get_wall_x(t_data *cub, t_ray *ray);
-void get_wallside(t_data *cub, t_ray *ray);
-void init_ray_info(t_data *cub, t_ray *ray, int x);
+int							game_loop(t_data *cub);
+void						set_wall_texture(t_data *cub);
+void						ray_tracer(t_data *cub, t_ray *ray);
+void						get_wall_player_dist(t_data *cub, t_ray *ray);
+void						get_texture_x(t_render *render, t_ray *ray);
+void						get_wall_x(t_data *cub, t_ray *ray);
+void						get_wallside(t_data *cub, t_ray *ray);
+void						init_ray_info(t_data *cub, t_ray *ray, int x);
 ////////////////////////////////////////////////////////////////////////
 ////////     				RENDER								////////
 ////////////////////////////////////////////////////////////////////////
-void draw(t_render *render, int x);
-unsigned int get_texel(t_image *texture, int x, int y);
-void my_pixel_put(t_image *img, int x, int y, int color);
-void define_draw_points(t_render *render, double wall_player_dist);
+void						draw(t_render *render, int x);
+unsigned int				get_texel(t_image *texture, int x, int y);
+void						my_pixel_put(t_image *img, int x, int y, int color);
+void						define_draw_points(t_render *render, double wall_player_dist);
 ////////////////////////////////////////////////////////////////////////
 ////////     				GAME								////////
 ////////////////////////////////////////////////////////////////////////
-int game_loop(t_data *cub);
-
+int							game_loop(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				MOVE								////////
 ////////////////////////////////////////////////////////////////////////
-
-void	move_forward(t_data *cub);
-void	move_backward(t_data *cub);
-void move_left(t_data *cub);
-void move_right(t_data *cub);
-void	rotate_right(t_data *cub);
-void	rotate_left(t_data *cub);
+void						move_forward(t_data *cub);
+void						move_backward(t_data *cub);
+void						move_left(t_data *cub);
+void						move_right(t_data *cub);
+void						rotate_right(t_data *cub);
+void						rotate_left(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				HOOK								////////
 ////////////////////////////////////////////////////////////////////////
-int	key_press_hook(int keysym, t_data *cub);
-int	key_release_hook(int keysym, t_data *cub);
+int							key_press_hook(int keysym, t_data *cub);
+int							key_release_hook(int keysym, t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				COLORS								////////
 ////////////////////////////////////////////////////////////////////////
