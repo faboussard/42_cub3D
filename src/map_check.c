@@ -6,13 +6,13 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:20:55 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 12:50:19 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:21:57 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static bool	is_not_a_wall(char c)
+static bool	is_a_wall(char c)
 {
 	return (c == '1' || c == ' ');
 }
@@ -43,7 +43,7 @@ bool	check_map_is_closed(char **map)
 		x = 0;
 		while (map[y][x])
 		{
-			if (is_not_a_wall(map[y][x]) && !is_within_the_map(map, y, x))
+			if (!is_a_wall(map[y][x]) && !is_within_the_map(map, y, x))
 				return (1);
 			x++;
 		}
