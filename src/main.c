@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:42:35 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 13:31:39 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 09:59:32 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	init_cub_values(t_data *cub)
 	cub->wall[2].img = NULL;
 	cub->wall[3].img = NULL;
 	cub->my_image.img = NULL;
+	cub->player = NULL;
 }
 static void	check_file_name(char *file)
 {

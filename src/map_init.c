@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:34:20 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 12:55:01 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 09:55:02 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,35 +91,39 @@ static void	check_textures_and_color(char *str, int *i)
 	}
 	if (!str[*i] || cardinal_points != 4 || colors != 2)
 		map_error(str, NULL);
+	while (str[*i] && ft_strncmp(str + *i, "\n", 1) != 0)
+		++(*i);
+	while (str[*i] && ft_strncmp(str + *i, "\n", 1) == 0)
+		++(*i);
 }
 
-static void	check_map_lines(char *str)
+static void	check_map_lines(char *s)
 {
-	int	i;
+	int		i;
 	bool	player_found;
 
 	i = 0;
 	player_found = 0;
-	check_textures_and_color(str, &i);
-	while (str[i] && ft_strncmp(str + i, "\n", 1) != 0)
-		i++;
-	while (str[i] && ft_strncmp(str + i, "\n", 1) == 0)
-		i++;
-	while (str[i] && str[i + 1])
+	check_textures_and_color(s, &i);
+	while (s[i] && s[i + 1])
 	{
-		if (str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W')
+		if (s[i] == 'N' || s[i] == 'S' || s[i] == 'E' || s[i] == 'W')
 		{
 			if (!player_found)
 				player_found = 1;
 			else
-				map_error(str, NULL);
+				map_error(s, NULL);
 		}
-		if (str[i++] == '\n' && str[i] == '\n'
-			&& str[i + 1] && str[i + 1] != '\n')
-			map_error(str, NULL);
+		if ((!(s[i] == '0' || s[i] == '1' || s[i] == ' ' || s[i] == '\n')
+				&& !player_found)
+			|| (s[i++] == '\n' && s[i] == '\n' && s[i + 1] && s[i + 1] != '\n')
+			|| (!s[i + 1]
+				&& !(s[i] == '0' || s[i] == '1'
+					|| s[i] == ' ' || s[i] == '\n')))
+			map_error(s, NULL);
 	}
 	if (player_found == 0)
-		map_error(str, NULL);
+		map_error(s, NULL);
 }
 
 void	define_map(t_map *map, char *file_name)
