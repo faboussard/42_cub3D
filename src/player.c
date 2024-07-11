@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:20:55 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 15:47:37 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 21:05:14 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,34 +61,6 @@ static void	init_player_eyes(t_data *cub, char c)
 	init_plane(cub, c);
 }
 
-// static int	search_player_position(char *str)
-// {
-// 	int	x;
-
-// 	x = 0;
-// 	while (str[x])
-// 	{
-// 		if (str[x] == 'N' || str[x] == 'S' || str[x] == 'E' || str[x] == 'W')
-// 			return (x);
-// 		x++;
-// 	}
-// 	return (0);
-// }
-
-//static void	init_player_pos(t_data *cub, int y, int x)
-//{
-//	if (y <= 1 || x <= 1)
-//	{
-//		cub->player->pos_y = (double)y + 0.5;
-//		cub->player->pos_x = (double)x + 0.5;
-//	}
-//	else
-//	{
-//		cub->player->pos_y = (double)y - 0.5;
-//		cub->player->pos_x = (double)x - 0.5;
-//	}
-//}
-
 void	init_player_position(t_data *cub)
 {
 	int	y;
@@ -99,7 +71,6 @@ void	init_player_position(t_data *cub)
 		close_window(cub);
 	y = cub->player_pos[0];
 	x = cub->player_pos[1];
-//	init_player_pos(cub, y, x);
 	cub->player->pos_y = (double)(y + 0.5);
 	cub->player->pos_x = (double)(x + 0.5);
 	init_player_eyes(cub, cub->map.grid[y][x]);
