@@ -1,7 +1,7 @@
-NO ../tests/cub3D/wall/exit.xpm
-SO ../tests/cub3D/wall/chest.xpm
-WE ../tests/cub3D/wall/slime.xpm
-EA ../tests/cub3D/wall/wall.xpm
+NO textures/test/north.xpm
+SO textures/test/south.xpm
+WE textures/test/west.xpm
+EA textures/test/east.xpm
 
 F 124,23,14
 C 125,230,4

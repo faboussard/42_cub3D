@@ -25,6 +25,8 @@ static void	init_cub_values(t_data *cub)
 	cub->wall[2].img = NULL;
 	cub->wall[3].img = NULL;
 	cub->my_image.img = NULL;
+	cub->player_pos[0] = 0;
+	cub->player_pos[1] = 0;
 	cub->player = NULL;
 }
 
@@ -43,7 +45,6 @@ static void	check_file_name(char *file)
 int	main(int ac, char **av)
 {
 	t_data	cub;
-	int	player_pos[2];
 
 	if (ac != 2)
 	{
@@ -53,11 +54,11 @@ int	main(int ac, char **av)
 	ft_bzero(&cub, 1);
 	init_cub_values(&cub);
 	check_file_name(av[1]);
-	parsing(&cub, av[1], player_pos);
+	parsing(&cub, av[1]);
 	init_mlx_win(&cub);
 	init_image(&cub);
 	set_wall_texture(&cub);
-	init_player_position(&cub, player_pos);
+	init_player_position(&cub);
 	mlx_hook(cub.win, KeyPress, KeyPressMask, key_press_hook, &cub);
 	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, key_release_hook, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, close_window, &cub);
