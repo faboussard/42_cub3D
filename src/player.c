@@ -94,7 +94,15 @@ void	init_player_position(t_data *cub)
 			break ;
 		y++;
 	}
-	cub->player->pos_y = (double)y - 0.3;
-	cub->player->pos_x = (double)x - 0.3;
+	if (y <= 1 || x <= 1)
+	{
+		cub->player->pos_y = (double)y + 0.5;
+		cub->player->pos_x = (double)x + 0.5;
+	}
+	else
+	{
+		cub->player->pos_y = (double)y - 0.5;
+		cub->player->pos_x = (double)x - 0.5;
+	}
 	init_player_eyes(cub, cub->map.grid[y][x]);
 }
