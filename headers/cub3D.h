@@ -158,7 +158,7 @@ void					init_image(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				MAP && PARSING						////////
 ////////////////////////////////////////////////////////////////////////
-void					parsing(t_data *cub, char *file, int player_pos[2]);
+void					parsing(t_data *cub, char *file);
 void					define_map(t_map *map, char *file_name);
 void					init_player_position(t_data *cub);
 bool					check_map_is_closed(t_data *cub, char **map);
