@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:43:59 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 12:51:25 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:09:13 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	create_wall_texture_img(t_data *cub, t_image *wall, int i)
 		perror("Error\nerror in loading texture's picture");
 		close_window(cub);
 	}
-	if (wall[i].width != 64 || wall[i].height != 64)
+	if (wall[i].width > 64 || wall[i].height > 64)
 	{
 		perror("Error\nerror in loading texture's picture");
 		close_window(cub);
