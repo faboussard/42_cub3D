@@ -55,3 +55,35 @@ bool	check_map_is_closed(char **map)
 		return (1);
 	return (0);
 }
+
+bool	check_map_size(char **map, t_map *t_map)
+{
+	size_t	y;
+	size_t	x;
+	size_t	max_x;
+
+	y = 0;
+	x = 0;
+	max_x = 0;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			x++;
+			printf("x is %zu\n", x);
+		}
+		y++;
+		if (max_x < x)
+			max_x = x;
+	}
+	t_map->width = max_x;
+	t_map->height = y;
+	printf("width is %zu\n", t_map->width);
+	printf("height is %zu\n", t_map->height);
+	if (t_map->width >= MAX_WIDTH)
+		return (1);
+	if (t_map->height >= MAX_HEIGHT)
+		return (1);
+	return (0);
+}

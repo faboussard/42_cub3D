@@ -101,7 +101,8 @@ void	parsing(t_data *cub, char *file)
 	check_if_textures_exist(cub, cub->south_img);
 	check_if_textures_exist(cub, cub->west_img);
 	check_if_textures_exist(cub, cub->east_img);
-	if (check_map_is_closed(cub->map.grid))
+	if (check_map_is_closed(cub->map.grid) || check_map_size(cub->map.grid,
+			&cub->map))
 	{
 		ft_free_tab(&cub->map.copy);
 		(void)write(2, "Error\n: Map isn't closed\n", 25);

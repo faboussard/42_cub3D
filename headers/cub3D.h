@@ -39,6 +39,9 @@
 # define MOVE 0.01
 # define ROTATE 0.01
 
+# define MAX_WIDTH 10000
+# define MAX_HEIGHT 10000
+
 typedef struct s_keys
 {
 	bool				key_pressed_left;
@@ -159,6 +162,7 @@ void					parsing(t_data *cub, char *file);
 void					define_map(t_map *map, char *file_name);
 void					init_player_position(t_data *cub);
 bool					check_map_is_closed(char **map);
+bool					check_map_size(char **map, t_map *t_map);
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING							////////
 ////////////////////////////////////////////////////////////////////////
