@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 11:57:35 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:46:24 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,4 @@ void	parsing(t_data *cub, char *file)
 		(void)write(2, "Error\n: Map isn't closed\n", 25);
 		exit(1);
 	}
-
 }
