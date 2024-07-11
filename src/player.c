@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:20:55 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 12:55:48 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:58:27 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,20 @@ static int	search_player_position(char *str)
 	return (0);
 }
 
+static void	init_player_pos(t_data *cub, int y, int x)
+{
+	if (y <= 1 || x <= 1)
+	{
+		cub->player->pos_y = (double)y + 0.5;
+		cub->player->pos_x = (double)x + 0.5;
+	}
+	else
+	{
+		cub->player->pos_y = (double)y - 0.5;
+		cub->player->pos_x = (double)x - 0.5;
+	}
+}
+
 void	init_player_position(t_data *cub)
 {
 	int	y;
@@ -94,7 +108,6 @@ void	init_player_position(t_data *cub)
 			break ;
 		y++;
 	}
-	cub->player->pos_y = (double)y - 0.3;
-	cub->player->pos_x = (double)x - 0.3;
+	init_player_pos(cub, y, x);
 	init_player_eyes(cub, cub->map.grid[y][x]);
 }
