@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 14:37:13 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 08:29:02 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,18 @@ static void	check_if_textures_exist(t_data *cub, char *path_to_texture)
 	}
 	close(fd);
 }
+static void	check_if_texture_is_xpm(t_data *cub, char *path_to_texture)
+{
+	size_t	len;
 
+	len = ft_strlen(path_to_texture);
+	if (len < 5 || ft_strncmp(&path_to_texture[len - 4], ".xpm", 4))
+	{
+		(void)write(2, "Error:\nNot a xpm texture\n", 25);
+		ft_free_tab(&cub->map.copy);
+		exit(1);
+	}
+}
 void	parsing(t_data *cub, char *file)
 {
 	define_map(&cub->map, file);
@@ -81,6 +92,10 @@ void	parsing(t_data *cub, char *file)
 		(void)write(2, "Error: Wrong colors\n", 20);
 		exit(1);
 	}
+	check_if_texture_is_xpm(cub, cub->north_img);
+	check_if_texture_is_xpm(cub, cub->south_img);
+	check_if_texture_is_xpm(cub, cub->west_img);
+	check_if_texture_is_xpm(cub, cub->east_img);
 	check_if_textures_exist(cub, cub->north_img);
 	check_if_textures_exist(cub, cub->south_img);
 	check_if_textures_exist(cub, cub->west_img);
