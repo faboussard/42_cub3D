@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 15:02:56 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:50:14 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	check_if_texture_is_xpm(t_data *cub, char *path_to_texture)
 	}
 }
 
-void	parsing(t_data *cub, char *file)
+void	parsing(t_data *cub, char *file, int player_pos[2])
 {
 	define_map(&cub->map, file);
 	define_textures_path(cub);
@@ -101,7 +101,7 @@ void	parsing(t_data *cub, char *file)
 	check_if_textures_exist(cub, cub->south_img);
 	check_if_textures_exist(cub, cub->west_img);
 	check_if_textures_exist(cub, cub->east_img);
-	if (check_map_is_closed(cub->map.grid))
+	if (check_map_is_closed(cub, cub->map.grid, player_pos))
 	{
 		ft_free_tab(&cub->map.copy);
 		(void)write(2, "Error\n: Map isn't closed\n", 25);

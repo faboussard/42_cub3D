@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:42:35 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 10:01:26 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:49:16 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	check_file_name(char *file)
 int	main(int ac, char **av)
 {
 	t_data	cub;
+	int	player_pos[2];
 
 	if (ac != 2)
 	{
@@ -52,11 +53,11 @@ int	main(int ac, char **av)
 	ft_bzero(&cub, 1);
 	init_cub_values(&cub);
 	check_file_name(av[1]);
-	parsing(&cub, av[1]);
+	parsing(&cub, av[1], player_pos);
 	init_mlx_win(&cub);
 	init_image(&cub);
 	set_wall_texture(&cub);
-	init_player_position(&cub);
+	init_player_position(&cub, player_pos);
 	mlx_hook(cub.win, KeyPress, KeyPressMask, key_press_hook, &cub);
 	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, key_release_hook, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, close_window, &cub);

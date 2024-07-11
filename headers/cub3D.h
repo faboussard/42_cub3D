@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:46:46 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 12:56:55 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:50:55 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,14 +151,13 @@ int						ft_strncmp_skip_spaces(char *s1, char *s2, size_t n);
 ////////////////////////////////////////////////////////////////////////
 void					init_mlx_win(t_data *cub);
 void					init_image(t_data *cub);
-void					init_player_position(t_data *cub);
 ////////////////////////////////////////////////////////////////////////
 ////////     				MAP && PARSING						////////
 ////////////////////////////////////////////////////////////////////////
-void					parsing(t_data *cub, char *file);
+void					parsing(t_data *cub, char *file, int player_pos[2]);
 void					define_map(t_map *map, char *file_name);
-void					init_player_position(t_data *cub);
-bool					check_map_is_closed(char **map);
+void					init_player_position(t_data *cub, int player_pos[2]);
+bool					check_map_is_closed(t_data *cub, char **map, int player_pos[2]);
 ////////////////////////////////////////////////////////////////////////
 ////////     				RAYCASTING							////////
 ////////////////////////////////////////////////////////////////////////
