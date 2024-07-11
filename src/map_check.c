@@ -56,13 +56,11 @@ bool	check_map_is_closed(t_data *cub, char **map)
 {
 	size_t	x;
 	size_t	y;
-	size_t	max_x;
 	size_t	max_y;
 
 	if (!map[2])
 		return (1);
 	y = 0;
-	max_x = 0;
 	max_y = 0;
 	while (map[max_y])
 		max_y++;
@@ -71,13 +69,12 @@ bool	check_map_is_closed(t_data *cub, char **map)
 		x = -1;
 		while (map[y][++x])
 		{
-			if ((!wall_or_player(cub, map[y][x], y, x) && is_within_the_map(map, y, x, max_y) == 0)
+			if ((!wall_or_player(cub, map[y][x], y, x)
+				&& is_within_the_map(map, y, x, max_y) == 0)
 				|| check_max_size(cub, y, x))
 				return (1);
 		}
-		if (max_x < 3 && x > max_x)
-			max_x = x;
 		y++;
 	}
-	return (max_x < 3);
+	return (cub->map.width < 3);
 }
