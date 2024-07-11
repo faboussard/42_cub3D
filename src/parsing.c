@@ -82,7 +82,7 @@ static void	check_if_texture_is_xpm(t_data *cub, char *path_to_texture)
 	}
 }
 
-void	parsing(t_data *cub, char *file, int player_pos[2])
+void	parsing(t_data *cub, char *file)
 {
 	define_map(&cub->map, file);
 	define_textures_path(cub);
