@@ -12,72 +12,69 @@
 
 #include "../headers/cub3D.h"
 
-void	move_forward(t_data *cub, t_ray *ray)
+void move_forward(t_data *cub)
 {
-	double	dest_x;
-	double	dest_y;
+	double new_x;
+	double new_y;
+	new_x = cub->player->pos_x + cub->player->dir_x * MOVE;
+	new_y = cub->player->pos_y + cub->player->dir_y * MOVE;
 
-	dest_x = cub->player->pos_x + (ray->dir_x * MOVE);
-	dest_y = cub->player->pos_y + (ray->dir_y * MOVE);
-	if (cub->map.grid[(int)dest_x][(int)dest_y] 
-	&& cub->map.grid[(int)dest_x][(int)dest_y] != '1') // voir comment on traite les espaces
+	if (cub->map.grid[(int)new_y][(int)new_x] != '1')
 	{
-		cub->player->pos_x = dest_x;
-		cub->player->pos_y = dest_y;
+		cub->player->pos_x = new_x;
+		cub->player->pos_y = new_y;
 	}
 }
 
-void	move_backward(t_data *cub, t_ray *ray)
+void move_backward(t_data *cub)
 {
-	double	dest_x;
-	double	dest_y;
+	double new_x;
+	double new_y;
+	new_x = cub->player->pos_x - cub->player->dir_x * MOVE;
+	new_y = cub->player->pos_y - cub->player->dir_y * MOVE;
 
-	dest_x = cub->player->pos_x + (ray->dir_x  * -1 * MOVE);
-	dest_y = cub->player->pos_y + (ray->dir_y * -1 * MOVE);
-	if (cub->map.grid[(int)dest_x][(int)dest_y] 
-	&& cub->map.grid[(int)dest_x][(int)dest_y] != '1')
+	if (cub->map.grid[(int)new_y][(int)new_x] != '1')
 	{
-		cub->player->pos_x = dest_x;
-		cub->player->pos_y = dest_y;
+		cub->player->pos_x = new_x;
+		cub->player->pos_y = new_y;
 	}
 }
 
-void move_left(t_data *cub, t_ray *ray)
+void move_left(t_data *cub)
 {
-	double dest_x;
-	double dest_y;
+	double new_x;
+	double new_y;
+	double perp_x;
+	double perp_y;
 
-	dest_x = cub->player->pos_x + (ray->dir_y * MOVE);
-	dest_y = cub->player->pos_y - (ray->dir_x * MOVE);
+	perp_x = cub->player->dir_y;
+	perp_y = -cub->player->dir_x;
+	new_x = cub->player->pos_x + perp_x * MOVE;
+	new_y = cub->player->pos_y + perp_y * MOVE;
 
-	if (cub->map.grid[(int)dest_x][(int)dest_y] 
-	&& cub->map.grid[(int)dest_x][(int)dest_y] != '1')
+	if (cub->map.grid[(int)new_y][(int)new_x] != '1')
 	{
-		cub->player->pos_x = dest_x;
-	}
-		if (cub->map.grid[(int)dest_x][(int)dest_y] 
-	&& cub->map.grid[(int)dest_x][(int)dest_y] != '1')
-	{
-		cub->player->pos_y = dest_y;
+		cub->player->pos_x = new_x;
+		cub->player->pos_y = new_y;
 	}
 }
 
-void move_right(t_data *cub, t_ray *ray)
+void move_right(t_data *cub)
 {
-	double dest_x;
-	double dest_y;
+	double new_x;
+	double new_y;
+	double perp_x;
+	double perp_y;
 
-	dest_x = cub->player->pos_x - (ray->dir_y * MOVE);
-	dest_y = cub->player->pos_y + (ray->dir_x * MOVE);
-	if (cub->map.grid[(int)dest_x][(int)dest_y] 
-	&& cub->map.grid[(int)dest_x][(int)dest_y] != '1')
+	perp_x = -cub->player->dir_y;
+	perp_y = cub->player->dir_x;
+	new_x = cub->player->pos_x + perp_x * MOVE;
+	new_y = cub->player->pos_y + perp_y * MOVE;
+
+	if (cub->map.grid[(int)new_y][(int)new_x] != '1')
 	{
-		cub->player->pos_x = dest_x;
-	}
-		if (cub->map.grid[(int)dest_x][(int)dest_y] 
-	&& cub->map.grid[(int)dest_x][(int)dest_y] != '1')
-	{
-		cub->player->pos_y = dest_y;
+		cub->player->pos_x = new_x;
+		cub->player->pos_y = new_y;
 	}
 }
 
