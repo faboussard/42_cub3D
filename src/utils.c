@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 11:00:35 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 14:31:52 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:53:10 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 bool	ft_is_space(const int c)
 {
-	if (c == ' ' || c == '\f' || c == '\n'
-		|| c == '\r' || c == '\t' || c == '\v')
+	if (c == ' ' || c == '\f' || c == '\n' || c == '\r' || c == '\t'
+		|| c == '\v')
 		return (1);
 	return (0);
 }
@@ -48,7 +48,6 @@ void	ft_free_tab(char ***tab)
 	{
 		free((*tab)[i]);
 		(*tab)[i] = NULL;
-		// free_safely_str(&((*tab)[i]));
 		i++;
 	}
 	free(*tab);
@@ -57,8 +56,8 @@ void	ft_free_tab(char ***tab)
 
 int	ft_strncmp_skip_spaces(char *s1, char *s2, size_t n)
 {
-	size_t			i;
-	size_t			j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
@@ -71,8 +70,8 @@ int	ft_strncmp_skip_spaces(char *s1, char *s2, size_t n)
 
 int	ft_strcmp_skip_spaces(char *s1, char *s2)
 {
-	size_t			i;
-	size_t			j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
@@ -82,38 +81,3 @@ int	ft_strcmp_skip_spaces(char *s1, char *s2)
 		j++;
 	return (ft_strcmp(s1 + i, s2 + j));
 }
-// void	ft_free_tab(char ***tab)
-// {
-// 	size_t	i;
-//
-// 	i = 0;
-// 	if (!tab || !*tab ||)
-// 		return ;
-// 	while (tab[i])
-// 	{
-// 		if (tab[i])
-// 			free(tab[i]);
-// 		i++;
-// 	}
-// 	free(tab);
-// 	tab = NULL;
-// }
-
-/*void	free_tabs(char **map, char **copy)
-{
-	ft_free_tab(map);
-	ft_free_tab(copy);
-}*/
-
-/*
-void	ft_put_pos_nbr_fd(size_t n, int fd)
-{
-	if (n < 10)
-		ft_putchar_fd(n + '0', fd);
-	if (n >= 10)
-	{
-		ft_putnbr_fd(n / 10, fd);
-		ft_putchar_fd(n % 10 + '0', fd);
-	}
-}
-*/

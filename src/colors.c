@@ -24,8 +24,8 @@ static bool	check_char_color(char c, int *commas, int *nb_nums, bool *num_place)
 		*num_place = false;
 		++(*nb_nums);
 	}
-	else if ((c == ',' && *num_place == true)
-		|| (!ft_isdigit(c) && !ft_is_space(c) && c != ','))
+	else if ((c == ',' && *num_place == true) || (!ft_isdigit(c)
+			&& !ft_is_space(c) && c != ','))
 		return (0);
 	return (1);
 }
@@ -57,9 +57,9 @@ static bool	check_color(char *color)
 
 static int	create_trgb(char *color)
 {
-	int		r;
-	int		g;
-	int		b;
+	int	r;
+	int	g;
+	int	b;
 
 	color += 2;
 	if (check_color(color) == false)

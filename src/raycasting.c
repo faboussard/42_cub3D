@@ -12,10 +12,9 @@
 
 #include "cub3D.h"
 
-
-void ray_tracer(t_data *cub, t_ray *ray)
+void	ray_tracer(t_data *cub, t_ray *ray)
 {
-	int hit;
+	int	hit;
 
 	hit = 0;
 	while (hit == 0)
@@ -25,7 +24,8 @@ void ray_tracer(t_data *cub, t_ray *ray)
 			ray->side_x += ray->delta_x;
 			ray->map_x += ray->step_x;
 			ray->side = HORIZONTAL;
-		} else
+		}
+		else
 		{
 			ray->side_y += ray->delta_y;
 			ray->map_y += ray->step_y;
@@ -36,7 +36,7 @@ void ray_tracer(t_data *cub, t_ray *ray)
 	}
 }
 
-void get_wall_player_dist(t_data *cub, t_ray *ray)
+void	get_wall_player_dist(t_data *cub, t_ray *ray)
 {
 	if (ray->side == HORIZONTAL)
 		cub->wall_player_dist = (ray->side_x - ray->delta_x);
@@ -44,9 +44,9 @@ void get_wall_player_dist(t_data *cub, t_ray *ray)
 		cub->wall_player_dist = (ray->side_y - ray->delta_y);
 }
 
-void get_texture_x(t_render *render, t_ray *ray)
+void	get_texture_x(t_render *render, t_ray *ray)
 {
-	render->text_x = (int) (ray->wall_x * (double) TEX_W);
+	render->text_x = (int)(ray->wall_x * (double)TEX_W);
 	if (ray->side == HORIZONTAL && ray->dir_x > 0)
 	{
 		render->text_x = TEX_W - render->text_x - 1;
@@ -57,8 +57,7 @@ void get_texture_x(t_render *render, t_ray *ray)
 	}
 }
 
-
-void get_wall_x(t_data *cub, t_ray *ray)
+void	get_wall_x(t_data *cub, t_ray *ray)
 {
 	if (ray->side == HORIZONTAL)
 		ray->wall_x = cub->player->pos_y + cub->wall_player_dist * ray->dir_y;
@@ -70,7 +69,7 @@ void get_wall_x(t_data *cub, t_ray *ray)
 	ray->wall_x -= floor(ray->wall_x);
 }
 
-void get_wallside(t_data *cub, t_ray *ray)
+void	get_wallside(t_data *cub, t_ray *ray)
 {
 	if (ray->side == VERTICAL)
 	{

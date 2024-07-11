@@ -12,10 +12,9 @@
 
 #include "cub3D.h"
 
-
-static void create_walls(t_data *cub, t_ray *ray, int x)
+static void	create_walls(t_data *cub, t_ray *ray, int x)
 {
-	t_render render;
+	t_render	render;
 
 	render = cub->render;
 	render.cub = cub;
@@ -28,9 +27,9 @@ static void create_walls(t_data *cub, t_ray *ray, int x)
 	draw(&render, x);
 }
 
-static int walls(t_data *cub, t_ray *ray)
+static int	walls(t_data *cub, t_ray *ray)
 {
-	int x;
+	int	x;
 
 	x = 0;
 	while (x < WIDTH_DISPLAY)
@@ -42,20 +41,20 @@ static int walls(t_data *cub, t_ray *ray)
 	return (0);
 }
 
-static void background(t_data *cub)
+static void	background(t_data *cub)
 {
-	int i;
-	int j;
-	int color;
+	int	i;
+	int	j;
+	int	color;
 
 	i = 0;
 	color = cub->map.ceiling_color;
-	while (i < (int) cub->my_image.height)
+	while (i < (int)cub->my_image.height)
 	{
 		j = 0;
-		while (j < (int) cub->my_image.width)
+		while (j < (int)cub->my_image.width)
 		{
-			if (i > (int) cub->my_image.height / 2)
+			if (i > (int)cub->my_image.height / 2)
 				color = cub->map.floor_color;
 			my_pixel_put(&cub->my_image, j, i, color);
 			j++;
@@ -64,9 +63,9 @@ static void background(t_data *cub)
 	}
 }
 
-int game_loop(t_data *cub)
+int	game_loop(t_data *cub)
 {
-	t_ray ray;
+	t_ray	ray;
 
 	background(cub);
 	walls(cub, &ray);
