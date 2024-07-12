@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: faboussa <faboussa@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 02:26:17 by faboussa          #+#    #+#             */
-/*   Updated: 2024/06/19 11:01:15 by faboussa         ###   ########.fr       */
+/*   Updated: 2024/07/12 10:37:26 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char					*ft_substr_gnl(char const *s, size_t total_len,
 							unsigned int start, size_t len);
 char					*ft_strjoin(char const *s1, char const *s2);
 char					*ft_strjoin_free_both(char *s1, char *s2);
+char					*ft_strjoin_free_one(char *s1, char *s2);
 int						ft_strcmp(char *s1, char *s2);
 char					*ft_strtrim(char const *s1, char const *set);
 char					*ft_itoa(int n);

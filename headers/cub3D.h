@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:46:46 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 15:50:55 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/12 10:50:54 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,10 @@ typedef struct s_data
 ////////////////////////////////////////////////////////////////////////
 ////////     				ERRORS                  			////////
 ////////////////////////////////////////////////////////////////////////
-void					no_such_file_error(void);
-void					malloc_error(void);
+void					no_such_file_error(int fd);
+void					malloc_error(int fd);
 void					map_error(char *tmp_map, char **map);
-void					empty_file_error(void);
+void					empty_file_error(int fd);
 ////////////////////////////////////////////////////////////////////////
 /////     					UTILS								////////
 ////////////////////////////////////////////////////////////////////////

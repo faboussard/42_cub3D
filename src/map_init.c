@@ -6,39 +6,67 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:34:20 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 13:31:01 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:10:49 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static void	get_map_inline(char *ber, char **tmp_map)
+void	get_map_inline(char *cub, char **tmp_map)
 {
 	int		fd;
-	int		min_line_nb;
-	char	*line;
+	size_t	size;
+	size_t	entire_size;
+	char	line[1024];
 
-	min_line_nb = 1;
-	fd = open(ber, O_RDONLY);
-	if (fd < 0)
-		no_such_file_error();
-	while (1)
+	fd = open(cub, O_RDONLY);
+	if (fd < 0 || read(fd, tmp_map, 0) < 0)
+		no_such_file_error(fd);
+	size = read(fd, line, 1024);
+	if (size == 0)
+		empty_file_error(fd);
+	entire_size = size;
+	while (size > 0)
 	{
-		line = get_next_line(fd);
-		if (!line && min_line_nb == 1)
-			empty_file_error();
-		if (!line)
-			break ;
-		*tmp_map = ft_strjoin_free_both(*tmp_map, line);
-		if (!**tmp_map)
-			malloc_error();
-		if (min_line_nb < 9)
-			min_line_nb++;
+		line[size] = '\0';
+		*tmp_map = ft_strjoin_free_one(*tmp_map, line);
+		if (*tmp_map == NULL)
+			malloc_error(fd);
+		size = read(fd, line, 1024);
+		entire_size += size;
+		if (entire_size < 65 || entire_size > 20000)
+			map_error(*tmp_map, NULL);
 	}
 	close(fd);
-	if (min_line_nb < 9)
-		map_error(*tmp_map, NULL);
 }
+
+// static void	get_map_inline(char *ber, char **tmp_map)
+// {
+// 	int		fd;	
+// 	int		min_line_nb;
+// 	char	*line;
+
+// 	min_line_nb = 1;
+// 	fd = open(ber, O_RDONLY);
+// 	if (fd < 0)
+// 		no_such_file_error(fd);
+// 	while (1)
+// 	{
+// 		line = get_next_line(fd);
+// 		if (!line && min_line_nb == 1)
+// 			empty_file_error(fd);
+// 		if (!line)
+// 			break ;
+// 		*tmp_map = ft_strjoin_free_both(*tmp_map, line);
+// 		if (!**tmp_map)
+// 			malloc_error(fd);
+// 		if (min_line_nb < 9)
+// 			min_line_nb++;
+// 	}
+// 	close(fd);
+// 	if (min_line_nb < 9)
+// 		map_error(*tmp_map, NULL);
+// }
 
 static bool	check_point_and_color(char *s, int i, bool is_card)
 {

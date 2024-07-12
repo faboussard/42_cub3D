@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:42:35 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/11 15:49:16 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:09:59 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static void	init_cub_values(t_data *cub)
 	cub->my_image.img = NULL;
 	cub->player_pos[0] = 0;
 	cub->player_pos[1] = 0;
+	cub->map.height = 0;
+	cub->map.width = 0;
 	cub->player = NULL;
 }
 
