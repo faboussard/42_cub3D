@@ -12,61 +12,28 @@
 
 #include "cub3D.h"
 
-void	get_map_inline(char *cub, char **tmp_map)
+void	get_map_inline(char *cub, char **tmp_map, size_t size)
 {
 	int		fd;
-	size_t	size;
-	size_t	entire_size;
-	char	line[1024];
 
+	if (size == 0)
+		empty_file_error(0);
+	if (size < 65)
+		map_error(NULL, NULL);
+	if (size > 50000)
+	{
+		write(2, "Error\nMap too big\n", 18);
+		exit(EXIT_FAILURE);
+	}
 	fd = open(cub, O_RDONLY);
 	if (fd < 0 || read(fd, tmp_map, 0) < 0)
 		no_such_file_error(fd);
-	size = read(fd, line, 1024);
-	if (size == 0)
-		empty_file_error(fd);
-	entire_size = size;
-	while (size > 0)
-	{
-		line[size] = '\0';
-		*tmp_map = ft_strjoin_free_one(*tmp_map, line);
-		if (*tmp_map == NULL)
-			malloc_error(fd);
-		size = read(fd, line, 1024);
-		entire_size += size;
-		if (entire_size < 65 || entire_size > 20000)
-			map_error(*tmp_map, NULL);
-	}
+	*tmp_map = malloc(sizeof(char) * (size + 1));
+	if (*tmp_map == NULL)
+		malloc_error(fd);
+	read(fd, *tmp_map, size);
 	close(fd);
 }
-
-// static void	get_map_inline(char *ber, char **tmp_map)
-// {
-// 	int		fd;	
-// 	int		min_line_nb;
-// 	char	*line;
-
-// 	min_line_nb = 1;
-// 	fd = open(ber, O_RDONLY);
-// 	if (fd < 0)
-// 		no_such_file_error(fd);
-// 	while (1)
-// 	{
-// 		line = get_next_line(fd);
-// 		if (!line && min_line_nb == 1)
-// 			empty_file_error(fd);
-// 		if (!line)
-// 			break ;
-// 		*tmp_map = ft_strjoin_free_both(*tmp_map, line);
-// 		if (!**tmp_map)
-// 			malloc_error(fd);
-// 		if (min_line_nb < 9)
-// 			min_line_nb++;
-// 	}
-// 	close(fd);
-// 	if (min_line_nb < 9)
-// 		map_error(*tmp_map, NULL);
-// }
 
 static bool	check_point_and_color(char *s, int i, bool is_card)
 {
@@ -156,9 +123,25 @@ static void	check_map_lines(char *s)
 void	define_map(t_map *map, char *file_name)
 {
 	char	*tmp_map;
+	int		fd;
+	char	buf[1024];
+	size_t	size;
+	size_t	tmp_read;
 
+	fd = open(file_name, O_RDONLY);
+	if (fd < 0 || read(fd, buf, 0) < 0)
+		no_such_file_error(fd);
+	size = 0;
+	tmp_read = read(fd, buf, 1024);
+	while (tmp_read > 0)
+	{
+		size += tmp_read;
+		tmp_read = read(fd, buf, 1024);
+	}
+	close(fd);
 	tmp_map = NULL;
-	get_map_inline(file_name, &tmp_map);
+	get_map_inline(file_name, &tmp_map, size);
+	tmp_map[size] = '\0';
 	check_map_lines(tmp_map);
 	map->copy = ft_split(tmp_map, '\n');
 	map->grid = map->copy + 6;

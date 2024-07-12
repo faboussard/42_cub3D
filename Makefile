@@ -48,7 +48,7 @@ DIR_OBJS	    =	.objs/
 # ---- Flags ---- #
 
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -Wno-deprecated-declarations -g
+CFLAGS		=	-Wall -Wextra -Werror -Wno-deprecated-declarations
 INCLUDES	=	-I $(DIR_LIB_HEADER) -I $(DIR_MLX) -I $(DIR_HEADERS)
 
 # ---- MLX ---- #
