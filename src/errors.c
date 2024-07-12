@@ -6,20 +6,24 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:43:15 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/09 09:02:29 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/12 10:54:54 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	no_such_file_error(void)
+void	no_such_file_error(int fd)
 {
+	if (fd > 0)
+		close(fd);
 	write(2, "Error\nNo such file in directory\n", 32);
 	exit(EXIT_FAILURE);
 }
 
-void	malloc_error(void)
+void	malloc_error(int fd)
 {
+	if (fd > 0)
+		close(fd);
 	(void)!write(2, "Error\nMallor error\n", 19);
 	exit(EXIT_FAILURE);
 }
@@ -34,8 +38,10 @@ void	map_error(char *tmp_map, char **map)
 	exit(EXIT_FAILURE);
 }
 
-void	empty_file_error(void)
+void	empty_file_error(int fd)
 {
+	if (fd > 0)
+		close(fd);
 	write(2, "Error\nFile too small\n", 21);
 	exit(EXIT_FAILURE);
 }
