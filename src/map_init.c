@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 10:34:20 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/12 11:10:49 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/12 11:20:23 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,10 @@ static bool	check_point_and_color(char *s, int i, bool is_card)
 	static bool	west = 0;
 	static bool	east = 0;
 
-	if (is_card && (ft_strncmp(s + i, "NO ", 3) == 0 || ft_strncmp(s + i, "SO ",
-				3) == 0 || ft_strncmp(s + i, "WE ", 3) == 0 || ft_strncmp(s + i,
-				"EA ", 3) == 0))
+	if (is_card && (ft_strncmp(s + i, "NO ", 3) == 0
+			|| ft_strncmp(s + i, "SO ", 3) == 0
+			|| ft_strncmp(s + i, "WE ", 3) == 0
+			|| ft_strncmp(s + i, "EA ", 3) == 0))
 	{
 		if (ft_strncmp(s + i, "NO ", 3) == 0 && north == 0)
 			north = 1;
