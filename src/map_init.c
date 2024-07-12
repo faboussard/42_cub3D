@@ -12,9 +12,11 @@
 
 #include "cub3D.h"
 
-void	get_map_inline(char *cub, char **tmp_map, size_t size)
+static char	*get_map_inline(char *cub, size_t size)
 {
 	int		fd;
+	char	buf[1];
+	char	*tmp_map;
 
 	if (size == 0)
 		empty_file_error(0);
@@ -26,13 +28,14 @@ void	get_map_inline(char *cub, char **tmp_map, size_t size)
 		exit(EXIT_FAILURE);
 	}
 	fd = open(cub, O_RDONLY);
-	if (fd < 0 || read(fd, tmp_map, 0) < 0)
+	if (fd < 0 || read(fd, buf, 0) < 0)
 		no_such_file_error(fd);
-	*tmp_map = malloc(sizeof(char) * (size + 1));
-	if (*tmp_map == NULL)
+	tmp_map = malloc(sizeof(char) * (size + 1));
+	if (tmp_map == NULL)
 		malloc_error(fd);
-	read(fd, *tmp_map, size);
+	read(fd, tmp_map, size);
 	close(fd);
+	return (tmp_map);
 }
 
 static bool	check_point_and_color(char *s, int i, bool is_card)
@@ -139,11 +142,12 @@ void	define_map(t_map *map, char *file_name)
 		tmp_read = read(fd, buf, 1024);
 	}
 	close(fd);
-	tmp_map = NULL;
-	get_map_inline(file_name, &tmp_map, size);
+	tmp_map = get_map_inline(file_name, size);
 	tmp_map[size] = '\0';
 	check_map_lines(tmp_map);
 	map->copy = ft_split(tmp_map, '\n');
-	map->grid = map->copy + 6;
 	free(tmp_map);
+	if (!map->copy)
+		malloc_error(0);
+	map->grid = map->copy + 6;
 }
