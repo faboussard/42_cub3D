@@ -52,7 +52,6 @@ static void	define_textures_path(t_data *cub)
 		i++;
 	}
 	check_if_no_double_textures(cub);
-	(void)write(1, "Checking textures...\n", 21);
 }
 
 static void	check_if_textures_exist(t_data *cub, char *path_to_texture)
@@ -108,5 +107,4 @@ void	parsing(t_data *cub, char *file)
 		(void)write(2, "Error\n: Map isn't closed\n", 25);
 		exit(1);
 	}
-	(void)write(1, "The map is valid !\nGame launched !\n", 35);
 }
