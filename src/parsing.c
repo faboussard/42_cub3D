@@ -33,7 +33,7 @@ static void	define_textures_path(t_data *cub)
 	int	j;
 
 	i = 0;
-	while (i < 7)
+	while (i < 7 && cub->map.copy[i])
 	{
 		j = 0;
 		while (cub->map.copy[i][j] && ft_is_space(cub->map.copy[i][j]))
@@ -52,6 +52,7 @@ static void	define_textures_path(t_data *cub)
 		i++;
 	}
 	check_if_no_double_textures(cub);
+	(void)write(1, "Checking textures...\n", 21);
 }
 
 static void	check_if_textures_exist(t_data *cub, char *path_to_texture)
@@ -86,13 +87,6 @@ void	parsing(t_data *cub, char *file)
 {
 	define_map(&cub->map, file);
 	define_textures_path(cub);
-	if (define_colors(cub) == false || cub->map.ceiling_color == -1
-		|| cub->map.floor_color == -1)
-	{
-		ft_free_tab(&cub->map.copy);
-		(void)write(2, "Error\n: Wrong colors\n", 21);
-		exit(1);
-	}
 	check_if_texture_is_xpm(cub, cub->north_img);
 	check_if_texture_is_xpm(cub, cub->south_img);
 	check_if_texture_is_xpm(cub, cub->west_img);
@@ -101,10 +95,18 @@ void	parsing(t_data *cub, char *file)
 	check_if_textures_exist(cub, cub->south_img);
 	check_if_textures_exist(cub, cub->west_img);
 	check_if_textures_exist(cub, cub->east_img);
+	if (define_colors(cub) == false || cub->map.ceiling_color == -1
+		|| cub->map.floor_color == -1)
+	{
+		ft_free_tab(&cub->map.copy);
+		(void)write(2, "Error\n: Wrong colors\n", 21);
+		exit(1);
+	}
 	if (check_map_is_closed(cub, cub->map.grid))
 	{
 		ft_free_tab(&cub->map.copy);
 		(void)write(2, "Error\n: Map isn't closed\n", 25);
 		exit(1);
 	}
+	(void)write(1, "The map is valid !\nGame launched !\n", 35);
 }
