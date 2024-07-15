@@ -55,13 +55,23 @@ static bool	check_color(char *color)
 	return (1);
 }
 
+static int	skip_spaces(char *color)
+{
+	int	i;
+
+	i = 0;
+	while (color[i] && ft_is_space(color[i]))
+		i++;
+	return (i + 2);
+}
+
 static int	create_trgb(char *color)
 {
 	int	r;
 	int	g;
 	int	b;
 
-	color += 2;
+	color += skip_spaces(color);
 	if (check_color(color) == false)
 		return (-1);
 	r = ft_atoi(color);
@@ -87,28 +97,28 @@ static int	create_trgb(char *color)
 bool	define_colors(t_data *cub)
 {
 	int		i;
-	bool	floor;
-	bool	ceiling;
+	bool	f;
+	bool	c;
 
 	i = 0;
-	floor = false;
-	ceiling = false;
+	f = false;
+	c = false;
 	while (i < 6)
 	{
-		if (floor == false && ft_strncmp(cub->map.copy[i], "F ", 2) == 0)
+		if (!f && ft_strncmp_skip_spaces(cub->map.copy[i], "F ", 2) == 0)
 		{
 			cub->map.floor_color = create_trgb(cub->map.copy[i]);
-			floor = true;
+			f = true;
 		}
-		else if (ft_strncmp(cub->map.copy[i], "C ", 2) == 0)
+		else if (ft_strncmp_skip_spaces(cub->map.copy[i], "C ", 2) == 0)
 		{
 			cub->map.ceiling_color = create_trgb(cub->map.copy[i]);
-			ceiling = true;
+			c = true;
 		}
-		else if ((ceiling == true && ft_strncmp(cub->map.copy[i], "C ", 2) == 0)
-			|| (floor == true && ft_strncmp(cub->map.copy[i], "F ", 2) == 0))
+		else if ((c && ft_strncmp_skip_spaces(cub->map.copy[i], "C ", 2) == 0)
+			|| (f && ft_strncmp_skip_spaces(cub->map.copy[i], "F ", 2) == 0))
 			return (false);
 		i++;
 	}
-	return (floor && ceiling);
+	return (f && c);
 }
