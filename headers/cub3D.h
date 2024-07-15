@@ -148,6 +148,7 @@ void					empty_file_error(int fd);
 ////////////////////////////////////////////////////////////////////////
 void					ft_free_tab(char ***tab);
 bool					ft_is_space(const int c);
+bool					ft_search_char(char letter, char *charset);
 int						ft_strcmp_skip_spaces(char *s1, char *s2);
 int						ft_strncmp_skip_spaces(char *s1, char *s2, size_t n);
 ////////////////////////////////////////////////////////////////////////
