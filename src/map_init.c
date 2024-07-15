@@ -45,10 +45,9 @@ static bool	check_point_and_color(char *s, int i, bool is_card)
 	static bool	west = 0;
 	static bool	east = 0;
 
-	if (is_card && (ft_strncmp(s + i, "NO ", 3) == 0
-			|| ft_strncmp(s + i, "SO ", 3) == 0
-			|| ft_strncmp(s + i, "WE ", 3) == 0
-			|| ft_strncmp(s + i, "EA ", 3) == 0))
+	if (is_card && (ft_strncmp(s + i, "NO ", 3) == 0 || ft_strncmp(s + i, "SO ",
+				3) == 0 || ft_strncmp(s + i, "WE ", 3) == 0 || ft_strncmp(s + i,
+				"EA ", 3) == 0))
 	{
 		if (ft_strncmp(s + i, "NO ", 3) == 0 && north == 0)
 			north = 1;
@@ -114,8 +113,8 @@ static void	check_map_lines(char *s)
 		}
 		if ((!(s[i] == '0' || s[i] == '1' || s[i] == ' ' || s[i] == '\n'
 					|| s[i] == 'N' || s[i] == 'S' || s[i] == 'E'
-					|| s[i] == 'W')) || (s[i++] == '\n' && s[i] == '\n'
-				&& s[i + 1] && s[i + 1] != '\n') || (!s[i + 1] && !(s[i] == '0'
+					|| s[i] == 'W')) || (s[i++] == '\n' && s[i] == '\n' && s[i
+				+ 1] && s[i + 1] != '\n') || (!s[i + 1] && !(s[i] == '0'
 					|| s[i] == '1' || s[i] == ' ' || s[i] == '\n')))
 			map_error(s, NULL);
 	}
