@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-static bool	wall_or_player(t_data *cub, char c, int y, int x)
+static bool	is_player(t_data *cub, char c, int y, int x)
 {
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
@@ -20,25 +20,25 @@ static bool	wall_or_player(t_data *cub, char c, int y, int x)
 			map_error(NULL, cub->map.copy);
 		cub->player_pos[0] = y;
 		cub->player_pos[1] = x;
-		return (0);
+		return (1);
 	}
-	return (c == '1' || ft_is_space(c));
+	return (0);
 }
 
-static bool	is_within_the_map(char **map, size_t y, size_t x, size_t max_y)
+static void	fill_in(t_data *cub, const int y, const int x, const int max_y)
 {
-	if (y == 0 || y + 1 == max_y || x == 0
-		|| !map[y - 1][x]
-		|| !map[y + 1][x]
-		|| !map[y][x - 1]
-		|| !map[y][x + 1])
-		return (0);
-	if (ft_is_space(map[y - 1][x])
-		|| ft_is_space(map[y + 1][x])
-		|| ft_is_space(map[y][x - 1])
-		|| ft_is_space(map[y][x + 1]))
-		return (0);
-	return (1);
+	if (cub->map.grid[y] && cub->map.grid[y][x]
+		&& (cub->map.grid[y][x] == '1' || cub->map.grid[y][x] == 'F'))
+		return ;
+	if (x <= 0 || y <= 0 || y >= max_y
+		|| !cub->map.grid[y][x] || ft_is_space(cub->map.grid[y][x]))
+		map_error(NULL, cub->map.copy);
+	if (cub->map.grid[y][x] == '0')
+		cub->map.grid[y][x] = 'F';
+	fill_in(cub, y - 1, x, max_y);
+	fill_in(cub, y + 1, x, max_y);
+	fill_in(cub, y, x - 1, max_y);
+	fill_in(cub, y, x + 1, max_y);
 }
 
 static bool	check_max_size(t_data *cub, size_t y, size_t x)
@@ -71,10 +71,10 @@ bool	check_map_is_closed(t_data *cub, char **map)
 		x = -1;
 		while (map[y][++x])
 		{
-			if (check_max_size(cub, y, x)
-				|| (!wall_or_player(cub, map[y][x], y, x)
-				&& is_within_the_map(map, y, x, max_y) == 0))
+			if (check_max_size(cub, y, x))
 				return (1);
+			if (is_player(cub, map[y][x], y, x))
+				fill_in(cub, y, x, max_y);
 		}
 		y++;
 	}
