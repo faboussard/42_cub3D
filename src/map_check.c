@@ -22,7 +22,7 @@ static bool	wall_or_player(t_data *cub, char c, int y, int x)
 		cub->player_pos[1] = x;
 		return (0);
 	}
-	return (c == '1' || c == ' ');
+	return (c == '1' || ft_is_space(c));
 }
 
 static bool	is_within_the_map(char **map, size_t y, size_t x, size_t max_y)
@@ -71,17 +71,10 @@ bool	check_map_is_closed(t_data *cub, char **map)
 		x = -1;
 		while (map[y][++x])
 		{
-			// if (map[y][x])
-			// 	dprintf(2, "YES X IS %lu and X === %c\n", x, map[y][x]);
 			if (check_max_size(cub, y, x)
 				|| (!wall_or_player(cub, map[y][x], y, x)
 				&& is_within_the_map(map, y, x, max_y) == 0))
-			{
-				// dprintf(2, "%s\n", map[y]);
-				// dprintf(2, "%c\n", map[y][x]);
-				// dprintf(2, "%lu\n", x);
 				return (1);
-			}
 		}
 		y++;
 	}
