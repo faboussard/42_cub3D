@@ -63,7 +63,7 @@ int	ft_strncmp_skip_spaces(char *s1, char *s2, size_t n)
 	j = 0;
 	while (s1[i] && ft_is_space(s1[i]))
 		i++;
-	while (s2[i] && ft_is_space(s2[j]))
+	while (s2[j] && ft_is_space(s2[j]))
 		j++;
 	return (ft_strncmp(s1 + i, s2 + j, n));
 }
@@ -77,7 +77,7 @@ int	ft_strcmp_skip_spaces(char *s1, char *s2)
 	j = 0;
 	while (s1[i] && ft_is_space(s1[i]))
 		i++;
-	while (s2[i] && ft_is_space(s2[j]))
+	while (s2[j] && ft_is_space(s2[j]))
 		j++;
 	return (ft_strcmp(s1 + i, s2 + j));
 }
