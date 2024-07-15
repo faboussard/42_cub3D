@@ -27,7 +27,9 @@ static bool	is_player(t_data *cub, char c, int y, int x)
 
 static void	fill_in(t_data *cub, const int y, const int x, const int max_y)
 {
-	if (cub->map.grid[y] && cub->map.grid[y][x]
+	if (y >= 0 && y <= max_y
+		&& x >= 0 && x <= MAX_WIDTH
+		&& cub->map.grid[y] && cub->map.grid[y][x]
 		&& (cub->map.grid[y][x] == '1' || cub->map.grid[y][x] == 'F'))
 		return ;
 	if (x <= 0 || y <= 0 || y >= max_y || x > MAX_WIDTH
