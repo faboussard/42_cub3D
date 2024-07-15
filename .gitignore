@@ -17,7 +17,7 @@ run_tests
 *.swp
 *.tgz
 *.gch
-*Tester
+##*Tester
 .dep
 cmake-build-debug
 CMakeLists.txt
@@ -27,7 +27,7 @@ Build/
 build/
 ## Mlx related
 Makefile.gen
-/test/mlx-test
+##/test/mlx-test
 memo
 
 ## Editor
