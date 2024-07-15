@@ -1,0 +1,11 @@
+NO ../tests/cub3D/wall/test/north.xpm
+SO ../tests/cub3D/wall/test/south.xpm
+WE ../tests/cub3D/wall/test/west.xpm
+EA ../tests/cub3D/wall/test/east.xpm
+
+F 20,20,20
+C 200,200,200
+
+111111111111111111111
+1W0000000000000000001
+111111111111111111111
