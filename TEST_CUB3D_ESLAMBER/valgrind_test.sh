@@ -33,8 +33,8 @@ echo "$path_correcte/grande_map5.cub"
 $1 valgrind ../cub3D $path_correcte/grande_map5.cub
 echo "$path_correcte/grande_map6.cub"
 $1 valgrind ../cub3D $path_correcte/grande_map6.cub
-#echo "$path_correcte/grande_map7.cub"
-#$1 valgrind ../cub3D $path_correcte/grande_map7.cub
+echo "$path_correcte/grande_map7.cub"
+$1 valgrind ../cub3D $path_correcte/grande_map7.cub
 echo "$path_correcte/map_nord.cub"
 $1 valgrind ../cub3D $path_correcte/map_nord.cub
 echo "$path_correcte/map_nord2.cub"
