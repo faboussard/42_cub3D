@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:42:35 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/12 11:09:59 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/16 09:32:29 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	check_file_name(char *file)
 	len = ft_strlen(file);
 	if (len < 5 || ft_strncmp(&file[len - 4], ".cub", 4))
 	{
-		(void)write(2, "Error:\nWrong file extension\n", 28);
+		write(2, "Error\nWrong file extension\n", 27);
 		exit(1);
 	}
 }
@@ -50,7 +50,7 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 	{
-		(void)write(2, "Error:\nWrong number of arguments\n", 33);
+		write(2, "Error\nWrong number of arguments\n", 32);
 		exit(1);
 	}
 	ft_bzero(&cub, 1);

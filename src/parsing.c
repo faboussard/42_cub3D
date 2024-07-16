@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 15:45:56 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/15 11:20:07 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/16 09:33:37 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	check_if_no_double_textures(t_data *cub)
 		|| ft_strcmp_skip_spaces(cub->south_img, cub->east_img) == 0
 		|| ft_strcmp_skip_spaces(cub->east_img, cub->west_img) == 0)
 	{
-		(void)write(2, "Error\nSame textures detected\n", 29);
+		write(2, "Error\nSame textures detected\n", 29);
 		ft_free_tab(&cub->map.copy);
 		exit(EXIT_FAILURE);
 	}
@@ -61,7 +61,7 @@ static void	check_if_textures_exist(t_data *cub, char *path_to_texture)
 	fd = open(path_to_texture, O_RDONLY);
 	if (fd == -1)
 	{
-		(void)write(2, "Error:\nTexture path error\n", 26);
+		write(2, "Error\nTexture path error\n", 25);
 		perror(path_to_texture);
 		ft_free_tab(&cub->map.copy);
 		exit(1);
@@ -76,7 +76,7 @@ static void	check_if_texture_is_xpm(t_data *cub, char *path_to_texture)
 	len = ft_strlen(path_to_texture);
 	if (len < 5 || ft_strncmp(&path_to_texture[len - 4], ".xpm", 4))
 	{
-		(void)write(2, "Error:\nNot a xpm texture\n", 25);
+		write(2, "Error\nNot a xpm texture\n", 24);
 		ft_free_tab(&cub->map.copy);
 		exit(1);
 	}
@@ -98,13 +98,13 @@ void	parsing(t_data *cub, char *file)
 		|| cub->map.floor_color == -1)
 	{
 		ft_free_tab(&cub->map.copy);
-		(void)write(2, "Error\n: Wrong colors\n", 21);
+		write(2, "Error\nWrong colors\n", 19);
 		exit(1);
 	}
 	if (check_map_is_closed(cub, cub->map.grid))
 	{
 		ft_free_tab(&cub->map.copy);
-		(void)write(2, "Error\n: Map isn't closed\n", 25);
+		write(2, "Error\nMap isn't closed\n", 23);
 		exit(1);
 	}
 }

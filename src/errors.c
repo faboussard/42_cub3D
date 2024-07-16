@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:43:15 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/12 10:54:54 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/16 09:31:25 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	malloc_error(int fd)
 {
 	if (fd > 0)
 		close(fd);
-	(void)!write(2, "Error\nMallor error\n", 19);
+	write(2, "Error\nMallor error\n", 19);
 	exit(EXIT_FAILURE);
 }
 

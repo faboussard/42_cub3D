@@ -6,7 +6,7 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 22:20:55 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/12 11:09:08 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/16 09:32:42 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	fill_in(t_data *cub, const int y, const int x, const int max_y)
 		|| !cub->map.grid[y][x] || ft_is_space(cub->map.grid[y][x]))
 	{
 		ft_free_tab(&cub->map.copy);
-		(void)write(2, "Error\n: Map isn't closed\n", 25);
+		write(2, "Error\nMap isn't closed\n", 23);
 		exit(1);
 	}
 	if (cub->map.grid[y][x] == '0')
