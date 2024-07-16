@@ -6,31 +6,11 @@
 /*   By: mbernard <mbernard@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 15:42:35 by mbernard          #+#    #+#             */
-/*   Updated: 2024/07/16 09:32:29 by mbernard         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:20:26 by mbernard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-static void	init_cub_values(t_data *cub)
-{
-	cub->keys.key_pressed_a = 0;
-	cub->keys.key_pressed_d = 0;
-	cub->keys.key_pressed_s = 0;
-	cub->keys.key_pressed_w = 0;
-	cub->keys.key_pressed_left = 0;
-	cub->keys.key_pressed_right = 0;
-	cub->wall[0].img = NULL;
-	cub->wall[1].img = NULL;
-	cub->wall[2].img = NULL;
-	cub->wall[3].img = NULL;
-	cub->my_image.img = NULL;
-	cub->player_pos[0] = 0;
-	cub->player_pos[1] = 0;
-	cub->map.height = 0;
-	cub->map.width = 0;
-	cub->player = NULL;
-}
 
 static void	check_file_name(char *file)
 {
@@ -53,8 +33,7 @@ int	main(int ac, char **av)
 		write(2, "Error\nWrong number of arguments\n", 32);
 		exit(1);
 	}
-	ft_bzero(&cub, 1);
-	init_cub_values(&cub);
+	ft_bzero(&cub, sizeof(t_data));
 	check_file_name(av[1]);
 	parsing(&cub, av[1]);
 	init_mlx_win(&cub);
