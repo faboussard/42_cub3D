@@ -112,8 +112,8 @@ static void	check_map_lines(char *s)
 				map_error(s, NULL);
 		}
 		if ((!ft_search_char(s[i], "01NSWE\n") && !ft_is_space(s[i]))
-			|| (s[i++] == '\n' && s[i] == '\n'
-				&& s[i + 1] && !(s[i + 1] == '\n' || ft_is_space(s[i + 1]))))
+			|| (s[i++] == '\n' && s[i] == '\n' && s[i + 1] && !(s[i + 1] == '\n'
+					|| ft_is_space(s[i + 1]))))
 			map_error(s, NULL);
 	}
 	if (player_found == 0)
