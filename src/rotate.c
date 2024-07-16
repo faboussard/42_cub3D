@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/cub3D.h"
+#include "cub3D.h"
 
 void	rotate_left(t_data *cub)
 {

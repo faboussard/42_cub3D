@@ -68,7 +68,10 @@ void	init_player_position(t_data *cub)
 
 	cub->player = ft_calloc(sizeof(t_player), 1);
 	if (cub->player == NULL)
+	{
+		(void)!write(2, "Error\nMallor error\n", 19);
 		close_window(cub);
+	}
 	y = cub->player_pos[0];
 	x = cub->player_pos[1];
 	cub->player->pos_y = (double)(y + 0.3);
